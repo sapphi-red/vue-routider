@@ -11,7 +11,7 @@ import { RoutiderRouteRecord } from './route'
 
 export type RoutiderOptionsRoutes = Record<
   RouteRecordName,
-  RoutiderRouteRecord<string>
+  RoutiderRouteRecord<string | undefined>
 >
 
 export interface RoutiderOptions extends Omit<RouterOptions, 'routes'> {
@@ -30,7 +30,8 @@ export const createRoutider = <O extends RoutiderOptions>(
   const routes = Object.entries(options.routes).map(
     ([name, route]): RouteRecordRaw => ({
       ...route,
-      name
+      name,
+      path: route.path as string
     })
   )
 

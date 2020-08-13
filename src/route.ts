@@ -14,9 +14,9 @@ import { RoutiderPath } from './path'
 /**
  * Typed RouteRecordBase
  */
-export type _RoutiderRouteRecordBase<T extends string> = Omit<
+export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
   _RouteRecordBase,
-  'name'
+  'path' | 'name'
 > & {
   /**
    * Path of the record. Should start with / unless the record is the child of another record.
@@ -25,7 +25,7 @@ export type _RoutiderRouteRecordBase<T extends string> = Omit<
   path: RoutiderPath<T> | string
 }
 
-interface RoutiderRouteRecordSingleView<T extends string>
+interface RoutiderRouteRecordSingleView<T extends string | undefined>
   extends _RoutiderRouteRecordBase<T> {
   /**
    * Component to display when the URL matches this route.
@@ -36,7 +36,7 @@ interface RoutiderRouteRecordSingleView<T extends string>
    */
   props?: _RouteRecordProps
 }
-interface RoutiderRouteRecordMultipleViews<T extends string>
+interface RoutiderRouteRecordMultipleViews<T extends string | undefined>
   extends _RoutiderRouteRecordBase<T> {
   /**
    * Components to display when the URL matches this route. Allow using named views.
@@ -49,7 +49,7 @@ interface RoutiderRouteRecordMultipleViews<T extends string>
    */
   props?: Record<string, _RouteRecordProps> | boolean
 }
-interface RoutiderRouteRecordRedirect<T extends string>
+interface RoutiderRouteRecordRedirect<T extends string | undefined>
   extends _RoutiderRouteRecordBase<T> {
   redirect: RouteRecordRedirectOption
   component?: never
@@ -57,7 +57,7 @@ interface RoutiderRouteRecordRedirect<T extends string>
   children?: never
 }
 
-export declare type RoutiderRouteRecord<T extends string> =
+export declare type RoutiderRouteRecord<T extends string | undefined> =
   | RoutiderRouteRecordSingleView<T>
   | RoutiderRouteRecordMultipleViews<T>
   | RoutiderRouteRecordRedirect<T>

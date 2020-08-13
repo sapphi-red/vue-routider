@@ -1,5 +1,5 @@
 declare const params: unique symbol
-export type RoutiderPath<T extends string> = string & { [params]: T }
+export type RoutiderPath<T extends string | undefined> = { [params]: T }
 
 export type ExtractParams<T> = T extends RoutiderPath<infer P> ? P : never
 
@@ -8,14 +8,14 @@ export type ExtractParams<T> = T extends RoutiderPath<infer P> ? P : never
  *
  * @example createPath`/items/${'id'}`
  */
-export function createPath<T extends string | never>(
+export function createPath(
   literals: TemplateStringsArray
-): RoutiderPath<never>
-export function createPath<T extends string | never>(
+): RoutiderPath<undefined>
+export function createPath<T extends string>(
   literals: TemplateStringsArray,
   ...placeholders: T[]
 ): RoutiderPath<T>
-export function createPath<T extends string | never>(
+export function createPath<T extends string>(
   literals: TemplateStringsArray,
   ...placeholders: T[]
 ): RoutiderPath<T> {
@@ -24,5 +24,5 @@ export function createPath<T extends string | never>(
     path += literals[i] + ':' + placeholders[i]
   }
   path += literals[literals.length - 1]
-  return path as RoutiderPath<T>
+  return (path as unknown) as RoutiderPath<T>
 }
