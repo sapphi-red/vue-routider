@@ -9,20 +9,25 @@ import {
   _RouteRecordProps,
   RouteRecordRedirectOption
 } from './vue-router-utils'
-import { RoutiderPath } from './path'
+import {
+  RoutiderPath,
+  RoutiderPaths,
+  pathToString,
+  pathsToString
+} from './path'
 
 /**
  * Typed RouteRecordBase
  */
 export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
   _RouteRecordBase,
-  'path' | 'name'
+  'path' | 'name' | 'alias'
 > & {
   /**
    * Path of the record. Should start with / unless the record is the child of another record.
    * @example createPath`/users/${'id'}` matches `/users/1` as well as `/users/posva`. '/users' matches only `/users`.
    */
-  path: RoutiderPath<T> | string
+  path: RoutiderPath<T> | string | RoutiderPaths<T> | string[]
 }
 
 interface RoutiderRouteRecordSingleView<T extends string | undefined>
@@ -61,3 +66,26 @@ export declare type RoutiderRouteRecord<T extends string | undefined> =
   | RoutiderRouteRecordSingleView<T>
   | RoutiderRouteRecordMultipleViews<T>
   | RoutiderRouteRecordRedirect<T>
+
+interface PathAndAlias {
+  path: string
+  alias?: string[]
+}
+
+export const pathToPathAndAlias = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  path: RoutiderPath<any> | string | RoutiderPaths<any> | string[]
+): PathAndAlias => {
+  if (!Array.isArray(path)) return { path: pathToString(path) }
+
+  if (path.length <= 0) {
+    throw new Error(
+      'Path property in Route of RoutiderOptions must have at least 1 path.'
+    )
+  }
+
+  const pathStrings = pathsToString(path)
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const pathProp = pathStrings.shift()!
+  return { path: pathProp, alias: pathStrings }
+}

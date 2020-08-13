@@ -1,5 +1,5 @@
 import { createMemoryHistory } from 'vue-router'
-import { createRoutider, createPath } from '#/index'
+import { createRoutider, createPath, createPaths } from '#/index'
 import { isTypeEqual } from '#/test-util'
 import { defineComponent } from 'vue'
 
@@ -23,6 +23,14 @@ describe('createRoutider', () => {
       },
       About: {
         path: createPath`/`,
+        component: com
+      },
+      Desc: {
+        path: ['/desc', '/description'],
+        component: com
+      },
+      User: {
+        path: createPaths(createPath`/users/${'id'}`, createPath`/u/${'id'}`),
         component: com
       }
     }
@@ -50,5 +58,17 @@ describe('createRoutider', () => {
     const route = useRoute('About')
 
     isTypeEqual<Record<never, string>, typeof route.params>(true)
+  })
+
+  it('has typed route (5)', () => {
+    const route = useRoute('Desc')
+
+    isTypeEqual<Record<never, string>, typeof route.params>(true)
+  })
+
+  it('has typed route (6)', () => {
+    const route = useRoute('User')
+
+    isTypeEqual<{ id: string }, typeof route.params>(true)
   })
 })

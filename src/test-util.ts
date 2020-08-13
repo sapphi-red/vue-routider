@@ -1,8 +1,4 @@
-type Equal<Left, Right> = (<U>() => U extends Left ? 1 : 0) extends <
-  U
->() => U extends Right ? 1 : 0
-  ? true
-  : false
+import { Equal } from './type'
 
 export const isTypeEqual = <Left, Right>(
   shouldBeEqual: Equal<Left, Right>
