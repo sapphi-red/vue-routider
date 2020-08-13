@@ -6,6 +6,9 @@ describe('createRoutider', () => {
   const { useRoute } = createRoutider({
     history: createMemoryHistory(),
     routes: {
+      Index: {
+        path: '/'
+      },
       Item: {
         path: createPath`/items/${'id'}`
       },
@@ -15,15 +18,21 @@ describe('createRoutider', () => {
     }
   })
 
-  it('has typed routes (1)', () => {
+  it('has typed route (1)', () => {
     const route = useRoute('Item')
 
     isTypeEqual<{ id: string }, typeof route.params>(true)
   })
 
-  it('has typed routes (2)', () => {
+  it('has typed route (2)', () => {
     const route = useRoute('UserItem')
 
     isTypeEqual<{ userId: string; itemId: string }, typeof route.params>(true)
+  })
+
+  it('has typed route (3)', () => {
+    const route = useRoute('Index')
+
+    isTypeEqual<Record<never, string>, typeof route.params>(true)
   })
 })

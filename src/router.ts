@@ -16,7 +16,7 @@ export type RoutiderRouteRecord<T extends string> = Omit<
   RouteRecordRaw,
   'name'
 > & {
-  path: RoutiderPath<T>
+  path: RoutiderPath<T> | string
 }
 
 export type RoutiderOptionsRoutes = Record<
