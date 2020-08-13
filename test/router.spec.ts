@@ -51,4 +51,10 @@ describe('createRoutider', () => {
 
     isTypeEqual<Record<never, string>, typeof route.params>(true)
   })
+
+  it('has untyped route', () => {
+    const route = useRoute(null)
+
+    isTypeEqual<Record<string, string>, typeof route.params>(true)
+  })
 })
