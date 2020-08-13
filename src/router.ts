@@ -45,7 +45,8 @@ export const createRoutider = <O extends RoutiderOptions>(
   const useRouter = (): Router => router
 
   const useRoute = <N extends keyof O['routes']>(
-    name: N
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _name: N
   ): RoutiderLocationOfName<O, N> =>
     useRouteVueRouter() as RoutiderLocationOfName<O, N>
 
