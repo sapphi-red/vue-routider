@@ -17,7 +17,6 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
-  "peerDependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "tsdx lint"
@@ -36,9 +35,13 @@
     "prettier": "^2.0.5",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.1",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "vue-router": "^4.0.0-beta.6"
   },
   "dependencies": {
     "core-js": "^3.6.5"
+  },
+  "peerDependencies": {
+    "vue-router": "^4.0.0"
   }
 }
