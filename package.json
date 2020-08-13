@@ -37,5 +37,8 @@
     "tsdx": "^0.13.2",
     "tslib": "^2.0.1",
     "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "core-js": "^3.6.5"
   }
 }
