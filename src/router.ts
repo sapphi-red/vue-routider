@@ -7,7 +7,7 @@ import {
 } from 'vue-router'
 import { RouteRecordName } from './name'
 import { RouteNames, RoutiderLocationOfName } from './location'
-import { RoutiderRouteRecord } from './route'
+import { RoutiderRouteRecord, pathToPathAndAlias } from './route'
 
 export type RoutiderOptionsRoutes = Record<
   RouteRecordName,
@@ -31,7 +31,7 @@ export const createRoutider = <O extends RoutiderOptions>(
     ([name, route]): RouteRecordRaw => ({
       ...route,
       name,
-      path: route.path as string
+      ...pathToPathAndAlias(route.path)
     })
   )
 

@@ -27,7 +27,7 @@ app.mount('#app')
 `router/index.ts`
 ```typescript
 import { createWebHistory } from 'vue-router'
-import { createRoutider } from 'vue-routider'
+import { createRoutider, createPath, createPaths } from 'vue-routider'
 
 const { router, useRouter, useRoute } = createRoutider({
   history: createWebHistory(),
@@ -40,6 +40,12 @@ const { router, useRouter, useRoute } = createRoutider({
     },
     UserItem: {
       path: createPath`/users/${'userId'}/${'itemId'}`
+    },
+    Users: {
+      path: createPaths(
+        createPath`/users/${'id'}`,
+        createPath`/u/${'id'}`
+      ) // use createPaths for alias paths (you can use a array if it does not include params)
     }
   }
 })
