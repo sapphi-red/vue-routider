@@ -7,9 +7,9 @@ export type RouteNames<O extends RoutiderOptions> = keyof O['routes']
 /**
  * Typed `RouteLocationNormalizedLoaded`
  */
-export interface RoutiderLocation<ParamNames extends string | never>
+export interface RoutiderLocation<ParamNames extends string | undefined>
   extends RouteLocationNormalizedLoaded {
-  params: Record<ParamNames, string>
+  params: Record<Exclude<ParamNames, undefined>, string>
 }
 
 type RouteOfName<
