@@ -1,8 +1,6 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router'
-import { RoutiderOptions } from './router'
+import { RoutiderOptions, RouteNames } from './options'
 import { ExtractParams } from './path'
-
-export type RouteNames<O extends RoutiderOptions> = keyof O['routes']
 
 /**
  * Typed `RouteLocationNormalizedLoaded`

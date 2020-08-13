@@ -1,22 +1,10 @@
+import { Router, createRouter, useRoute as useRouteVueRouter } from 'vue-router'
+import { RoutiderLocationOfName } from './location'
 import {
-  RouterOptions,
-  Router,
-  createRouter,
-  RouteRecordRaw,
-  useRoute as useRouteVueRouter
-} from 'vue-router'
-import { RouteRecordName } from './name'
-import { RouteNames, RoutiderLocationOfName } from './location'
-import { RoutiderRouteRecord, pathToPathAndAlias } from './route'
-
-export type RoutiderOptionsRoutes = Record<
-  RouteRecordName,
-  RoutiderRouteRecord<string | undefined>
->
-
-export interface RoutiderOptions extends Omit<RouterOptions, 'routes'> {
-  routes: RoutiderOptionsRoutes
-}
+  RoutiderOptions,
+  RouteNames,
+  routiderOptionsToRouterOptions
+} from './options'
 
 interface Routider<O extends RoutiderOptions> {
   router: Router
@@ -27,17 +15,10 @@ interface Routider<O extends RoutiderOptions> {
 export const createRoutider = <O extends RoutiderOptions>(
   options: O
 ): Routider<O> => {
-  const routes = Object.entries(options.routes).map(
-    ([name, route]): RouteRecordRaw => ({
-      ...route,
-      name,
-      ...pathToPathAndAlias(route.path)
-    })
-  )
+  const routerOptions = routiderOptionsToRouterOptions(options)
+  const router = createRouter(routerOptions)
 
-  const router = createRouter({ ...options, routes })
-
-  const useRouter = (): Router => router
+  const useRouter = () => router
 
   const useRoute = <N extends keyof O['routes']>(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
