@@ -1,16 +1,6 @@
 import { createMemoryHistory } from 'vue-router'
 import { createRoutider, createPath } from '#/index'
-
-type Equal<Left, Right> = (<U>() => U extends Left ? 1 : 0) extends <
-  U
->() => U extends Right ? 1 : 0
-  ? true
-  : false
-
-const isTypeEqual = <Left, Right>(shouldBeEqual: Equal<Left, Right>) => {
-  void shouldBeEqual
-  expect(true).toBe(true)
-}
+import { isTypeEqual } from '#/test-util'
 
 describe('createRoutider', () => {
   const { useRoute } = createRoutider({
