@@ -11,6 +11,9 @@ import { isTypeEqual } from '#/test-util'
 const none = createPath`/`
 const a = createPath`/a/${'a'}`
 const a2 = createPath`/a2/${'a'}`
+const a3 = createPath`/a3/${'a'}`
+const a4 = createPath`/a4/${'a'}`
+const a5 = createPath`/a5/${'a'}`
 const b = createPath`/b/${'b'}`
 const ab = createPath`/ab/${'a'}/${'b'}`
 const ab2 = createPath`/ab2/${'a'}/${'b'}`
@@ -45,6 +48,17 @@ describe('createPaths', () => {
     expect(paths).toStrictEqual(['/ab/:a/:b', '/ab2/:a/:b'])
     isTypeEqual<RoutiderPaths<'a' | 'b'>, typeof paths>(true)
   })
+  it('can create paths (3)', () => {
+    const paths = createPaths(a, a2, a3, a4, a5)
+    expect(paths).toStrictEqual([
+      '/a/:a',
+      '/a2/:a',
+      '/a3/:a',
+      '/a4/:a',
+      '/a5/:a'
+    ])
+    isTypeEqual<RoutiderPaths<'a'>, typeof paths>(true)
+  })
   it('can reject invalid paths (1)', () => {
     const paths = createPaths(a, b)
     isTypeEqual<void[], typeof paths>(true)
@@ -57,6 +71,10 @@ describe('createPaths', () => {
     const paths = createPaths(none, a)
     isTypeEqual<void[], typeof paths>(true)
   })
+  it('can reject invalid paths (4)', () => {
+    const paths = createPaths(a, a2, a3, ab)
+    isTypeEqual<void[], typeof paths>(true)
+  })
 })
 
 describe('pathToString', () => {
@@ -67,8 +85,13 @@ describe('pathToString', () => {
 })
 
 describe('pathsToString', () => {
-  it('can convert type', () => {
+  it('can convert type (1)', () => {
     const paths = createPaths(a, a2)
+    const actual = pathsToString(paths)
+    expect(actual).toBe(paths)
+  })
+  it('can convert type (2)', () => {
+    const paths = createPaths(a, a2, a3, a4, a5)
     const actual = pathsToString(paths)
     expect(actual).toBe(paths)
   })
