@@ -19,8 +19,13 @@ export type RoutiderRouteRecord<T extends string> = Omit<
   path: RoutiderPath<T>
 }
 
+export type RoutiderOptionsRoutes = Record<
+  RouteRecordName,
+  RoutiderRouteRecord<string>
+>
+
 export interface RoutiderOptions extends Omit<RouterOptions, 'routes'> {
-  routes: Record<RouteRecordName, RoutiderRouteRecord<string>>
+  routes: RoutiderOptionsRoutes
 }
 
 interface Routider<O extends RoutiderOptions> {
