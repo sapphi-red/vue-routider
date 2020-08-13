@@ -1,4 +1,5 @@
 export * from './name'
 export * from './path'
 export * from './location'
+export * from './route'
 export * from './router'

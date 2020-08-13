@@ -1,19 +1,25 @@
 import { createMemoryHistory } from 'vue-router'
 import { createRoutider, createPath } from '#/index'
 import { isTypeEqual } from '#/test-util'
+import { defineComponent } from 'vue'
 
 describe('createRoutider', () => {
+  const com = defineComponent({})
+
   const { useRoute } = createRoutider({
     history: createMemoryHistory(),
     routes: {
       Index: {
-        path: '/'
+        path: '/',
+        component: com
       },
       Item: {
-        path: createPath`/items/${'id'}`
+        path: createPath`/items/${'id'}`,
+        component: com
       },
       UserItem: {
-        path: createPath`/users/${'userId'}/${'itemId'}`
+        path: createPath`/users/${'userId'}/${'itemId'}`,
+        component: com
       }
     }
   })

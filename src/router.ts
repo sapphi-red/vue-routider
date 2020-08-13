@@ -5,23 +5,9 @@ import {
   RouteRecordRaw,
   useRoute as useRouteVueRouter
 } from 'vue-router'
-import { RoutiderPath } from './path'
 import { RouteRecordName } from './name'
 import { RouteNames, RoutiderLocationOfName } from './location'
-
-/**
- * Typed RouteRecord
- */
-export type RoutiderRouteRecord<T extends string> = Omit<
-  RouteRecordRaw,
-  'name'
-> & {
-  /**
-   * Path of the record. Should start with / unless the record is the child of another record.
-   * @example createPath`/users/${'id'}` matches `/users/1` as well as `/users/posva`. '/users' matches only `/users`.
-   */
-  path: RoutiderPath<T> | string
-}
+import { RoutiderRouteRecord } from './route'
 
 export type RoutiderOptionsRoutes = Record<
   RouteRecordName,
@@ -42,11 +28,10 @@ export const createRoutider = <O extends RoutiderOptions>(
   options: O
 ): Routider<O> => {
   const routes = Object.entries(options.routes).map(
-    ([name, route]): RouteRecordRaw =>
-      ({
-        ...route,
-        name
-      } as RouteRecordRaw)
+    ([name, route]): RouteRecordRaw => ({
+      ...route,
+      name
+    })
   )
 
   const router = createRouter({ ...options, routes })
