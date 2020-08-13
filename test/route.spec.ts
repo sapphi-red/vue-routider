@@ -48,4 +48,10 @@ describe('pathToPathAndAlias', () => {
       alias: ['/b']
     })
   })
+
+  it('occurs error with empty array', () => {
+    expect(() => {
+      pathToPathAndAlias([])
+    }).toThrow()
+  })
 })
