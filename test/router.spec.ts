@@ -18,7 +18,7 @@ describe('createRoutider', () => {
         component: com
       },
       UserItem: {
-        path: createPath`/users/${'userId'}/${'itemId'}`,
+        path: createPath`/users/${'userId'}/${'id'}`,
         component: com
       },
       About: {
@@ -37,7 +37,7 @@ describe('createRoutider', () => {
   it('has typed route (2)', () => {
     const route = useRoute('UserItem')
 
-    isTypeEqual<{ userId: string; itemId: string }, typeof route.params>(true)
+    isTypeEqual<{ userId: string; id: string }, typeof route.params>(true)
   })
 
   it('has typed route (3)', () => {
@@ -48,6 +48,22 @@ describe('createRoutider', () => {
 
   it('has typed route (4)', () => {
     const route = useRoute('About')
+
+    isTypeEqual<Record<never, string>, typeof route.params>(true)
+  })
+
+  it('has intersection typed route (1)', () => {
+    const route = useRoute(['Item', 'UserItem'])
+
+    isTypeEqual<{ id: string }, typeof route.params>(true)
+  })
+  it('has intersection typed route (2)', () => {
+    const route = useRoute(['Item', 'UserItem', 'About'])
+
+    isTypeEqual<Record<never, string>, typeof route.params>(true)
+  })
+  it('has intersection typed route (3)', () => {
+    const route = useRoute(['Index', 'About'])
 
     isTypeEqual<Record<never, string>, typeof route.params>(true)
   })

@@ -20,3 +20,7 @@ export type IfNotUnion<MaybeUnion> = UnionToIntersection<
   : Equal<MaybeUnion, UnionToIntersection<MaybeUnion>> extends true
   ? MaybeUnion
   : void
+
+export type EntityOrArrayToUnion<T> = T extends infer S | Array<infer S>
+  ? S
+  : never
