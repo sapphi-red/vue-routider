@@ -14,6 +14,16 @@ $ npm i vue@next vue-router@next vue-routider
 ```
 
 ## Example
+`main.ts`
+```typescript
+import { createApp } from 'vue'
+import router from './router'
+
+const app = createApp(App)
+app.use(router)
+app.mount('#app')
+```
+
 `router/index.ts`
 ```typescript
 import { createWebHistory } from 'vue-router'
@@ -31,6 +41,7 @@ const { router, useRouter, useRoute } = createRoutider({
   }
 })
 
+export default router
 export { useRouter, useRoute }
 ```
 
