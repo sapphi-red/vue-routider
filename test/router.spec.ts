@@ -20,6 +20,10 @@ describe('createRoutider', () => {
       UserItem: {
         path: createPath`/users/${'userId'}/${'itemId'}`,
         component: com
+      },
+      About: {
+        path: createPath`/`,
+        component: com
       }
     }
   })
@@ -38,6 +42,12 @@ describe('createRoutider', () => {
 
   it('has typed route (3)', () => {
     const route = useRoute('Index')
+
+    isTypeEqual<Record<never, string>, typeof route.params>(true)
+  })
+
+  it('has typed route (4)', () => {
+    const route = useRoute('About')
 
     isTypeEqual<Record<never, string>, typeof route.params>(true)
   })

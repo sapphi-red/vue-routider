@@ -8,10 +8,17 @@ export type ExtractParams<T> = T extends RoutiderPath<infer P> ? P : never
  *
  * @example createPath`/items/${'id'}`
  */
-export const createPath = <T extends string>(
+export function createPath<T extends string | never>(
+  literals: TemplateStringsArray
+): RoutiderPath<never>
+export function createPath<T extends string | never>(
   literals: TemplateStringsArray,
   ...placeholders: T[]
-): RoutiderPath<T> => {
+): RoutiderPath<T>
+export function createPath<T extends string | never>(
+  literals: TemplateStringsArray,
+  ...placeholders: T[]
+): RoutiderPath<T> {
   let path = ''
   for (let i = 0; i < placeholders.length; i++) {
     path += literals[i] + ':' + placeholders[i]
