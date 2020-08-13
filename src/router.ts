@@ -16,6 +16,10 @@ export type RoutiderRouteRecord<T extends string> = Omit<
   RouteRecordRaw,
   'name'
 > & {
+  /**
+   * Path of the record. Should start with / unless the record is the child of another record.
+   * @example createPath`/users/${'id'}` matches `/users/1` as well as `/users/posva`. '/users' matches only `/users`.
+   */
   path: RoutiderPath<T> | string
 }
 
