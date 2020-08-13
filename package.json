@@ -23,7 +23,19 @@
     }
   },
   "name": "vue-routider",
+  "description": "Make vue-router type safe. (Not compatible with vue-router@3)",
   "author": "sapphi-red",
+  "keywords": [
+    "vue",
+    "router",
+    "routing",
+    "vue-router",
+    "typescript"
+  ],
+  "bugs": {
+    "url": "https://github.com/sapphi-red/vue-routider/issues"
+  },
+  "homepage": "https://github.com/sapphi-red/vue-routider#readme",
   "module": "dist/vue-routider.esm.js",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.9.0",
