@@ -33,7 +33,7 @@ const { router, useRouter, useRoute } = createRoutider({
   history: createWebHistory(),
   routes: {
     Index: {
-      path: '/' // use can just pass string when it does not include params
+      path: '/' // use can just pass a string when it does not include params
     },
     Item: {
       path: createPath`/items/${'id'}`
