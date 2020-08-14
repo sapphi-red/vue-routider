@@ -1,6 +1,6 @@
 import { RouterOptions, RouteRecordRaw } from 'vue-router'
 import { RouteRecordName } from './name'
-import { RoutiderRouteRecord, pathToPathAndAlias } from './route'
+import { RoutiderRouteRecord, pathToPathAndAlias } from '../route/route'
 
 export type RoutiderOptionsRoutes = Record<RouteRecordName, RoutiderRouteRecord>
 

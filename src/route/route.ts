@@ -8,13 +8,13 @@ import {
   RawRouteComponent,
   _RouteRecordProps,
   RouteRecordRedirectOption
-} from './vue-router-utils'
+} from '../vue-router-utils'
 import {
   RoutiderPath,
   RoutiderPaths,
   pathToString,
   pathsToString
-} from './path'
+} from '../options/path'
 
 /**
  * Typed RouteRecordBase

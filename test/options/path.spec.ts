@@ -5,7 +5,7 @@ import {
   RoutiderPaths,
   pathToString,
   pathsToString
-} from '#/path'
+} from '#/options/path'
 import { isTypeEqual } from '#/test-util'
 
 const none = createPath`/`

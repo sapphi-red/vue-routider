@@ -1,4 +1,4 @@
-import { IfNotUnion } from './type'
+import { IfNotUnion } from '../type'
 import warning from 'tiny-warning'
 
 declare const params: unique symbol

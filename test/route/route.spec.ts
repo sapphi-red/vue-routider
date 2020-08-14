@@ -1,7 +1,7 @@
 import { RouteRecord } from 'vue-router'
-import { RoutiderRouteRecord, pathToPathAndAlias } from '#/route'
+import { RoutiderRouteRecord, pathToPathAndAlias } from '#/route/route'
 import { isSubType } from '#/test-util'
-import { createPath, createPaths } from '#/path'
+import { createPath, createPaths } from '#/options/path'
 
 describe('RoutiderRouteRecord compatibility', () => {
   it('has compatibility with RouteRecord', () => {

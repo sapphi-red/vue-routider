@@ -1,12 +1,12 @@
 import { Router, createRouter, useRoute as useRouteVueRouter } from 'vue-router'
-import { RoutiderLocation, RoutiderLocationOfNames } from './location'
+import { RoutiderLocation, RoutiderLocationOfNames } from './route/location'
 import {
   RoutiderOptions,
   RouteNames,
   routiderOptionsToRouterOptions
-} from './options'
-import { RoutiderRouter, createRoutiderRouter } from './router'
-import { warnIfIncorrectRoute } from './checkRoute'
+} from './options/options'
+import { RoutiderRouter, createRoutiderRouter } from './router/router'
+import { warnIfIncorrectRoute } from './route/checkRoute'
 
 interface Routider<O extends RoutiderOptions> {
   router: Router
