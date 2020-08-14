@@ -3,6 +3,7 @@ import { createRoutider, createPath } from '#/index'
 import { isSameType, waitNavigation } from '#/test-util'
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
+import { createRoute } from '#/route/route'
 
 type NeverRecord = Record<never, never>
 
@@ -18,10 +19,13 @@ const getRouter = async (initPath = '/') => {
         path: '/',
         component: Com
       },
-      Item: {
+      Item: createRoute({
         path: createPath`/items/${'id'}`,
-        component: Com
-      },
+        component: Com,
+        props: to => {
+          return { id: to.params.id }
+        }
+      }),
       UserItem: {
         path: createPath`/users/${'userId'}/${'id'}`,
         component: Com

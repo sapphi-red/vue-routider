@@ -1,8 +1,8 @@
 import { Router, NavigationFailure, RouteLocationOptions } from 'vue-router'
-import { RoutiderOptions, RouteNames } from './options'
-import { RouteQueryAndHash } from './vue-router-utils'
-import { ExtractParams } from './path'
-import { RoutiderRouteRecord } from './route'
+import { RoutiderOptions, RouteNames } from '../options/options'
+import { RouteQueryAndHash } from '../vue-router-utils'
+import { ExtractParams } from '../options/path'
+import { RoutiderRouteRecord } from '../route/route'
 
 type ParamsOfRouteName<Route extends RoutiderRouteRecord> = ExtractParams<
   Route['path']

@@ -1,9 +1,9 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router'
-import { RoutiderOptions, RouteNames } from './options'
-import { ExtractParams } from './path'
-import { RouteRecordName } from './name'
+import { RoutiderOptions, RouteNames } from '../options/options'
+import { ExtractParams } from '../options/path'
+import { RouteRecordName } from '../options/name'
 import { RoutiderRouteRecord } from './route'
-import { EntityOrArrayToUnion, UnionToIntersection } from './type'
+import { EntityOrArrayToUnion, UnionToIntersection } from '../type'
 
 type RecordWithOptional<
   KRequired extends string | number | symbol,
@@ -47,7 +47,7 @@ type IntersectionParamsOfRoutes<
 > = ExtractParams<
   UnionToIntersection<
     {
-      [K in keyof Rs]: Rs[K]['path']
+      [K in keyof Rs]: Exclude<Rs[K]['path'], string | string[]>
     }[keyof Rs]
   >
 >
