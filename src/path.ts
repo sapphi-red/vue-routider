@@ -1,4 +1,5 @@
 import { IfNotUnion } from './type'
+import warning from 'tiny-warning'
 
 declare const params: unique symbol
 export type RoutiderPath<T extends string | undefined = string | undefined> = {
@@ -37,9 +38,25 @@ export function createPath<T extends string>(
 ): RoutiderPath<T> {
   let path = ''
   for (let i = 0; i < placeholders.length; i++) {
-    path += literals[i] + ':' + placeholders[i]
+    const l = literals[i]
+    const p = placeholders[i]
+    path += `${l}:${p}`
+
+    warning(
+      !l.includes(':'),
+      `vue-routider: \`:\` should not be included in createPath argument. (${l})`
+    )
+    warning(
+      !p.includes(':'),
+      `vue-routider: \`:\` should not be included in createPath argument. (${p})`
+    )
   }
-  path += literals[literals.length - 1]
+  const lastL = literals[literals.length - 1]
+  path += lastL
+  warning(
+    !lastL.includes(':'),
+    `vue-routider: \`:\` should not be included in createPath argument. (${lastL})`
+  )
   return (path as unknown) as RoutiderPath<T>
 }
 

@@ -35,6 +35,17 @@ describe('createPath', () => {
     expect(ab).toBe('/ab/:a/:b')
     isTypeEqual<RoutiderPath<'a' | 'b'>, typeof ab>(true)
   })
+
+  it('should warn if it includes `:` (1)', () => {
+    console.warn = jest.fn()
+    createPath`/:id`
+    expect(console.warn).toBeCalled()
+  })
+  it('should warn if it includes `:` (2)', () => {
+    console.warn = jest.fn()
+    createPath`/item/${':id'}`
+    expect(console.warn).toBeCalled()
+  })
 })
 
 describe('createPaths', () => {
