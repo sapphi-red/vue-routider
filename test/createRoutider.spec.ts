@@ -1,6 +1,6 @@
 import { createMemoryHistory, Router } from 'vue-router'
 import { createRoutider, createPath } from '#/index'
-import { isSameType } from '#/test-util'
+import { isSameType, waitNavigation } from '#/test-util'
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 
@@ -49,32 +49,52 @@ const runInsideComponent = (routerInstall: Router, func: () => unknown) => {
 }
 
 describe('createRoutider', () => {
-  it('has typed router.push (1)', async () => {
-    const { routerInstall, useRouter } = await getRouter()
-    runInsideComponent(routerInstall, () => {
+  it('has typed router.push (1)', async done => {
+    const { routerInstall, useRouter, useRoute } = await getRouter()
+    runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'About' })
+
+      const route = useRoute(null)
+      await waitNavigation(router)
+      expect(route.path).toBe('/about')
+      done()
     })
   })
-  it('has typed router.push (2)', async () => {
-    const { routerInstall, useRouter } = await getRouter()
-    runInsideComponent(routerInstall, () => {
+  it('has typed router.push (2)', async done => {
+    const { routerInstall, useRouter, useRoute } = await getRouter('/about')
+    runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'Index' })
+
+      const route = useRoute(null)
+      await waitNavigation(router)
+      expect(route.path).toBe('/')
+      done()
     })
   })
-  it('has typed router.push (3)', async () => {
-    const { routerInstall, useRouter } = await getRouter()
-    runInsideComponent(routerInstall, () => {
+  it('has typed router.push (3)', async done => {
+    const { routerInstall, useRouter, useRoute } = await getRouter()
+    runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'Item', params: { id: '1' } })
+
+      const route = useRoute(null)
+      await waitNavigation(router)
+      expect(route.path).toBe('/items/1')
+      done()
     })
   })
-  it('has typed router.push (4)', async () => {
-    const { routerInstall, useRouter } = await getRouter()
-    runInsideComponent(routerInstall, () => {
+  it('has typed router.push (4)', async done => {
+    const { routerInstall, useRouter, useRoute } = await getRouter()
+    runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'UserItem', params: { id: '1', userId: '1' } })
+
+      const route = useRoute(null)
+      await waitNavigation(router)
+      expect(route.path).toBe('/users/1/1')
+      done()
     })
   })
   it('can accept genetic route with router.push', async () => {

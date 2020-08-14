@@ -6,5 +6,6 @@ module.exports = {
     '^#/(.+)': '<rootDir>/src/$1'
   },
   coverageDirectory: './coverage/',
-  collectCoverage: true
+  collectCoverage: true,
+  coveragePathIgnorePatterns: ['<rootDir>/src/test-util.ts']
 }
