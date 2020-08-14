@@ -77,8 +77,7 @@ interface PathAndAlias {
 }
 
 export const pathToPathAndAlias = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  path: RoutiderPath<any> | string | RoutiderPaths<any> | string[]
+  path: RoutiderPath | string | RoutiderPaths | string[]
 ): PathAndAlias => {
   if (!Array.isArray(path)) return { path: pathToString(path) }
 
