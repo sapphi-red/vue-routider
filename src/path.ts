@@ -5,13 +5,16 @@ export type RoutiderPath<T extends string | undefined> = { [params]: T }
 export type RoutiderPaths<T extends string | undefined> = typeof params &
   RoutiderPath<T>[]
 
-export type ExtractParams<T> = T extends never
-  ? never
-  : T extends RoutiderPath<infer P>
-  ? P
-  : T extends RoutiderPaths<infer P>
-  ? P
-  : never
+export type ExtractParams<T> = Exclude<
+  T extends never
+    ? never
+    : T extends RoutiderPath<infer P>
+    ? P
+    : T extends RoutiderPaths<infer P>
+    ? P
+    : never,
+  undefined
+>
 
 /**
  * Creates typed path.

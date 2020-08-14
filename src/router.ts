@@ -1,36 +1,53 @@
-import { Router, createRouter, useRoute as useRouteVueRouter } from 'vue-router'
-import { RoutiderLocation, RoutiderLocationOfNames } from './location'
-import {
-  RoutiderOptions,
-  RouteNames,
-  routiderOptionsToRouterOptions
-} from './options'
+import { Router, NavigationFailure, RouteLocationOptions } from 'vue-router'
+import { RoutiderOptions, RouteNames } from './options'
+import { RouteQueryAndHash } from './vue-router-utils'
+import { ExtractParams } from './path'
+import { RoutiderRouteRecord } from './route'
+import { RouteRecordName } from './name'
 
-interface Routider<O extends RoutiderOptions> {
-  router: Router
-  useRouter: () => Router
-  useRoute: <N extends RouteNames<O> | RouteNames<O>[] | null>(
-    name: N
-  ) => N extends null
-    ? RoutiderLocation<undefined, string>
-    : RoutiderLocationOfNames<O, Exclude<N, null>>
+type ParamsOfRouteName<
+  Route extends RoutiderRouteRecord<string | undefined>
+> = ExtractParams<Route['path']>
+
+type RoutiderRouteLocation<
+  Routes extends RoutiderOptions['routes'],
+  N extends keyof Routes
+> = RouteQueryAndHash &
+  (ParamsOfRouteName<Routes[N]> extends never
+    ? void
+    : {
+        params: Record<ParamsOfRouteName<Routes[N]>, string>
+      }) &
+  RouteLocationOptions
+
+export interface RoutiderRouter<O extends RoutiderOptions>
+  extends Omit<Router, 'push' | 'replace'> {
+  push<N extends RouteNames<O>>(
+    name: N,
+    options: RoutiderRouteLocation<O['routes'], N>
+  ): Promise<NavigationFailure | void | undefined>
+  replace<N extends RouteNames<O>>(
+    name: N,
+    options: RoutiderRouteLocation<O['routes'], N>
+  ): Promise<NavigationFailure | void | undefined>
 }
 
-export const createRoutider = <O extends RoutiderOptions>(
-  options: O
-): Routider<O> => {
-  const routerOptions = routiderOptionsToRouterOptions(options)
-  const router = createRouter(routerOptions)
+export const createRoutiderRouter = <O extends RoutiderOptions>(
+  router: Router
+): RoutiderRouter<O> => {
+  const push = <N extends RouteNames<O>>(
+    name: N,
+    options: RoutiderRouteLocation<O['routes'], N>
+  ) => router.push({ name: name as RouteRecordName, ...options })
 
-  const useRouter = () => router
+  const replace = <N extends RouteNames<O>>(
+    name: N,
+    options: RoutiderRouteLocation<O['routes'], N>
+  ) => router.replace({ name: name as RouteRecordName, ...options })
 
-  const useRoute = <N extends RouteNames<O> | RouteNames<O>[] | null>(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _name: N
-  ) =>
-    useRouteVueRouter() as N extends null
-      ? RoutiderLocation<undefined, string>
-      : RoutiderLocationOfNames<O, Exclude<N, null>>
-
-  return { router, useRouter, useRoute }
+  return {
+    ...router,
+    push,
+    replace
+  }
 }
