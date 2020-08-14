@@ -23,8 +23,14 @@ type RoutiderRouteLocation<
 export interface RoutiderRouter<O extends RoutiderOptions>
   extends Omit<Router, 'push' | 'replace'> {
   push<N extends RouteNames<O>>(
+    name: ParamsOfRouteName<O['routes'][N]> extends never ? N : never
+  ): Promise<NavigationFailure | void | undefined>
+  push<N extends RouteNames<O>>(
     name: N,
     options: RoutiderRouteLocation<O['routes'], N>
+  ): Promise<NavigationFailure | void | undefined>
+  replace<N extends RouteNames<O>>(
+    name: ParamsOfRouteName<O['routes'][N]> extends never ? N : never
   ): Promise<NavigationFailure | void | undefined>
   replace<N extends RouteNames<O>>(
     name: N,
@@ -37,12 +43,12 @@ export const createRoutiderRouter = <O extends RoutiderOptions>(
 ): RoutiderRouter<O> => {
   const push = <N extends RouteNames<O>>(
     name: N,
-    options: RoutiderRouteLocation<O['routes'], N>
+    options?: RoutiderRouteLocation<O['routes'], N>
   ) => router.push({ name: name as RouteRecordName, ...options })
 
   const replace = <N extends RouteNames<O>>(
     name: N,
-    options: RoutiderRouteLocation<O['routes'], N>
+    options?: RoutiderRouteLocation<O['routes'], N>
   ) => router.replace({ name: name as RouteRecordName, ...options })
 
   return {

@@ -8,7 +8,7 @@ type NeverRecord = Record<never, never>
 const com = defineComponent({})
 
 describe('createRoutider', () => {
-  const { useRoute } = createRoutider({
+  const { useRoute, useRouter } = createRoutider({
     history: createMemoryHistory(),
     routes: {
       Index: {
@@ -29,6 +29,7 @@ describe('createRoutider', () => {
       }
     }
   })
+  const router = useRouter()
 
   it('has typed route (1)', () => {
     const route = useRoute('Item')
@@ -74,5 +75,18 @@ describe('createRoutider', () => {
     const route = useRoute(null)
 
     isSameType<Record<string, string | undefined>, typeof route.params>(true)
+  })
+
+  it('has typed router.push (1)', () => {
+    router.push('About')
+  })
+  it('has typed router.push (2)', () => {
+    router.push('Index', {})
+  })
+  it('has typed router.push (3)', () => {
+    router.push('Item', { params: { id: '1' } })
+  })
+  it('has typed router.push (4)', () => {
+    router.push('UserItem', { params: { id: '1', userId: '1' } })
   })
 })
