@@ -5,13 +5,11 @@ import { RouteRecordName } from './name'
 import { RoutiderRouteRecord } from './route'
 import { EntityOrArrayToUnion, UnionToIntersection } from './type'
 
-type RecordOptional<K extends string | number | symbol, V> = { [Key in K]?: V }
-
 type RecordWithOptional<
   KRequired extends string | number | symbol,
   KOptional extends string | number | symbol,
   V
-> = Record<KRequired, V> & RecordOptional<KOptional, V>
+> = Record<KRequired, V> & Partial<Record<KOptional, V>>
 
 export interface Params<
   ParamNames extends string | undefined,
