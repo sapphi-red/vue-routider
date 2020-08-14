@@ -13,8 +13,8 @@ type RoutiderRouteLocation<
   Routes extends RoutiderOptions['routes'],
   N extends keyof Routes
 > = RouteQueryAndHash &
-  (ParamsOfRouteName<Routes[N]> extends never
-    ? void
+  (ParamsOfRouteName<Routes[N]> extends never // eslint-disable-next-line @typescript-eslint/ban-types
+    ? {}
     : {
         params: Record<ParamsOfRouteName<Routes[N]>, string>
       }) &
