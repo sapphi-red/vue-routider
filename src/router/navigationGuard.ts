@@ -44,3 +44,14 @@ export interface RoutiderPostNavigationGuard {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any
 }
+
+/**
+ * Typed `NavigationGuard`
+ */
+export interface RoutiderNavigationGuard<Routes extends RoutiderOptionsRoutes> {
+  (
+    to: RoutiderLocation<undefined, undefined>,
+    from: RoutiderLocation<undefined, undefined>,
+    next: RoutiderNavigationGuardNext<Routes>
+  ): NavigationGuardReturn | Promise<NavigationGuardReturn>
+}
