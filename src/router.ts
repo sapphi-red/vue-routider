@@ -5,9 +5,9 @@ import { ExtractParams } from './path'
 import { RoutiderRouteRecord } from './route'
 import { RouteRecordName } from './name'
 
-type ParamsOfRouteName<
-  Route extends RoutiderRouteRecord<string | undefined>
-> = ExtractParams<Route['path']>
+type ParamsOfRouteName<Route extends RoutiderRouteRecord> = ExtractParams<
+  Route['path']
+>
 
 type RoutiderRouteLocation<
   Routes extends RoutiderOptions['routes'],

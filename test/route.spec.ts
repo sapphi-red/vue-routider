@@ -5,8 +5,7 @@ import { createPath, createPaths } from '#/path'
 
 describe('RoutiderRouteRecord compatibility', () => {
   it('has compatibility with RouteRecord', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    type Custom = Omit<RoutiderRouteRecord<any>, 'path'>
+    type Custom = Omit<RoutiderRouteRecord, 'path'>
     type Original = Omit<RouteRecord, 'path' | 'name' | 'alias'>
 
     isSubType<Custom, Original>(true)

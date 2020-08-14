@@ -5,22 +5,22 @@ import { RouteRecordName } from './name'
 import { RoutiderRouteRecord } from './route'
 import { EntityOrArrayToUnion, UnionToIntersection } from './type'
 
-type RecordOptional<K extends string | number | symbol, V> = { [Key in K]?: V }
-
 type RecordWithOptional<
   KRequired extends string | number | symbol,
   KOptional extends string | number | symbol,
   V
-> = Record<KRequired, V> & RecordOptional<KOptional, V>
+> = Record<KRequired, V> & Partial<Record<KOptional, V>>
 
 export interface Params<
   ParamNames extends string | undefined,
   OptionalParamNames extends string | undefined
 > {
-  params: RecordWithOptional<
-    Exclude<ParamNames, undefined>,
-    Exclude<OptionalParamNames, undefined>,
-    string
+  params: Readonly<
+    RecordWithOptional<
+      Exclude<ParamNames, undefined>,
+      Exclude<OptionalParamNames, undefined>,
+      string
+    >
   >
 }
 
@@ -43,7 +43,7 @@ type RoutesOfNames<O extends RoutiderOptions, Ns extends RouteNames<O>> = {
 }
 
 type IntersectionParamsOfRoutes<
-  Rs extends Record<RouteRecordName, RoutiderRouteRecord<string | undefined>>
+  Rs extends Record<RouteRecordName, RoutiderRouteRecord>
 > = ExtractParams<
   UnionToIntersection<
     {
@@ -53,7 +53,7 @@ type IntersectionParamsOfRoutes<
 >
 
 type UnionParamsOfRoutes<
-  Rs extends Record<RouteRecordName, RoutiderRouteRecord<string | undefined>>
+  Rs extends Record<RouteRecordName, RoutiderRouteRecord>
 > = {
   [K in keyof Rs]: ExtractParams<Rs[K]['path']>
 }[keyof Rs]
