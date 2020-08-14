@@ -47,7 +47,7 @@ type IntersectionParamsOfRoutes<
 > = ExtractParams<
   UnionToIntersection<
     {
-      [K in keyof Rs]: Rs[K]['path']
+      [K in keyof Rs]: Exclude<Rs[K]['path'], string | string[]>
     }[keyof Rs]
   >
 >
