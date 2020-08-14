@@ -12,7 +12,7 @@ interface Routider<O extends RoutiderOptions> {
   useRoute: <N extends RouteNames<O> | RouteNames<O>[] | null>(
     name: N
   ) => N extends null
-    ? RoutiderLocation<string>
+    ? RoutiderLocation<undefined, string>
     : RoutiderLocationOfNames<O, Exclude<N, null>>
 }
 
@@ -29,7 +29,7 @@ export const createRoutider = <O extends RoutiderOptions>(
     _name: N
   ) =>
     useRouteVueRouter() as N extends null
-      ? RoutiderLocation<string>
+      ? RoutiderLocation<undefined, string>
       : RoutiderLocationOfNames<O, Exclude<N, null>>
 
   return { router, useRouter, useRoute }

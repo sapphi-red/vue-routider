@@ -4,6 +4,19 @@ export type Equal<Left, Right> = (<U>() => U extends Left ? 1 : 0) extends <
   ? true
   : false
 
+export type Same<Left, Right> = Left extends Right
+  ? Right extends Left
+    ? true
+    : false
+  : false
+
+// https://stackoverflow.com/questions/49927523/disallow-call-with-any/49928360#49928360
+export type IfNotAny<T> = 0 extends 1 & T ? never : T
+export type IfNotUndefined<T> = Exclude<T, undefined> extends never ? never : T
+export type IsNotAnyOrUndefined<T> = IfNotUndefined<IfNotAny<T>> extends never
+  ? false
+  : true
+
 export type UnionToIntersection<U> = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   U extends any
