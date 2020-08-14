@@ -6,6 +6,7 @@ import {
   routiderOptionsToRouterOptions
 } from './options'
 import { RoutiderRouter, createRoutiderRouter } from './router'
+import { warnIfIncorrectRoute } from './checkRoute'
 
 interface Routider<O extends RoutiderOptions> {
   router: Router
@@ -26,12 +27,16 @@ export const createRoutider = <O extends RoutiderOptions>(
   const useRouter = () => createRoutiderRouter<O>(router)
 
   const useRoute = <N extends RouteNames<O> | RouteNames<O>[] | null>(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _name: N
-  ) =>
-    useRouteVueRouter() as N extends null
+    name: N
+  ) => {
+    const route = useRouteVueRouter()
+    if (__DEV__) {
+      warnIfIncorrectRoute<O>(route, name)
+    }
+    return route as N extends null
       ? RoutiderLocation<undefined, string>
       : RoutiderLocationOfNames<O, Exclude<N, null>>
+  }
 
   return { router, useRouter, useRoute }
 }
