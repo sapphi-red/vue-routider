@@ -39,7 +39,7 @@ const { router, useRouter, useRoute } = createRoutider({
       path: createPath`/items/${'id'}`
     },
     UserItem: {
-      path: createPath`/users/${'userId'}/${'itemId'}`
+      path: createPath`/users/${'userId'}/${'id'}`
     },
     Users: {
       path: createPaths(
@@ -57,12 +57,28 @@ export { useRouter, useRoute }
 `pages/Item.vue`
 ```typescript
 import { defineComponent } from 'vue'
+import { useRoute } from '../router'
 
 export default defineComponent({
   setup() {
     const route = useRoute('Item')
     /*
       here type of `route.params` will become `{ id: string }`
+    */
+  }
+})
+```
+
+`pages/Base.vue`
+```typescript
+import { defineComponent } from 'vue'
+import { useRoute } from '../router'
+
+export default defineComponent({
+  setup() {
+    const route = useRoute(['Item', 'UserItem'])
+    /*
+      here type of `route.params` will become `{ id: string, userId?: string }`
     */
   }
 })
