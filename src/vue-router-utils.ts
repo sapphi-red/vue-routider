@@ -7,7 +7,8 @@ import { Component } from 'vue'
 import {
   RouteLocationNormalized,
   RouteLocationRaw,
-  RouteLocation
+  RouteLocation,
+  LocationQueryRaw
 } from 'vue-router'
 
 type Lazy<T> = () => Promise<T>
@@ -23,3 +24,8 @@ export type _RouteRecordProps =
 export type RouteRecordRedirectOption =
   | RouteLocationRaw
   | ((to: RouteLocation) => RouteLocationRaw)
+
+export interface RouteQueryAndHash {
+  query?: LocationQueryRaw
+  hash?: string
+}

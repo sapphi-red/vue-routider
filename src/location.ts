@@ -13,19 +13,25 @@ type RecordWithOptional<
   V
 > = Record<KRequired, V> & RecordOptional<KOptional, V>
 
-/**
- * Typed `RouteLocationNormalizedLoaded`
- */
-export interface RoutiderLocation<
+export interface Params<
   ParamNames extends string | undefined,
   OptionalParamNames extends string | undefined
-> extends RouteLocationNormalizedLoaded {
+> {
   params: RecordWithOptional<
     Exclude<ParamNames, undefined>,
     Exclude<OptionalParamNames, undefined>,
     string
   >
 }
+
+/**
+ * Typed `RouteLocationNormalizedLoaded`
+ */
+export type RoutiderLocation<
+  ParamNames extends string | undefined,
+  OptionalParamNames extends string | undefined
+> = Omit<RouteLocationNormalizedLoaded, 'params'> &
+  Params<ParamNames, OptionalParamNames>
 
 type RouteOfName<
   O extends RoutiderOptions,
