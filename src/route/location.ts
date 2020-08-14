@@ -1,5 +1,5 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router'
-import { RoutiderOptions, RouteNames } from '../options/options'
+import { RouteNames, RoutiderOptionsRoutes } from '../options/options'
 import { ExtractParams } from '../options/path'
 import { RouteRecordName } from '../options/name'
 import { RoutiderRouteRecord } from './route'
@@ -33,13 +33,11 @@ export type RoutiderLocation<
 > = Omit<RouteLocationNormalizedLoaded, 'params'> &
   Params<ParamNames, OptionalParamNames>
 
-type RouteOfName<
-  O extends RoutiderOptions,
-  N extends RouteNames<O>
-> = O['routes'][N]
-
-type RoutesOfNames<O extends RoutiderOptions, Ns extends RouteNames<O>> = {
-  [N in Ns]: RouteOfName<O, N>
+type RoutesOfNames<
+  Routes extends RoutiderOptionsRoutes,
+  Ns extends RouteNames<Routes>
+> = {
+  [N in Ns]: Routes[N]
 }
 
 type IntersectionParamsOfRoutes<
@@ -62,9 +60,9 @@ type UnionParamsOfRoutes<
  * Get Typed `RouteLocationNormalizedLoaded` from Route
  */
 export type RoutiderLocationOfNames<
-  O extends RoutiderOptions,
-  N extends RouteNames<O> | RouteNames<O>[]
+  Routes extends RoutiderOptionsRoutes,
+  N extends RouteNames<Routes> | RouteNames<Routes>[]
 > = RoutiderLocation<
-  IntersectionParamsOfRoutes<RoutesOfNames<O, EntityOrArrayToUnion<N>>>,
-  UnionParamsOfRoutes<RoutesOfNames<O, EntityOrArrayToUnion<N>>>
+  IntersectionParamsOfRoutes<RoutesOfNames<Routes, EntityOrArrayToUnion<N>>>,
+  UnionParamsOfRoutes<RoutesOfNames<Routes, EntityOrArrayToUnion<N>>>
 >

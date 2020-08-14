@@ -1,5 +1,6 @@
-import { Router, NavigationFailure } from 'vue-router'
+import { NavigationFailure } from 'vue-router'
 import { Equal, Same, IsNotAnyOrUndefined } from './type'
+import { RoutiderRouter } from './router/router'
 
 export const isTypeEqual = <Left, Right>(
   shouldBeEqual: Equal<Left, Right>
@@ -30,7 +31,8 @@ export const isSubType = <SuperType, SubType>(
 
 // https://github.com/vuejs/vue-test-utils-next/issues/152#issuecomment-653736984
 export const waitNavigation = async (
-  router: Router,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  router: RoutiderRouter<any>,
   allowRejection = false
 ): Promise<void | NavigationFailure | undefined> => {
   return new Promise<void | NavigationFailure | undefined>(
@@ -44,11 +46,14 @@ export const waitNavigation = async (
           reject(err)
         })
       }
-      const removeAfterEach = router.afterEach((_to, _from, failure) => {
-        removeError()
-        removeAfterEach()
-        resolve(failure)
-      })
+      const removeAfterEach = router.afterEach(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (_to: any, _from: any, failure: any) => {
+          removeError()
+          removeAfterEach()
+          resolve(failure)
+        }
+      )
     }
   )
 }

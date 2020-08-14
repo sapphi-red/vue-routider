@@ -3,7 +3,7 @@
 // Released under the MIT license
 // https://github.com/vuejs/vue-router-next/blob/master/LICENSE
 
-import { Component } from 'vue'
+import { Component, ComponentPublicInstance } from 'vue'
 import { RouteLocationRaw, RouteLocation, LocationQueryRaw } from 'vue-router'
 
 type Lazy<T> = () => Promise<T>
@@ -17,3 +17,12 @@ export interface RouteQueryAndHash {
   query?: LocationQueryRaw
   hash?: string
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type NavigationGuardNextCallback = (vm: ComponentPublicInstance) => any
+export type NavigationGuardReturn =
+  | void
+  | Error
+  | RouteLocationRaw
+  | boolean
+  | NavigationGuardNextCallback

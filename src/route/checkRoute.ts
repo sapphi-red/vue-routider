@@ -1,10 +1,10 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router'
-import { RoutiderOptions, RouteNames } from '../options/options'
+import { RouteNames, RoutiderOptionsRoutes } from '../options/options'
 import warning from 'tiny-warning'
 
-export const warnIfIncorrectRoute = <O extends RoutiderOptions>(
+export const warnIfIncorrectRoute = <Routes extends RoutiderOptionsRoutes>(
   route: RouteLocationNormalizedLoaded,
-  name: RouteNames<O> | RouteNames<O>[] | null
+  name: RouteNames<Routes> | RouteNames<Routes>[] | null
 ): void => {
   if (name === null) return
 
