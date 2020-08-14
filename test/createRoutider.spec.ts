@@ -1,6 +1,6 @@
 import { createMemoryHistory, Router } from 'vue-router'
 import { createRoutider, createPath } from '#/index'
-import { isSameType, waitNavigation } from '#/test-util'
+import { isSameType, waitNavigation, isTypeEqual } from '#/test-util'
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { createRoute } from '#/route/route'
@@ -182,6 +182,59 @@ describe('createRoutider', () => {
       console.warn = jest.fn()
       useRoute('Item')
       expect(console.warn).toBeCalled()
+    })
+  })
+
+  it('has no any or undefined param for beforeEach', async () => {
+    const { routerInstall, useRouter } = await getRouter('/')
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+      type BeforeEachParams = Parameters<
+        Parameters<typeof router.beforeEach>[0]
+      >
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isTypeEqual<BeforeEachParams[0], any>(false)
+      isTypeEqual<BeforeEachParams[0], undefined>(false)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isTypeEqual<BeforeEachParams[1], any>(false)
+      isTypeEqual<BeforeEachParams[1], undefined>(false)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isTypeEqual<BeforeEachParams[2], any>(false)
+      isTypeEqual<BeforeEachParams[2], undefined>(false)
+    })
+  })
+  it('has no any or undefined param for beforeResolve', async () => {
+    const { routerInstall, useRouter } = await getRouter('/')
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+      type BeforeResolveParams = Parameters<
+        Parameters<typeof router.beforeResolve>[0]
+      >
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isTypeEqual<BeforeResolveParams[0], any>(false)
+      isTypeEqual<BeforeResolveParams[0], undefined>(false)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isTypeEqual<BeforeResolveParams[1], any>(false)
+      isTypeEqual<BeforeResolveParams[1], undefined>(false)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isTypeEqual<BeforeResolveParams[2], any>(false)
+      isTypeEqual<BeforeResolveParams[2], undefined>(false)
+    })
+  })
+  it('has no any or undefined param for afterEach', async () => {
+    const { routerInstall, useRouter } = await getRouter('/')
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+      type AfterEachParams = Parameters<Parameters<typeof router.afterEach>[0]>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isTypeEqual<AfterEachParams[0], any>(false)
+      isTypeEqual<AfterEachParams[0], undefined>(false)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isTypeEqual<AfterEachParams[1], any>(false)
+      isTypeEqual<AfterEachParams[1], undefined>(false)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      isTypeEqual<AfterEachParams[2], any>(false)
+      isTypeEqual<AfterEachParams[2], undefined>(false)
     })
   })
 })
