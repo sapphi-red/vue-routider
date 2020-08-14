@@ -15,10 +15,12 @@ export interface Params<
   ParamNames extends string | undefined,
   OptionalParamNames extends string | undefined
 > {
-  params: RecordWithOptional<
-    Exclude<ParamNames, undefined>,
-    Exclude<OptionalParamNames, undefined>,
-    string
+  params: Readonly<
+    RecordWithOptional<
+      Exclude<ParamNames, undefined>,
+      Exclude<OptionalParamNames, undefined>,
+      string
+    >
   >
 }
 

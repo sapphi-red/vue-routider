@@ -2,7 +2,7 @@ import { IfNotUnion } from './type'
 
 declare const params: unique symbol
 export type RoutiderPath<T extends string | undefined = string | undefined> = {
-  [params]: T
+  readonly [params]: T
 }
 export type RoutiderPaths<
   T extends string | undefined = string | undefined
@@ -25,15 +25,15 @@ export type ExtractParams<T> = Exclude<
  * @example createPath`/items/${'id'}`
  */
 export function createPath(
-  literals: TemplateStringsArray
+  literals: Readonly<TemplateStringsArray>
 ): RoutiderPath<undefined>
 export function createPath<T extends string>(
-  literals: TemplateStringsArray,
-  ...placeholders: T[]
+  literals: Readonly<TemplateStringsArray>,
+  ...placeholders: readonly T[]
 ): RoutiderPath<T>
 export function createPath<T extends string>(
-  literals: TemplateStringsArray,
-  ...placeholders: T[]
+  literals: Readonly<TemplateStringsArray>,
+  ...placeholders: readonly T[]
 ): RoutiderPath<T> {
   let path = ''
   for (let i = 0; i < placeholders.length; i++) {
@@ -178,7 +178,7 @@ export function createPaths<
   IfNotUnion<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10>[]
 >
 export function createPaths<T extends RoutiderPath>(
-  ...args: T[]
+  ...args: readonly T[]
 ): PathArrayToPaths<IfNotUnion<T>[]> {
   return args as PathArrayToPaths<IfNotUnion<T>[]>
 }
