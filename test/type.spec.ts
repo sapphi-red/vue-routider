@@ -1,5 +1,69 @@
-import { UnionToIntersection, IfNotUnion } from '#/type'
+import {
+  Same,
+  UnionToIntersection,
+  IfNotUnion,
+  IfNotAny,
+  IfNotUndefined,
+  IsNotAnyOrUndefined
+} from '#/type'
 import { isTypeEqual } from '#/test-util'
+
+describe('Same', () => {
+  it('can detect primitives', () => {
+    isTypeEqual<Same<string, string>, true>(true)
+    isTypeEqual<Same<number, string>, false>(true)
+  })
+  it('can detect literals', () => {
+    isTypeEqual<Same<'aa', 'aa'>, true>(true)
+    isTypeEqual<Same<'aa', 'bb'>, false>(true)
+  })
+  it('can detect records', () => {
+    isTypeEqual<Same<Record<string, string>, Record<string, string>>, true>(
+      true
+    )
+    isTypeEqual<Same<Record<'aa', string>, Record<'a', string>>, false>(true)
+  })
+  it('can detect optionals', () => {
+    isTypeEqual<Same<{ a: 0; b?: 1 }, { a: 0; b?: 1 }>, true>(true)
+    isTypeEqual<Same<{ a: 0; b: 1 }, { a: 0; b?: 1 }>, false>(true)
+
+    // need to check with Required<>
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    isTypeEqual<Same<Required<{}>, Required<{ a?: 0; b?: 1 }>>, false>(true)
+  })
+})
+
+describe('IfNotAny', () => {
+  it('can detect any', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    isTypeEqual<IfNotAny<any>, never>(true)
+  })
+  it('can detect not any', () => {
+    isTypeEqual<IfNotAny<string>, string>(true)
+  })
+})
+
+describe('IfNotUndefined', () => {
+  it('can detect undefined', () => {
+    isTypeEqual<IfNotUndefined<undefined>, never>(true)
+  })
+  it('can detect not undefined', () => {
+    isTypeEqual<IfNotUndefined<string>, string>(true)
+  })
+})
+
+describe('IsNotAnyOrUndefined', () => {
+  it('can detect any', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    isTypeEqual<IsNotAnyOrUndefined<any>, false>(true)
+  })
+  it('can detect undefined', () => {
+    isTypeEqual<IsNotAnyOrUndefined<undefined>, false>(true)
+  })
+  it('can detect not undefined', () => {
+    isTypeEqual<IsNotAnyOrUndefined<string>, true>(true)
+  })
+})
 
 describe('UnionToIntersection', () => {
   it('can convert union to intersection (1)', () => {

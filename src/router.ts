@@ -1,5 +1,5 @@
 import { Router, createRouter, useRoute as useRouteVueRouter } from 'vue-router'
-import { RoutiderLocationOfName } from './location'
+import { RoutiderLocation, RoutiderLocationOfNames } from './location'
 import {
   RoutiderOptions,
   RouteNames,
@@ -9,7 +9,11 @@ import {
 interface Routider<O extends RoutiderOptions> {
   router: Router
   useRouter: () => Router
-  useRoute: <N extends RouteNames<O>>(name: N) => RoutiderLocationOfName<O, N>
+  useRoute: <N extends RouteNames<O> | RouteNames<O>[] | null>(
+    name: N
+  ) => N extends null
+    ? RoutiderLocation<undefined, string>
+    : RoutiderLocationOfNames<O, Exclude<N, null>>
 }
 
 export const createRoutider = <O extends RoutiderOptions>(
@@ -20,11 +24,13 @@ export const createRoutider = <O extends RoutiderOptions>(
 
   const useRouter = () => router
 
-  const useRoute = <N extends keyof O['routes']>(
+  const useRoute = <N extends RouteNames<O> | RouteNames<O>[] | null>(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _name: N
-  ): RoutiderLocationOfName<O, N> =>
-    useRouteVueRouter() as RoutiderLocationOfName<O, N>
+  ) =>
+    useRouteVueRouter() as N extends null
+      ? RoutiderLocation<undefined, string>
+      : RoutiderLocationOfNames<O, Exclude<N, null>>
 
   return { router, useRouter, useRoute }
 }

@@ -1,7 +1,9 @@
 import { createMemoryHistory } from 'vue-router'
 import { createRoutider, createPath } from '#/index'
-import { isTypeEqual } from '#/test-util'
+import { isSameType } from '#/test-util'
 import { defineComponent } from 'vue'
+
+type NeverRecord = Record<never, never>
 
 const com = defineComponent({})
 
@@ -18,7 +20,7 @@ describe('createRoutider', () => {
         component: com
       },
       UserItem: {
-        path: createPath`/users/${'userId'}/${'itemId'}`,
+        path: createPath`/users/${'userId'}/${'id'}`,
         component: com
       },
       About: {
@@ -31,24 +33,46 @@ describe('createRoutider', () => {
   it('has typed route (1)', () => {
     const route = useRoute('Item')
 
-    isTypeEqual<{ id: string }, typeof route.params>(true)
+    isSameType<{ id: string }, typeof route.params>(true)
   })
 
   it('has typed route (2)', () => {
     const route = useRoute('UserItem')
 
-    isTypeEqual<{ userId: string; itemId: string }, typeof route.params>(true)
+    isSameType<{ userId: string; id: string }, typeof route.params>(true)
   })
 
   it('has typed route (3)', () => {
     const route = useRoute('Index')
 
-    isTypeEqual<Record<never, string>, typeof route.params>(true)
+    isSameType<NeverRecord, typeof route.params>(true)
   })
 
   it('has typed route (4)', () => {
     const route = useRoute('About')
 
-    isTypeEqual<Record<never, string>, typeof route.params>(true)
+    isSameType<NeverRecord, typeof route.params>(true)
+  })
+
+  it('has intersection and union typed route', () => {
+    const route = useRoute(['Item', 'UserItem'])
+
+    isSameType<{ userId?: string; id: string }, typeof route.params>(true)
+  })
+  it('has union typed route', () => {
+    const route = useRoute(['Item', 'UserItem', 'About'])
+
+    isSameType<{ userId?: string; id?: string }, typeof route.params>(true)
+  })
+  it('has intersection typed route', () => {
+    const route = useRoute(['Index', 'About'])
+
+    isSameType<NeverRecord, typeof route.params>(true)
+  })
+
+  it('has untyped route', () => {
+    const route = useRoute(null)
+
+    isSameType<Record<string, string | undefined>, typeof route.params>(true)
   })
 })
