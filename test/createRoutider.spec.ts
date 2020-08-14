@@ -78,15 +78,26 @@ describe('createRoutider', () => {
   })
 
   it('has typed router.push (1)', () => {
-    router.push('About')
+    router.push({ name: 'About' })
   })
   it('has typed router.push (2)', () => {
-    router.push('Index', {})
+    router.push({ name: 'Index' })
   })
   it('has typed router.push (3)', () => {
-    router.push('Item', { params: { id: '1' } })
+    router.push({ name: 'Item', params: { id: '1' } })
   })
   it('has typed router.push (4)', () => {
-    router.push('UserItem', { params: { id: '1', userId: '1' } })
+    router.push({ name: 'UserItem', params: { id: '1', userId: '1' } })
+  })
+  it('can accept genetic route with router.push', () => {
+    const rs = [
+      { name: 'About' },
+      { name: 'Index' },
+      { name: 'About', params: { id: '1' } }
+    ] as const
+
+    rs.forEach(r => {
+      router.push(r)
+    })
   })
 })
