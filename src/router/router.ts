@@ -45,11 +45,28 @@ export interface RoutiderRouter<O extends RoutiderOptions> extends Router {
   beforeResolve(
     guard: RoutiderNavigationGuardWithThis<undefined, O['routes']>
   ): () => void
-  afterEach(guard: RoutiderPostNavigationGuard<O['routes']>): () => void
+  afterEach(guard: RoutiderPostNavigationGuard): () => void
+
+  isRouteName<N extends RouteNames<O['routes']>>(
+    location: RoutiderLocation<undefined, undefined>,
+    name: N
+  ): location is RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
+  getOptionalTypedRoute(
+    location: RoutiderLocation<undefined, undefined>
+  ): RoutiderLocationOfNames<O['routes'], keyof O['routes']>
 }
 
 export const createRoutiderRouter = <O extends RoutiderOptions>(
   router: Router
 ): RoutiderRouter<O> => {
-  return router
+  const isRouteName = <N extends RouteNames<O['routes']>>(
+    location: RoutiderLocation<undefined, undefined>,
+    name: N
+  ): location is RoutiderLocationOfNames<O['routes'], Exclude<N, null>> =>
+    name === location.name
+  const getOptionalTypedRoute = (
+    location: RoutiderLocation<undefined, undefined>
+  ) => location as RoutiderLocationOfNames<O['routes'], keyof O['routes']>
+
+  return { ...router, isRouteName, getOptionalTypedRoute } as RoutiderRouter<O>
 }

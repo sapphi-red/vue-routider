@@ -1,18 +1,16 @@
-import {
-  NavigationGuardNext,
-  PostNavigationGuard,
-  NavigationFailure
-} from 'vue-router'
+import { NavigationFailure } from 'vue-router'
 import {
   NavigationGuardReturn,
   NavigationGuardNextCallback
 } from '../vue-router-utils'
-import { RoutiderLocation, RoutiderLocationOfNames } from '../route/location'
+import { RoutiderLocation } from '../route/location'
 import { RoutiderOptionsRoutes } from '../options/options'
 import { RoutiderRouteLocation } from './router'
 
-interface RoutiderNavigationGuardNext<Routes extends RoutiderOptionsRoutes>
-  extends NavigationGuardNext {
+/**
+ * Typed `NavigationGuardNext`
+ */
+interface RoutiderNavigationGuardNext<Routes extends RoutiderOptionsRoutes> {
   (): void
   (error: Error): void
   <N extends keyof Routes>(location: RoutiderRouteLocation<Routes, N>): void
@@ -20,24 +18,28 @@ interface RoutiderNavigationGuardNext<Routes extends RoutiderOptionsRoutes>
   (cb: NavigationGuardNextCallback): void
 }
 
+/**
+ * Typed `NavigationGuardWithThis`
+ */
 export interface RoutiderNavigationGuardWithThis<
   T,
   Routes extends RoutiderOptionsRoutes
 > {
   (
     this: T,
-    to: RoutiderLocationOfNames<Routes, keyof Routes>,
-    from: RoutiderLocationOfNames<Routes, keyof Routes>,
+    to: RoutiderLocation<undefined, undefined>,
+    from: RoutiderLocation<undefined, undefined>,
     next: RoutiderNavigationGuardNext<Routes>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }
 
-export interface RoutiderPostNavigationGuard<
-  Routes extends RoutiderOptionsRoutes
-> extends PostNavigationGuard {
+/**
+ * Typed `PostNavigationGuard`
+ */
+export interface RoutiderPostNavigationGuard {
   (
-    to: RoutiderLocationOfNames<Routes, keyof Routes>,
-    from: RoutiderLocationOfNames<Routes, keyof Routes>,
+    to: RoutiderLocation<undefined, undefined>,
+    from: RoutiderLocation<undefined, undefined>,
     failure?: NavigationFailure | void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any

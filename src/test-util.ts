@@ -46,14 +46,11 @@ export const waitNavigation = async (
           reject(err)
         })
       }
-      const removeAfterEach = router.afterEach(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (_to: any, _from: any, failure: any) => {
-          removeError()
-          removeAfterEach()
-          resolve(failure)
-        }
-      )
+      const removeAfterEach = router.afterEach((_to, _from, failure) => {
+        removeError()
+        removeAfterEach()
+        resolve(failure)
+      })
     }
   )
 }
