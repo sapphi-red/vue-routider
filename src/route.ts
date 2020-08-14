@@ -19,10 +19,9 @@ import {
 /**
  * Typed RouteRecordBase
  */
-export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
-  _RouteRecordBase,
-  'path' | 'name' | 'alias'
-> & {
+export type _RoutiderRouteRecordBase<
+  T extends string | undefined = string | undefined
+> = Omit<_RouteRecordBase, 'path' | 'name' | 'alias'> & {
   /**
    * Path of the record. Should start with / unless the record is the child of another record.
    * @example createPath`/users/${'id'}` matches `/users/1` as well as `/users/posva`. '/users' matches only `/users`.
@@ -30,8 +29,9 @@ export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
   path: RoutiderPath<T> | string | RoutiderPaths<T> | string[]
 }
 
-interface RoutiderRouteRecordSingleView<T extends string | undefined>
-  extends _RoutiderRouteRecordBase<T> {
+interface RoutiderRouteRecordSingleView<
+  T extends string | undefined = string | undefined
+> extends _RoutiderRouteRecordBase<T> {
   /**
    * Component to display when the URL matches this route.
    */
@@ -41,8 +41,9 @@ interface RoutiderRouteRecordSingleView<T extends string | undefined>
    */
   props?: _RouteRecordProps
 }
-interface RoutiderRouteRecordMultipleViews<T extends string | undefined>
-  extends _RoutiderRouteRecordBase<T> {
+interface RoutiderRouteRecordMultipleViews<
+  T extends string | undefined = string | undefined
+> extends _RoutiderRouteRecordBase<T> {
   /**
    * Components to display when the URL matches this route. Allow using named views.
    */
@@ -54,15 +55,18 @@ interface RoutiderRouteRecordMultipleViews<T extends string | undefined>
    */
   props?: Record<string, _RouteRecordProps> | boolean
 }
-interface RoutiderRouteRecordRedirect<T extends string | undefined>
-  extends _RoutiderRouteRecordBase<T> {
+interface RoutiderRouteRecordRedirect<
+  T extends string | undefined = string | undefined
+> extends _RoutiderRouteRecordBase<T> {
   redirect: RouteRecordRedirectOption
   component?: never
   components?: never
   children?: never
 }
 
-export declare type RoutiderRouteRecord<T extends string | undefined> =
+export declare type RoutiderRouteRecord<
+  T extends string | undefined = string | undefined
+> =
   | RoutiderRouteRecordSingleView<T>
   | RoutiderRouteRecordMultipleViews<T>
   | RoutiderRouteRecordRedirect<T>

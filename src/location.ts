@@ -43,7 +43,7 @@ type RoutesOfNames<O extends RoutiderOptions, Ns extends RouteNames<O>> = {
 }
 
 type IntersectionParamsOfRoutes<
-  Rs extends Record<RouteRecordName, RoutiderRouteRecord<string | undefined>>
+  Rs extends Record<RouteRecordName, RoutiderRouteRecord>
 > = ExtractParams<
   UnionToIntersection<
     {
@@ -53,7 +53,7 @@ type IntersectionParamsOfRoutes<
 >
 
 type UnionParamsOfRoutes<
-  Rs extends Record<RouteRecordName, RoutiderRouteRecord<string | undefined>>
+  Rs extends Record<RouteRecordName, RoutiderRouteRecord>
 > = {
   [K in keyof Rs]: ExtractParams<Rs[K]['path']>
 }[keyof Rs]
