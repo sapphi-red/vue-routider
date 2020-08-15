@@ -36,8 +36,8 @@ const getRouter = async (initPath = '/') => {
       }
     }
   })
-  obj.router.push(initPath)
-  await obj.router.isReady()
+  obj.rawRouter.push(initPath)
+  await obj.rawRouter.isReady()
   const routerInstall = obj.router
   return { routerInstall, ...obj }
 }
