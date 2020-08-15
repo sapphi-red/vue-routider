@@ -31,13 +31,18 @@ export type _RouteRecordProps<Params extends string | undefined> =
  */
 export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
   _RouteRecordBase,
-  'path' | 'name' | 'alias'
+  'path' | 'name' | 'alias' | 'children'
 > & {
   /**
    * Path of the record. Should start with / unless the record is the child of another record.
    * @example createPath`/users/${'id'}` matches `/users/1` as well as `/users/posva`. '/users' matches only `/users`.
    */
   path: RoutiderPath<T> | string | RoutiderPaths<T> | string[]
+  /**
+   * Nested routes are not supported by vue-routider because of type inference limitations.
+   * @see {@link https://github.com/sapphi-red/vue-routider/issues/4}
+   */
+  children?: never
 }
 
 interface RoutiderRouteRecordSingleView<T extends string | undefined>
