@@ -275,4 +275,34 @@ describe('createRoutider', () => {
     isTypeEqual<onBeforeRouteUpdateParams[2], any>(false)
     isTypeEqual<onBeforeRouteUpdateParams[2], undefined>(false)
   })
+
+  it('can narrow type correctly with isRouteName', async () => {
+    const { routerInstall, useRoute, useRouter } = await getRouter()
+    runInsideComponent(routerInstall, () => {
+      const route = useRoute(null)
+      const router = useRouter()
+
+      isSameType<Record<string, string | undefined>, typeof route.params>(true)
+      if (router.isRouteName(route, 'Item')) {
+        isSameType<{ id: string }, typeof route.params>(true)
+      }
+      if (router.isRouteName(route, 'Index')) {
+        isSameType<NeverRecord, typeof route.params>(true)
+      }
+    })
+  })
+
+  it('can get type correctly with getOptionalTypedRoute', async () => {
+    const { routerInstall, useRoute, useRouter } = await getRouter('/')
+    runInsideComponent(routerInstall, () => {
+      const route = useRoute('Index')
+      const router = useRouter()
+
+      const optionalTypedRoute = router.getOptionalTypedRoute(route)
+      isSameType<
+        { id?: string; userId?: string },
+        typeof optionalTypedRoute.params
+      >(true)
+    })
+  })
 })
