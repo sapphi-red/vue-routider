@@ -1,21 +1,27 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRoutider } from 'vue-routider'
+import { createWebHistory } from 'vue-router'
 import Index from '/@/pages/Index.vue'
 import Hello from '/@/pages/Hello.vue'
 
-export const routerHistory = createWebHistory()
+const history = createWebHistory()
 
-export default createRouter({
-  history: routerHistory,
-  routes: [
-    {
-      path: '/',
-      name: 'index',
-      component: Index
-    },
-    {
-      path: '/hello',
-      name: 'hello',
-      component: Hello
-    }
-  ]
+const routes = {
+  Index: {
+    path: '/',
+    component: Index
+  },
+  Hello: {
+    path: '/hello',
+    component: Hello
+  }
+}
+
+export type Routes = typeof routes
+
+const { router, useRoute, useRouter } = createRoutider({
+  history,
+  routes
 })
+
+export default router
+export { useRoute, useRouter }
