@@ -1,4 +1,10 @@
-import { Router, createRouter, useRoute as useRouteVueRouter } from 'vue-router'
+import {
+  Router,
+  createRouter,
+  useRoute as useRouteVueRouter,
+  onBeforeRouteLeave as onBeforeRouteLeaveVueRouter,
+  onBeforeRouteUpdate as onBeforeRouteUpdateVueRouter
+} from 'vue-router'
 import { RoutiderLocation, RoutiderLocationOfNames } from './route/location'
 import {
   RoutiderOptions,
@@ -7,15 +13,22 @@ import {
 } from './options/options'
 import { RoutiderRouter, createRoutiderRouter } from './router/router'
 import { warnIfIncorrectRoute } from './route/checkRoute'
+import { RoutiderNavigationGuard } from './router/navigationGuard'
 
 interface Routider<O extends RoutiderOptions> {
   router: Router
   useRouter: () => RoutiderRouter<O>
-  useRoute: <N extends RouteNames<O> | RouteNames<O>[] | null>(
+  useRoute: <
+    N extends RouteNames<O['routes']> | RouteNames<O['routes']>[] | null
+  >(
     name: N
   ) => N extends null
     ? RoutiderLocation<undefined, string>
-    : RoutiderLocationOfNames<O, Exclude<N, null>>
+    : RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
+  onBeforeRouteLeave: (leaveGuard: RoutiderNavigationGuard<O['routes']>) => void
+  onBeforeRouteUpdate: (
+    updateGuard: RoutiderNavigationGuard<O['routes']>
+  ) => void
 }
 
 export const createRoutider = <O extends RoutiderOptions>(
@@ -26,17 +39,36 @@ export const createRoutider = <O extends RoutiderOptions>(
 
   const useRouter = () => createRoutiderRouter<O>(router)
 
-  const useRoute = <N extends RouteNames<O> | RouteNames<O>[] | null>(
+  const useRoute = <
+    N extends RouteNames<O['routes']> | RouteNames<O['routes']>[] | null
+  >(
     name: N
   ) => {
     const route = useRouteVueRouter()
     if (__DEV__) {
-      warnIfIncorrectRoute<O>(route, name)
+      warnIfIncorrectRoute<O['routes']>(route, name)
     }
     return route as N extends null
       ? RoutiderLocation<undefined, string>
-      : RoutiderLocationOfNames<O, Exclude<N, null>>
+      : RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
   }
 
-  return { router, useRouter, useRoute }
+  const onBeforeRouteLeave = (
+    leaveGuard: RoutiderNavigationGuard<O['routes']>
+  ) => {
+    onBeforeRouteLeaveVueRouter(leaveGuard)
+  }
+  const onBeforeRouteUpdate = (
+    updateGuard: RoutiderNavigationGuard<O['routes']>
+  ) => {
+    onBeforeRouteUpdateVueRouter(updateGuard)
+  }
+
+  return {
+    router,
+    useRouter,
+    useRoute,
+    onBeforeRouteLeave,
+    onBeforeRouteUpdate
+  }
 }
