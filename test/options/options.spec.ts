@@ -1,4 +1,4 @@
-import { createPath, createPaths, RoutiderOptionsRoutes } from '#/index'
+import { createPath, createPaths, RoutiderRoutes } from '#/index'
 import { isSubType } from '#/test-util'
 import { defineComponent } from 'vue'
 
@@ -12,7 +12,7 @@ describe('routiderOptions', () => {
         component: com
       }
     }
-    isSubType<RoutiderOptionsRoutes, typeof options>(true)
+    isSubType<RoutiderRoutes, typeof options>(true)
   })
   it('can detect valid path (2)', () => {
     const options = {
@@ -21,7 +21,7 @@ describe('routiderOptions', () => {
         component: com
       }
     }
-    isSubType<RoutiderOptionsRoutes, typeof options>(true)
+    isSubType<RoutiderRoutes, typeof options>(true)
   })
   it('can detect valid path (3)', () => {
     const options = {
@@ -30,7 +30,7 @@ describe('routiderOptions', () => {
         component: com
       }
     }
-    isSubType<RoutiderOptionsRoutes, typeof options>(true)
+    isSubType<RoutiderRoutes, typeof options>(true)
   })
   it('can detect valid path (4)', () => {
     const options = {
@@ -39,7 +39,7 @@ describe('routiderOptions', () => {
         component: com
       }
     }
-    isSubType<RoutiderOptionsRoutes, typeof options>(true)
+    isSubType<RoutiderRoutes, typeof options>(true)
   })
   it('can detect valid path (5)', () => {
     const options = {
@@ -48,7 +48,7 @@ describe('routiderOptions', () => {
         component: com
       }
     }
-    isSubType<RoutiderOptionsRoutes, typeof options>(true)
+    isSubType<RoutiderRoutes, typeof options>(true)
   })
   it('can detect valid path (6)', () => {
     const options = {
@@ -57,7 +57,7 @@ describe('routiderOptions', () => {
         component: com
       }
     }
-    isSubType<RoutiderOptionsRoutes, typeof options>(true)
+    isSubType<RoutiderRoutes, typeof options>(true)
   })
 
   it('can detect invalid path (1)', () => {
@@ -67,7 +67,7 @@ describe('routiderOptions', () => {
         component: com
       }
     }
-    isSubType<RoutiderOptionsRoutes, typeof options>(false)
+    isSubType<RoutiderRoutes, typeof options>(false)
   })
   it('can detect invalid path (2)', () => {
     const options = {
@@ -76,7 +76,7 @@ describe('routiderOptions', () => {
         component: com
       }
     }
-    isSubType<RoutiderOptionsRoutes, typeof options>(false)
+    isSubType<RoutiderRoutes, typeof options>(false)
   })
   it('can detect invalid path (3)', () => {
     const options = {
@@ -85,6 +85,6 @@ describe('routiderOptions', () => {
         component: com
       }
     }
-    isSubType<RoutiderOptionsRoutes, typeof options>(false)
+    isSubType<RoutiderRoutes, typeof options>(false)
   })
 })

@@ -1,5 +1,5 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router'
-import { RouteNames, RoutiderOptionsRoutes } from '../options/options'
+import { RouteNames, RoutiderRoutes } from '../options/options'
 import { ExtractParams } from '../options/path'
 import { RouteRecordName } from '../options/name'
 import { RoutiderRouteRecord } from './route'
@@ -34,7 +34,7 @@ export type RoutiderLocation<
   Params<ParamNames, OptionalParamNames>
 
 type RoutesOfNames<
-  Routes extends RoutiderOptionsRoutes,
+  Routes extends RoutiderRoutes,
   Ns extends RouteNames<Routes>
 > = {
   [N in Ns]: Routes[N]
@@ -60,7 +60,7 @@ type UnionParamsOfRoutes<
  * Get Typed `RouteLocationNormalizedLoaded` from Route
  */
 export type RoutiderLocationOfNames<
-  Routes extends RoutiderOptionsRoutes,
+  Routes extends RoutiderRoutes,
   N extends RouteNames<Routes> | RouteNames<Routes>[]
 > = RoutiderLocation<
   IntersectionParamsOfRoutes<RoutesOfNames<Routes, EntityOrArrayToUnion<N>>>,

@@ -2,13 +2,13 @@ import { RouterOptions, RouteRecordRaw } from 'vue-router'
 import { RouteRecordName } from './name'
 import { RoutiderRouteRecord, pathToPathAndAlias } from '../route/route'
 
-export type RoutiderOptionsRoutes = Record<RouteRecordName, RoutiderRouteRecord>
+export type RoutiderRoutes = Record<RouteRecordName, RoutiderRouteRecord>
 
 export interface RoutiderOptions extends Omit<RouterOptions, 'routes'> {
-  routes: RoutiderOptionsRoutes
+  routes: RoutiderRoutes
 }
 
-export type RouteNames<Routes extends RoutiderOptionsRoutes> = keyof Routes
+export type RouteNames<Routes extends RoutiderRoutes> = keyof Routes
 
 export const routiderOptionsToRouterOptions = (
   options: RoutiderOptions

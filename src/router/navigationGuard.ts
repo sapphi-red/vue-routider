@@ -4,13 +4,13 @@ import {
   NavigationGuardNextCallback
 } from '../vue-router-utils'
 import { RoutiderLocation } from '../route/location'
-import { RoutiderOptionsRoutes } from '../options/options'
+import { RoutiderRoutes } from '../options/options'
 import { RoutiderRouteLocation } from './router'
 
 /**
  * Typed `NavigationGuardNext`
  */
-interface RoutiderNavigationGuardNext<Routes extends RoutiderOptionsRoutes> {
+interface RoutiderNavigationGuardNext<Routes extends RoutiderRoutes> {
   (): void
   (error: Error): void
   <N extends keyof Routes>(location: RoutiderRouteLocation<Routes, N>): void
@@ -23,7 +23,7 @@ interface RoutiderNavigationGuardNext<Routes extends RoutiderOptionsRoutes> {
  */
 export interface RoutiderNavigationGuardWithThis<
   T,
-  Routes extends RoutiderOptionsRoutes
+  Routes extends RoutiderRoutes
 > {
   (
     this: T,
@@ -48,7 +48,7 @@ export interface RoutiderPostNavigationGuard {
 /**
  * Typed `NavigationGuard`
  */
-export interface RoutiderNavigationGuard<Routes extends RoutiderOptionsRoutes> {
+export interface RoutiderNavigationGuard<Routes extends RoutiderRoutes> {
   (
     to: RoutiderLocation<undefined, undefined>,
     from: RoutiderLocation<undefined, undefined>,
