@@ -12,7 +12,7 @@ const getRouter = async (initPath = '/') => {
     template: '<div></div>'
   })
 
-  const { router: routerInstall, useRoute, useRouter } = createRoutider({
+  const obj = createRoutider({
     history: createMemoryHistory(),
     routes: {
       Index: {
@@ -36,9 +36,10 @@ const getRouter = async (initPath = '/') => {
       }
     }
   })
-  routerInstall.push(initPath)
-  await routerInstall.isReady()
-  return { routerInstall, useRoute, useRouter }
+  obj.router.push(initPath)
+  await obj.router.isReady()
+  const routerInstall = obj.router
+  return { routerInstall, ...obj }
 }
 
 const runInsideComponent = (routerInstall: Router, func: () => unknown) => {
@@ -186,7 +187,7 @@ describe('createRoutider', () => {
   })
 
   it('has no any or undefined param for beforeEach', async () => {
-    const { routerInstall, useRouter } = await getRouter('/')
+    const { routerInstall, useRouter } = await getRouter()
     runInsideComponent(routerInstall, () => {
       const router = useRouter()
       type BeforeEachParams = Parameters<
@@ -204,7 +205,7 @@ describe('createRoutider', () => {
     })
   })
   it('has no any or undefined param for beforeResolve', async () => {
-    const { routerInstall, useRouter } = await getRouter('/')
+    const { routerInstall, useRouter } = await getRouter()
     runInsideComponent(routerInstall, () => {
       const router = useRouter()
       type BeforeResolveParams = Parameters<
@@ -222,7 +223,7 @@ describe('createRoutider', () => {
     })
   })
   it('has no any or undefined param for afterEach', async () => {
-    const { routerInstall, useRouter } = await getRouter('/')
+    const { routerInstall, useRouter } = await getRouter()
     runInsideComponent(routerInstall, () => {
       const router = useRouter()
       type AfterEachParams = Parameters<Parameters<typeof router.afterEach>[0]>
@@ -236,5 +237,42 @@ describe('createRoutider', () => {
       isTypeEqual<AfterEachParams[2], any>(false)
       isTypeEqual<AfterEachParams[2], undefined>(false)
     })
+  })
+
+  it('has no any or undefined param for onBeforeRouteLeave', async () => {
+    const { onBeforeRouteLeave } = await getRouter()
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onBeforeRouteLeave(() => {})
+
+    type onBeforeRouteLeaveParams = Parameters<
+      Parameters<typeof onBeforeRouteLeave>[0]
+    >
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    isTypeEqual<onBeforeRouteLeaveParams[0], any>(false)
+    isTypeEqual<onBeforeRouteLeaveParams[0], undefined>(false)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    isTypeEqual<onBeforeRouteLeaveParams[1], any>(false)
+    isTypeEqual<onBeforeRouteLeaveParams[1], undefined>(false)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    isTypeEqual<onBeforeRouteLeaveParams[2], any>(false)
+    isTypeEqual<onBeforeRouteLeaveParams[2], undefined>(false)
+  })
+  it('has no any or undefined param for onBeforeRouteUpdate', async () => {
+    const { onBeforeRouteUpdate } = await getRouter()
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onBeforeRouteUpdate(() => {})
+
+    type onBeforeRouteUpdateParams = Parameters<
+      Parameters<typeof onBeforeRouteUpdate>[0]
+    >
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    isTypeEqual<onBeforeRouteUpdateParams[0], any>(false)
+    isTypeEqual<onBeforeRouteUpdateParams[0], undefined>(false)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    isTypeEqual<onBeforeRouteUpdateParams[1], any>(false)
+    isTypeEqual<onBeforeRouteUpdateParams[1], undefined>(false)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    isTypeEqual<onBeforeRouteUpdateParams[2], any>(false)
+    isTypeEqual<onBeforeRouteUpdateParams[2], undefined>(false)
   })
 })
