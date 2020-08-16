@@ -1,7 +1,12 @@
 import { RouteRecord } from 'vue-router'
-import { RoutiderRouteRecord, pathToPathAndAlias } from '#/route/route'
-import { isSubType } from '#/test-util'
+import { RoutiderRouteRecord, pathToPathAndAlias, createRoute } from '#/route/route'
+import { isSubType, isTypeEqual } from '#/test-util'
 import { createPath, createPaths } from '#/options/path'
+import { defineComponent } from 'vue'
+
+const Com = defineComponent({
+  template: '<div></div>'
+})
 
 describe('RoutiderRouteRecord compatibility', () => {
   it('has compatibility with RouteRecord', () => {
@@ -55,5 +60,29 @@ describe('pathToPathAndAlias', () => {
     expect(() => {
       pathToPathAndAlias([])
     }).toThrow()
+  })
+})
+
+describe('createRoute', () => {
+  it('can infer route type (1)', () => {
+    const route = createRoute({
+      path: '/',
+      component: Com
+    })
+    isTypeEqual<typeof route, RoutiderRouteRecord<undefined>>(true)
+  })
+  it('can infer route type (2)', () => {
+    const route = createRoute({
+      path: createPath`/`,
+      component: Com
+    })
+    isTypeEqual<typeof route, RoutiderRouteRecord<undefined>>(true)
+  })
+  it('can infer route type (3)', () => {
+    const route = createRoute({
+      path: createPath`/items/${'id'}`,
+      component: Com
+    })
+    isTypeEqual<typeof route, RoutiderRouteRecord<'id'>>(true)
   })
 })

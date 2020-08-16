@@ -9,7 +9,8 @@ import {
   RoutiderPath,
   RoutiderPaths,
   pathToString,
-  pathsToString
+  pathsToString,
+  ExtractParams
 } from '../options/path'
 import { RoutiderLocation } from './location'
 import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
@@ -127,6 +128,13 @@ export const pathToPathAndAlias = (
   return { path: pathProp, alias: pathStrings }
 }
 
+type ConvertToUndefinedIfStringPath<
+  Route extends RoutiderRouteRecord
+> = string extends ExtractParams<Route['path']>
+  ? RoutiderRouteRecord<undefined>
+  : Route
+
 export const createRoute = <T extends string | undefined>(
   route: RoutiderRouteRecord<T>
-): RoutiderRouteRecord<T> => route
+): ConvertToUndefinedIfStringPath<RoutiderRouteRecord<T>> =>
+  route as ConvertToUndefinedIfStringPath<RoutiderRouteRecord<T>>
