@@ -3,7 +3,7 @@
 Vue Routider is a slim wrapper for [Vue Router][].  
 It makes Vue Router type safe and has a very similar API.
 
-```ts
+```ts:f=router/index.ts
 import { createWebHistory } from 'vue-router'
 import { createRoutider, createPath, createPaths } from 'vue-routider'
 
