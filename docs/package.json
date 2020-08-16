@@ -9,6 +9,7 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "patch-package": "^6.2.2",
     "prismjs": "^1.21.0",
     "vue": "^3.0.0-rc.5",
     "vue-router": "^4.0.0-beta.6",
@@ -25,7 +26,6 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^7.0.0-beta.2",
     "markdown-it": "^11.0.0",
-    "patch-package": "^6.2.2",
     "prettier": "^2.0.5",
     "typescript": "^3.9.7",
     "vite": "^1.0.0-rc.4",
