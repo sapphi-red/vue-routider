@@ -4,6 +4,7 @@ import { VueComponent as Index } from '/@/pages/Index.md'
 import Hello from '/@/pages/Hello.vue'
 import { VueComponent as Example } from '/@/pages/example.md'
 import { VueComponent as RouteMatching } from '/@/pages/RouteMatching.md'
+import { VueComponent as Navigation } from '/@/pages/Navigation.md'
 import { VueComponent as RedirectAndAlias } from '/@/pages/RedirectAndAlias.md'
 import { VueComponent as Limitations } from '/@/pages/Limitations.md'
 
@@ -25,6 +26,10 @@ const routes = {
   RouteMatching: {
     path: '/route-matching',
     component: RouteMatching
+  },
+  Navigation: {
+    path: '/navigation',
+    component: Navigation
   },
   RedirectAndAlias: {
     path: '/redirect-and-alias',
