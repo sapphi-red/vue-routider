@@ -3,6 +3,7 @@ import { createWebHistory } from 'vue-router'
 import { VueComponent as Index } from '/@/pages/Index.md'
 import Hello from '/@/pages/Hello.vue'
 import { VueComponent as Example } from '/@/pages/example.md'
+import { VueComponent as RouteMatching } from '/@/pages/RouteMatching.md'
 import { VueComponent as Limitations } from '/@/pages/Limitations.md'
 
 const history = createWebHistory()
@@ -19,6 +20,10 @@ const routes = {
   Example: {
     path: '/example',
     component: Example
+  },
+  RouteMatching: {
+    path: '/route-matching',
+    component: RouteMatching
   },
   Limitations: {
     path: '/limitations',
