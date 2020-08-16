@@ -19,7 +19,7 @@ const wrapLines = (code: string, lines: string[]) =>
     .map(
       (line, i) =>
         `<div class="prismjs-line"${
-          lines.includes('' + i) ? ' data-is-highlight' : ''
+          lines.includes('' + (i + 1)) ? ' data-is-highlight' : ''
         }>${line}</div>`
     )
     .join('')
