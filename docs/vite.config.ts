@@ -6,7 +6,10 @@ const config: UserConfig = {
   alias: {
     '/@/': path.resolve(__dirname, 'src')
   },
-  plugins: [mdPlugin]
+  plugins: [mdPlugin],
+  optimizeDeps: {
+    exclude: ['patch-package']
+  }
 }
 
 export default config
