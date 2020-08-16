@@ -2,7 +2,7 @@
   "include": ["src", "types", "test"],
   "compilerOptions": {
     "module": "esnext",
-    "target": "ESNext",
+    "target": "es2019",
     "lib": ["dom", "esnext"],
     "importHelpers": true,
     "declaration": true,
