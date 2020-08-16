@@ -2,6 +2,7 @@ import { createRoutider } from 'vue-routider'
 import { createWebHistory } from 'vue-router'
 import Index from '/@/pages/Index.vue'
 import Hello from '/@/pages/Hello.vue'
+import { VueComponent as Example } from '/@/pages/example.md'
 
 const history = createWebHistory()
 
@@ -13,6 +14,10 @@ const routes = {
   Hello: {
     path: '/hello',
     component: Hello
+  },
+  Example: {
+    path: '/example',
+    component: Example
   }
 }
 
