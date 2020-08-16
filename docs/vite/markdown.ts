@@ -9,8 +9,11 @@ loadLanguages()
 const FileNamePrefix = 'f='
 const LinesPrefix = 'l='
 
-const findMeta = (metas: string[], prefix: string): string =>
-  (metas.find(s => s.startsWith(prefix)) ?? prefix).slice(prefix.length)
+const findMeta = (metas: string[], prefix: string): string => {
+  const meta = metas.find(s => s.startsWith(prefix))
+  if (!meta) return ''
+  return meta.slice(prefix.length)
+}
 
 const wrapLines = (code: string, lines: string[]) =>
   code
