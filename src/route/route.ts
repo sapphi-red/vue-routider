@@ -4,7 +4,7 @@
 // https://github.com/vuejs/vue-router-next/blob/master/LICENSE
 
 import { _RouteRecordBase } from 'vue-router'
-import { RawRouteComponent } from '../vue-router-utils'
+import { RawRouteComponent, NavigationGuardReturn } from '../vue-router-utils'
 import {
   RoutiderPath,
   RoutiderPaths,
@@ -12,6 +12,7 @@ import {
   pathsToString
 } from '../options/path'
 import { RoutiderLocation } from './location'
+import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
 
 /**
  * Typed _RouteRecordProps
@@ -28,11 +29,26 @@ type RoutiderRouteRecordRedirectOption<Params extends string | undefined> = (
 ) => unknown
 
 /**
+ * Typed `NavigationGuardWithThis` for beforeEnter
+ */
+export interface RoutiderBeforeEnterGuardWithThis<
+  T,
+  Params extends string | undefined
+> {
+  (
+    this: T,
+    to: RoutiderLocation<Params, undefined>,
+    from: RoutiderLocation<undefined, undefined>,
+    next: RoutiderNavigationGuardNext<Record<never, never>>
+  ): NavigationGuardReturn | Promise<NavigationGuardReturn>
+}
+
+/**
  * Typed RouteRecordBase
  */
 export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
   _RouteRecordBase,
-  'path' | 'name' | 'alias' | 'children' | 'redirect'
+  'path' | 'name' | 'alias' | 'children' | 'redirect' | 'beforeEnter'
 > & {
   /**
    * Path of the record. Should start with / unless the record is the child of another record.
@@ -46,6 +62,8 @@ export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
   children?: never
   redirect?: RoutiderRouteRecordRedirectOption<T>
   beforeEnter?:
+    | RoutiderBeforeEnterGuardWithThis<undefined, T>
+    | RoutiderBeforeEnterGuardWithThis<undefined, T>[]
 }
 
 interface RoutiderRouteRecordSingleView<T extends string | undefined>
