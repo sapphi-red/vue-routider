@@ -6,14 +6,17 @@ import {
 import { RoutiderLocation } from '../route/location'
 import { RoutiderRoutes } from '../options/options'
 import { RoutiderRouteLocation } from './router'
+import { ValidTypeLocation } from '../createRoutider'
 
 /**
  * Typed `NavigationGuardNext`
  */
-interface RoutiderNavigationGuardNext<Routes extends RoutiderRoutes> {
+export interface RoutiderNavigationGuardNext<Routes extends RoutiderRoutes> {
   (): void
   (error: Error): void
-  <N extends keyof Routes>(location: RoutiderRouteLocation<Routes, N>): void
+  <N extends keyof Routes>(
+    location: RoutiderRouteLocation<Routes, N> | ValidTypeLocation
+  ): void
   (valid: boolean): void
   (cb: NavigationGuardNextCallback): void
 }

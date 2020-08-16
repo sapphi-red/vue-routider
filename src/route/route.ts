@@ -4,17 +4,16 @@
 // https://github.com/vuejs/vue-router-next/blob/master/LICENSE
 
 import { _RouteRecordBase } from 'vue-router'
-import {
-  RawRouteComponent,
-  RouteRecordRedirectOption
-} from '../vue-router-utils'
+import { RawRouteComponent, NavigationGuardReturn } from '../vue-router-utils'
 import {
   RoutiderPath,
   RoutiderPaths,
   pathToString,
-  pathsToString
+  pathsToString,
+  ExtractParams
 } from '../options/path'
-import { RoutiderLocation } from './location'
+import { RoutiderLocation, RoutiderLocationN } from './location'
+import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
 
 /**
  * Typed _RouteRecordProps
@@ -26,12 +25,31 @@ export type _RouteRecordProps<Params extends string | undefined> =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | ((to: RoutiderLocation<Params, undefined>) => Record<string, any>)
 
+type RoutiderRouteRecordRedirectOption<Params extends string | undefined> = (
+  to: RoutiderLocation<Params, undefined>
+) => unknown
+
+/**
+ * Typed `NavigationGuardWithThis` for beforeEnter
+ */
+export interface RoutiderBeforeEnterGuardWithThis<
+  T,
+  Params extends string | undefined
+> {
+  (
+    this: T,
+    to: RoutiderLocationN<Params, undefined>,
+    from: RoutiderLocationN<undefined, undefined>,
+    next: RoutiderNavigationGuardNext<Record<never, never>>
+  ): NavigationGuardReturn | Promise<NavigationGuardReturn>
+}
+
 /**
  * Typed RouteRecordBase
  */
 export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
   _RouteRecordBase,
-  'path' | 'name' | 'alias' | 'children'
+  'path' | 'name' | 'alias' | 'children' | 'redirect' | 'beforeEnter'
 > & {
   /**
    * Path of the record. Should start with / unless the record is the child of another record.
@@ -43,6 +61,10 @@ export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
    * @see {@link https://github.com/sapphi-red/vue-routider/issues/4}
    */
   children?: never
+  redirect?: RoutiderRouteRecordRedirectOption<T>
+  beforeEnter?:
+    | RoutiderBeforeEnterGuardWithThis<undefined, T>
+    | RoutiderBeforeEnterGuardWithThis<undefined, T>[]
 }
 
 interface RoutiderRouteRecordSingleView<T extends string | undefined>
@@ -71,7 +93,7 @@ interface RoutiderRouteRecordMultipleViews<T extends string | undefined>
 }
 interface RoutiderRouteRecordRedirect<T extends string | undefined>
   extends _RoutiderRouteRecordBase<T> {
-  redirect: RouteRecordRedirectOption
+  redirect: RoutiderRouteRecordRedirectOption<T>
   component?: never
   components?: never
   children?: never
@@ -106,6 +128,13 @@ export const pathToPathAndAlias = (
   return { path: pathProp, alias: pathStrings }
 }
 
+type ConvertToUndefinedIfStringPath<
+  Route extends RoutiderRouteRecord
+> = string extends ExtractParams<Route['path']>
+  ? RoutiderRouteRecord<undefined>
+  : Route
+
 export const createRoute = <T extends string | undefined>(
   route: RoutiderRouteRecord<T>
-): RoutiderRouteRecord<T> => route
+): ConvertToUndefinedIfStringPath<RoutiderRouteRecord<T>> =>
+  route as ConvertToUndefinedIfStringPath<RoutiderRouteRecord<T>>

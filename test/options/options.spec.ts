@@ -1,6 +1,13 @@
-import { createPath, createPaths, RoutiderRoutes } from '#/index'
-import { isSubType } from '#/test-util'
+import {
+  createPath,
+  createPaths,
+  RoutiderRoutes,
+  createRoute,
+  createRoutider
+} from '#/index'
+import { isSubType, isSameType } from '#/test-util'
 import { defineComponent } from 'vue'
+import { createMemoryHistory } from 'vue-router'
 
 const com = defineComponent({})
 
@@ -58,6 +65,56 @@ describe('routiderOptions', () => {
       }
     }
     isSubType<RoutiderRoutes, typeof options>(true)
+  })
+
+  it('can declare redirect path', () => {
+    const routes = {
+      About: {
+        path: '/about',
+        component: com
+      },
+      Desc: createRoute({
+        path: createPath`/desc/${'id'}`,
+        redirect: to => {
+          isSameType<typeof to.params, { id: string | string[] }>(true)
+
+          const newTo: unknown = ensureLocationType({ name: 'About' })
+          return newTo
+        }
+      })
+    }
+
+    const { ensureLocationType } = createRoutider({
+      history: createMemoryHistory(),
+      routes
+    })
+
+    isSubType<RoutiderRoutes, typeof routes>(true)
+  })
+  it('can declare beforeEnter', () => {
+    const routes = {
+      Item: createRoute({
+        path: createPath`/item/${'id'}`,
+        component: com,
+        beforeEnter: (to, from, next) => {
+          isSameType<typeof to.params, { id: string | string[] }>(true)
+          isSameType<typeof from.params, Record<never, never>>(true)
+
+          const newTo = ensureLocationType({
+            name: 'Item',
+            params: { id: '1' }
+          })
+          next(newTo)
+        }
+      })
+    }
+
+    const { ensureLocationType } = createRoutider({
+      history: createMemoryHistory(),
+      routes
+    })
+
+    isSubType<RoutiderRoutes, typeof routes>(true)
   })
 
   it('can detect invalid path (1)', () => {

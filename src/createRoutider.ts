@@ -11,9 +11,16 @@ import {
   RouteNames,
   routiderOptionsToRouterOptions
 } from './options/options'
-import { RoutiderRouter, createRoutiderRouter } from './router/router'
+import {
+  RoutiderRouter,
+  createRoutiderRouter,
+  RoutiderRouteLocation
+} from './router/router'
 import { warnIfIncorrectRoute } from './route/checkRoute'
 import { RoutiderNavigationGuard } from './router/navigationGuard'
+
+declare const validTypeLocation: unique symbol
+export type ValidTypeLocation = typeof validTypeLocation
 
 interface Routider<O extends RoutiderOptions> {
   rawRouter: Router
@@ -30,6 +37,10 @@ interface Routider<O extends RoutiderOptions> {
   onBeforeRouteUpdate: (
     updateGuard: RoutiderNavigationGuard<O['routes']>
   ) => void
+
+  ensureLocationType<N extends RouteNames<O['routes']>>(
+    location: RoutiderRouteLocation<O['routes'], N>
+  ): RoutiderRouteLocation<O['routes'], N> & ValidTypeLocation
 }
 
 export const createRoutider = <O extends RoutiderOptions>(
@@ -66,12 +77,17 @@ export const createRoutider = <O extends RoutiderOptions>(
     onBeforeRouteUpdateVueRouter(updateGuard)
   }
 
+  const ensureLocationType = <N extends RouteNames<O['routes']>>(
+    location: RoutiderRouteLocation<O['routes'], N>
+  ) => location as RoutiderRouteLocation<O['routes'], N> & ValidTypeLocation
+
   return {
     rawRouter,
     router,
     useRouter,
     useRoute,
     onBeforeRouteLeave,
-    onBeforeRouteUpdate
+    onBeforeRouteUpdate,
+    ensureLocationType
   }
 }
