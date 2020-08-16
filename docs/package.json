@@ -1,0 +1,35 @@
+{
+  "name": "vue-routider-docs",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint --ext .js,.vue src",
+    "type-check": "tsc",
+    "postinstall": "patchpackage"
+  },
+  "dependencies": {
+    "prismjs": "^1.21.0",
+    "vue": "^3.0.0-rc.5",
+    "vue-router": "^4.0.0-beta.6",
+    "vue-routider": "^0.7.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^10.0.2",
+    "@types/prismjs": "^1.16.1",
+    "@typescript-eslint/eslint-plugin": "^3.9.0",
+    "@typescript-eslint/parser": "^3.9.0",
+    "@vue/compiler-sfc": "^3.0.0-rc.5",
+    "eslint": "^7.7.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-vue": "^7.0.0-beta.2",
+    "markdown-it": "^11.0.0",
+    "patch-package": "^6.2.2",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.7",
+    "vite": "^1.0.0-rc.4",
+    "vite-plugin-markdown": "^1.1.0"
+  },
+  "private": true
+}
