@@ -16,7 +16,8 @@ import { warnIfIncorrectRoute } from './route/checkRoute'
 import { RoutiderNavigationGuard } from './router/navigationGuard'
 
 interface Routider<O extends RoutiderOptions> {
-  router: Router
+  rawRouter: Router
+  router: RoutiderRouter<O>
   useRouter: () => RoutiderRouter<O>
   useRoute: <
     N extends RouteNames<O['routes']> | RouteNames<O['routes']>[] | null
@@ -35,9 +36,10 @@ export const createRoutider = <O extends RoutiderOptions>(
   options: O
 ): Routider<O> => {
   const routerOptions = routiderOptionsToRouterOptions(options)
-  const router = createRouter(routerOptions)
+  const rawRouter = createRouter(routerOptions)
+  const router = createRoutiderRouter<O>(rawRouter)
 
-  const useRouter = () => createRoutiderRouter<O>(router)
+  const useRouter = () => router
 
   const useRoute = <
     N extends RouteNames<O['routes']> | RouteNames<O['routes']>[] | null
@@ -65,6 +67,7 @@ export const createRoutider = <O extends RoutiderOptions>(
   }
 
   return {
+    rawRouter,
     router,
     useRouter,
     useRoute,

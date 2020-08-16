@@ -1,9 +1,5 @@
 import { Router, NavigationFailure, RouteLocationOptions } from 'vue-router'
-import {
-  RoutiderOptions,
-  RouteNames,
-  RoutiderOptionsRoutes
-} from '../options/options'
+import { RoutiderOptions, RouteNames, RoutiderRoutes } from '../options/options'
 import { RouteQueryAndHash } from '../vue-router-utils'
 import { ExtractParams } from '../options/path'
 import { RoutiderRouteRecord } from '../route/route'
@@ -26,7 +22,7 @@ type ParamsObjOfRouteName<
     }
 
 export type RoutiderRouteLocation<
-  Routes extends RoutiderOptionsRoutes,
+  Routes extends RoutiderRoutes,
   N extends keyof Routes
 > = RouteQueryAndHash & { name: N } & ParamsObjOfRouteName<Routes[N]> &
   RouteLocationOptions
