@@ -1,5 +1,9 @@
 import { RouteRecord } from 'vue-router'
-import { RoutiderRouteRecord, pathToPathAndAlias, createRoute } from '#/route/route'
+import {
+  RoutiderRouteRecord,
+  pathToPathAndAlias,
+  createRoute
+} from '#/route/route'
 import { isSubType, isTypeEqual } from '#/test-util'
 import { createPath, createPaths } from '#/options/path'
 import { defineComponent } from 'vue'

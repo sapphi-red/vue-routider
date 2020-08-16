@@ -76,7 +76,7 @@ describe('routiderOptions', () => {
       Desc: createRoute({
         path: createPath`/desc/${'id'}`,
         redirect: to => {
-          isSameType<typeof to.params, { id: string }>(true)
+          isSameType<typeof to.params, { id: string | string[] }>(true)
 
           const newTo: unknown = ensureLocationType({ name: 'About' })
           return newTo
@@ -97,7 +97,7 @@ describe('routiderOptions', () => {
         path: createPath`/item/${'id'}`,
         component: com,
         beforeEnter: (to, from, next) => {
-          isSameType<typeof to.params, { id: string }>(true)
+          isSameType<typeof to.params, { id: string | string[] }>(true)
           isSameType<typeof from.params, Record<never, never>>(true)
 
           const newTo = ensureLocationType({

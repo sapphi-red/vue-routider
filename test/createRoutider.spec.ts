@@ -122,14 +122,17 @@ describe('createRoutider', () => {
     const { routerInstall, useRoute } = await getRouter('/items/1')
     runInsideComponent(routerInstall, () => {
       const route = useRoute('Item')
-      isSameType<{ id: string }, typeof route.params>(true)
+      isSameType<{ id: string | string[] }, typeof route.params>(true)
     })
   })
   it('has typed route (2)', async () => {
     const { routerInstall, useRoute } = await getRouter('/users/1/1')
     runInsideComponent(routerInstall, () => {
       const route = useRoute('UserItem')
-      isSameType<{ userId: string; id: string }, typeof route.params>(true)
+      isSameType<
+        { userId: string | string[]; id: string | string[] },
+        typeof route.params
+      >(true)
     })
   })
   it('has typed route (3)', async () => {
@@ -151,14 +154,20 @@ describe('createRoutider', () => {
     const { routerInstall, useRoute } = await getRouter('/items/1')
     runInsideComponent(routerInstall, () => {
       const route = useRoute(['Item', 'UserItem'])
-      isSameType<{ userId?: string; id: string }, typeof route.params>(true)
+      isSameType<
+        { userId?: string | string[]; id: string | string[] },
+        typeof route.params
+      >(true)
     })
   })
   it('has union typed route', async () => {
     const { routerInstall, useRoute } = await getRouter('/about')
     runInsideComponent(routerInstall, () => {
       const route = useRoute(['Item', 'UserItem', 'About'])
-      isSameType<{ userId?: string; id?: string }, typeof route.params>(true)
+      isSameType<
+        { userId?: string | string[]; id?: string | string[] },
+        typeof route.params
+      >(true)
     })
   })
   it('has intersection typed route', async () => {
@@ -173,7 +182,10 @@ describe('createRoutider', () => {
     const { routerInstall, useRoute } = await getRouter('/')
     runInsideComponent(routerInstall, () => {
       const route = useRoute(null)
-      isSameType<Record<string, string | undefined>, typeof route.params>(true)
+      isSameType<
+        Record<string, string | string[] | undefined>,
+        typeof route.params
+      >(true)
     })
   })
 
@@ -282,9 +294,12 @@ describe('createRoutider', () => {
       const route = useRoute(null)
       const router = useRouter()
 
-      isSameType<Record<string, string | undefined>, typeof route.params>(true)
+      isSameType<
+        Record<string, string | string[] | undefined>,
+        typeof route.params
+      >(true)
       if (router.isRouteName(route, 'Item')) {
-        isSameType<{ id: string }, typeof route.params>(true)
+        isSameType<{ id: string | string[] }, typeof route.params>(true)
       }
       if (router.isRouteName(route, 'Index')) {
         isSameType<NeverRecord, typeof route.params>(true)
@@ -300,7 +315,7 @@ describe('createRoutider', () => {
 
       const optionalTypedRoute = router.getOptionalTypedRoute(route)
       isSameType<
-        { id?: string; userId?: string },
+        { id?: string | string[]; userId?: string | string[] },
         typeof optionalTypedRoute.params
       >(true)
     })

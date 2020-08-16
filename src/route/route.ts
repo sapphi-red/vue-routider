@@ -12,7 +12,7 @@ import {
   pathsToString,
   ExtractParams
 } from '../options/path'
-import { RoutiderLocation } from './location'
+import { RoutiderLocation, RoutiderLocationN } from './location'
 import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
 
 /**
@@ -38,8 +38,8 @@ export interface RoutiderBeforeEnterGuardWithThis<
 > {
   (
     this: T,
-    to: RoutiderLocation<Params, undefined>,
-    from: RoutiderLocation<undefined, undefined>,
+    to: RoutiderLocationN<Params, undefined>,
+    from: RoutiderLocationN<undefined, undefined>,
     next: RoutiderNavigationGuardNext<Record<never, never>>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }
