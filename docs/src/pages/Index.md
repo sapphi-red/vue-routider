@@ -32,4 +32,18 @@ export default router
 export { useRouter, useRoute }
 ```
 
+```ts:f=pages/Item.vue
+import { defineComponent } from 'vue'
+import { useRoute } from '../router'
+
+export default defineComponent({
+  setup() {
+    const route = useRoute('Item')
+    /*
+     * here type of `route.params` will become `{ id: string }`
+     */
+  }
+})
+```
+
 [Vue Router]: https://router.vuejs.org/
