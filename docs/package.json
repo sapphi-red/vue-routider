@@ -6,7 +6,7 @@
     "build": "vite build",
     "lint": "eslint --ext .js,.vue src",
     "type-check": "tsc",
-    "postinstall": "patchpackage"
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "prismjs": "^1.21.0",
