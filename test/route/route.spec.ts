@@ -6,7 +6,10 @@ import { createPath, createPaths } from '#/options/path'
 describe('RoutiderRouteRecord compatibility', () => {
   it('has compatibility with RouteRecord', () => {
     type Custom = Omit<RoutiderRouteRecord, 'path'>
-    type Original = Omit<RouteRecord, 'path' | 'name' | 'alias' | 'children'>
+    type Original = Omit<
+      RouteRecord,
+      'path' | 'name' | 'alias' | 'children' | 'redirect'
+    >
 
     isSubType<Custom, Original>(true)
   })

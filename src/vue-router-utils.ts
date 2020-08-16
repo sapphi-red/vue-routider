@@ -4,14 +4,10 @@
 // https://github.com/vuejs/vue-router-next/blob/master/LICENSE
 
 import { Component, ComponentPublicInstance } from 'vue'
-import { RouteLocationRaw, RouteLocation, LocationQueryRaw } from 'vue-router'
+import { RouteLocationRaw, LocationQueryRaw } from 'vue-router'
 
 type Lazy<T> = () => Promise<T>
 export type RawRouteComponent = Component | Lazy<Component>
-
-export type RouteRecordRedirectOption =
-  | RouteLocationRaw
-  | ((to: RouteLocation) => RouteLocationRaw)
 
 export interface RouteQueryAndHash {
   query?: LocationQueryRaw

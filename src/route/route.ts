@@ -4,10 +4,7 @@
 // https://github.com/vuejs/vue-router-next/blob/master/LICENSE
 
 import { _RouteRecordBase } from 'vue-router'
-import {
-  RawRouteComponent,
-  RouteRecordRedirectOption
-} from '../vue-router-utils'
+import { RawRouteComponent } from '../vue-router-utils'
 import {
   RoutiderPath,
   RoutiderPaths,
@@ -26,12 +23,16 @@ export type _RouteRecordProps<Params extends string | undefined> =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | ((to: RoutiderLocation<Params, undefined>) => Record<string, any>)
 
+type RoutiderRouteRecordRedirectOption<Params extends string | undefined> = (
+  to: RoutiderLocation<Params, undefined>
+) => unknown
+
 /**
  * Typed RouteRecordBase
  */
 export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
   _RouteRecordBase,
-  'path' | 'name' | 'alias' | 'children'
+  'path' | 'name' | 'alias' | 'children' | 'redirect'
 > & {
   /**
    * Path of the record. Should start with / unless the record is the child of another record.
@@ -43,6 +44,8 @@ export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
    * @see {@link https://github.com/sapphi-red/vue-routider/issues/4}
    */
   children?: never
+  redirect?: RoutiderRouteRecordRedirectOption<T>
+  beforeEnter?:
 }
 
 interface RoutiderRouteRecordSingleView<T extends string | undefined>
@@ -71,7 +74,7 @@ interface RoutiderRouteRecordMultipleViews<T extends string | undefined>
 }
 interface RoutiderRouteRecordRedirect<T extends string | undefined>
   extends _RoutiderRouteRecordBase<T> {
-  redirect: RouteRecordRedirectOption
+  redirect: RoutiderRouteRecordRedirectOption<T>
   component?: never
   components?: never
   children?: never
