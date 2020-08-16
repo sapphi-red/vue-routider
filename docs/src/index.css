@@ -6,3 +6,23 @@
   color: #2c3e50;
   margin-top: 60px;
 }
+
+.prismjs {
+  counter-reset: line;
+}
+.prismjs-line {
+  min-height: 1em;
+}
+.prismjs-line[data-is-highlight] {
+  background: rgba(255,255,255,.1);
+  filter: saturate(1.3);
+}
+.prismjs-line::before {
+  display: inline-block;
+  counter-increment: line;
+  content: counter(line);
+  width: 3ch;
+  margin-right: 1ch;
+  border-right: solid 1px currentColor;
+  text-align: right;
+}

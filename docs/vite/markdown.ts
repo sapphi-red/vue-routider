@@ -1,6 +1,10 @@
 import { markdownPlugin, Mode } from 'vite-plugin-markdown'
 import MarkdownIt from 'markdown-it'
-import hljs from 'highlight.js'
+import Prism from 'prismjs'
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const loadLanguages = require('prismjs/components/')
+loadLanguages()
 
 const FileNamePrefix = 'f='
 const LinesPrefix = 'l='
@@ -14,7 +18,7 @@ const wrapLines = (code: string, lines: string[]) =>
     .split('\n')
     .map(
       (line, i) =>
-        `<div class="hljs-line"${
+        `<div class="prismjs-line"${
           lines.includes('' + i) ? ' data-is-highlight' : ''
         }>${line}</div>`
     )
@@ -23,21 +27,26 @@ const wrapLines = (code: string, lines: string[]) =>
 const md = new MarkdownIt({
   highlight(code, meta) {
     const metas = meta.split(':')
-    const lang = metas[0]
+    let lang = metas[0]
     const filename = findMeta(metas, FileNamePrefix)
     const lines = findMeta(metas, LinesPrefix).split(',')
 
     let output = ''
-    if (lang && hljs.getLanguage(lang)) {
+    if (lang in Prism.languages) {
       try {
-        output = wrapLines(hljs.highlight(lang, code).value, lines)
+        output = wrapLines(
+          Prism.highlight(code, Prism.languages[lang], lang),
+          lines
+        )
         // eslint-disable-next-line no-empty
       } catch {}
+    } else {
+      lang = 'text'
     }
     if (output === '') {
       output = wrapLines(md.utils.escapeHtml(code), lines)
     }
-    return `<pre class="hljs"${
+    return `<pre class="prismjs language-${lang}"${
       filename !== '' ? ` data-filename="${filename}"` : ''
     }><code>${output}</code></pre>`
   }
