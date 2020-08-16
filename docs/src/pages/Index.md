@@ -14,19 +14,23 @@ const { router, useRouter, useRoute } = createRoutider({
   history: createWebHistory(),
   routes: {
     Index: {
-      path: '/' // use can just pass a string when it does not include params
+      path: '/', // use can just pass a string when it does not include params
+      component: /* something */
     },
     Item: {
-      path: createPath`/items/${'id'}`
+      path: createPath`/items/${'id'}`,
+      component: /* something */
     },
     UserItem: {
-      path: createPath`/users/${'userId'}/${'id'}`
+      path: createPath`/users/${'userId'}/${'id'}`,
+      component: /* something */
     },
     Users: {
       path: createPaths(
         createPath`/users/${'id'}`,
         createPath`/u/${'id'}`
-      ) // use createPaths for alias paths (you can use a array if it does not include params)
+      ), // use createPaths for alias paths (you can use a array if it does not include params)
+      component: /* something */
     }
   }
 })

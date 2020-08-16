@@ -1,12 +1,12 @@
 <template>
   <div class="routes">
     <a class="link" @click="moveTo({ name: routeNames[0] })">{{
-      routeNames[0].replace(/[A-Z]/g, m => m.toUpperCase())
+      routeNames[0].replace(/[A-Z]/g, m => ` ${m}`).slice(1)
     }}</a>
     <template v-for="name in routeNames.slice(1)">
       <span :key="name"> | </span>
       <a :key="name" class="link" @click="moveTo({ name })">{{
-        name.replace(/[A-Z]/g, m => m.toUpperCase())
+        name.replace(/[A-Z]/g, m => ` ${m}`).slice(1)
       }}</a>
     </template>
   </div>

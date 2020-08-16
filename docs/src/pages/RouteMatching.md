@@ -16,13 +16,13 @@ createPath`/items/${'id'}` // enclosing in '${' and '}' tells it is a param
 If it is a static route (which does not have any params),
 you can use a simple string as same as used in Vue Router.
 For example, the two below works same.
-```ts
+```ts:l=2
 {
   path: '/',
   component: /* something */
 }
 ```
-```ts
+```ts:l=2
 {
   path: createPath`/`,
   component: /* something */
