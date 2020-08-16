@@ -1,6 +1,6 @@
 import { createMemoryHistory, Router } from 'vue-router'
-import { createRoutider, createPath } from '#/index'
-import { isSameType, waitNavigation, isTypeEqual } from '#/test-util'
+import { createRoutider, createPath, ValidTypeLocation } from '#/index'
+import { isSameType, waitNavigation, isTypeEqual, isSubType } from '#/test-util'
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { createRoute } from '#/route/route'
@@ -319,5 +319,12 @@ describe('createRoutider', () => {
         typeof optionalTypedRoute.params
       >(true)
     })
+  })
+
+  it('can get ValidTypeLocation type by ensureLocationType', async () => {
+    const { ensureLocationType } = await getRouter('/')
+    const to = ensureLocationType({ name: 'Index' })
+
+    isSubType<ValidTypeLocation, typeof to>(true)
   })
 })
