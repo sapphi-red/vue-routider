@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <a @click="moveTo({ name: routeNames[0] })">{{
+  <div class="routes">
+    <a class="link" @click="moveTo({ name: routeNames[0] })">{{
       routeNames[0].replace(/[A-Z]/g, m => m.toUpperCase())
     }}</a>
     <template v-for="name in routeNames.slice(1)">
       <span :key="name"> | </span>
-      <a :key="name" @click="moveTo({ name })">{{
+      <a :key="name" class="link" @click="moveTo({ name })">{{
         name.replace(/[A-Z]/g, m => m.toUpperCase())
       }}</a>
     </template>
@@ -34,3 +34,16 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+.routes {
+  text-align: center;
+}
+
+.link {
+  cursor: pointer;
+}
+.link:hover {
+  text-decoration: underline;
+}
+</style>

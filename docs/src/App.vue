@@ -1,4 +1,5 @@
 <template>
+  <h1 class="title">Vue Routider</h1>
   <routes />
   <router-view />
 </template>
@@ -14,3 +15,10 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+.title {
+  text-align: center;
+  font-size: 3rem;
+}
+</style>
