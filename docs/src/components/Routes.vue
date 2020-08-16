@@ -1,8 +1,8 @@
 <template>
   <div>
-    <a @click="moveTo('Index')">Index</a>
+    <a @click="moveTo({ name: 'Index' })">Index</a>
     <span>|</span>
-    <a @click="moveTo('Hello')">Hello</a>
+    <a @click="moveTo({ name: 'Hello' })">Hello</a>
   </div>
 </template>
 
@@ -17,9 +17,9 @@ export default defineComponent({
     const router = useRouter()
 
     const moveTo = <N extends RouteNames<Routes>>(
-      name: RoutiderRouteLocation<Routes, N>
+      to: RoutiderRouteLocation<Routes, N>
     ) => {
-      router.push({ name })
+      router.push(to)
     }
 
     return { moveTo }
