@@ -1,6 +1,6 @@
 import { createRoutider } from 'vue-routider'
 import { createWebHistory } from 'vue-router'
-import Index from '/@/pages/Index.vue'
+import { VueComponent as Index } from '/@/pages/Index.md'
 import Hello from '/@/pages/Hello.vue'
 import { VueComponent as Example } from '/@/pages/example.md'
 
