@@ -61,6 +61,7 @@
   },
   "sideEffects": false,
   "browserslist": [
-    "last 1 chrome version"
+    "last 1 chrome version",
+    "node 12"
   ]
 }
