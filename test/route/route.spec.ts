@@ -1,4 +1,4 @@
-import { RouteRecord } from 'vue-router'
+import { RouteRecordRaw } from 'vue-router'
 import {
   RoutiderRouteRecord,
   pathToPathAndAlias,
@@ -13,14 +13,11 @@ const Com = defineComponent({
 })
 
 describe('RoutiderRouteRecord compatibility', () => {
-  it('has compatibility with RouteRecord', () => {
-    type Custom = Omit<RoutiderRouteRecord, 'path'>
-    type Original = Omit<
-      RouteRecord,
-      'path' | 'name' | 'alias' | 'children' | 'redirect'
-    >
+  it('has compatibility with RouteRecordRaw', () => {
+    type Original = Omit<RouteRecordRaw, 'path' | 'beforeEnter'>
+    type Custom = Omit<RoutiderRouteRecord, 'path' | 'beforeEnter'>
 
-    isSubType<Custom, Original>(true)
+    isSubType<Original, Custom>(true)
   })
 })
 

@@ -47,15 +47,21 @@ export interface RoutiderBeforeEnterGuardWithThis<
 /**
  * Typed RouteRecordBase
  */
-export type _RoutiderRouteRecordBase<T extends string | undefined> = Omit<
-  _RouteRecordBase,
-  'path' | 'name' | 'alias' | 'children' | 'redirect' | 'beforeEnter'
-> & {
+export interface _RoutiderRouteRecordBase<T extends string | undefined>
+  extends Omit<_RouteRecordBase, 'path' | 'beforeEnter'> {
+  /**
+   * `name` will be automatically set from key
+   */
+  name?: never
   /**
    * Path of the record. Should start with / unless the record is the child of another record.
    * @example createPath`/users/${'id'}` matches `/users/1` as well as `/users/posva`. '/users' matches only `/users`.
    */
   path: RoutiderPath<T> | string | RoutiderPaths<T> | string[]
+  /**
+   * Use `path` with an array for aliases.
+   */
+  alias?: never
   /**
    * Nested routes are not supported by vue-routider because of type inference limitations.
    * @see {@link https://github.com/sapphi-red/vue-routider/issues/4}
