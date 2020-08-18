@@ -1,21 +1,28 @@
 import { createRoutider } from 'vue-routider'
 import { createWebHistory } from 'vue-router'
-import { VueComponent as Index } from '/@/pages/Index.md'
+import { VueComponent as Introduction } from '/@/pages/Introduction.md'
 import { VueComponent as RouteMatching } from '/@/pages/RouteMatching.md'
+import { VueComponent as useRoutePage } from '/@/pages/useRoute.md'
 import { VueComponent as Navigation } from '/@/pages/Navigation.md'
 import { VueComponent as RedirectAndAlias } from '/@/pages/RedirectAndAlias.md'
+import { VueComponent as NavigationGuards } from '/@/pages/NavigationGuards.md'
+import { VueComponent as RouteTypeGuards } from '/@/pages/RouteTypeGuards.md'
 import { VueComponent as Limitations } from '/@/pages/Limitations.md'
 
 const history = createWebHistory()
 
 export const routes = {
-  Index: {
+  Introduction: {
     path: '/',
-    component: Index
+    component: Introduction
   },
   RouteMatching: {
     path: '/route-matching',
     component: RouteMatching
+  },
+  useRoute: {
+    path: '/use-route',
+    component: useRoutePage
   },
   Navigation: {
     path: '/navigation',
@@ -24,6 +31,14 @@ export const routes = {
   RedirectAndAlias: {
     path: '/redirect-and-alias',
     component: RedirectAndAlias
+  },
+  NavigationGuards: {
+    path: '/navigation-guards',
+    component: NavigationGuards
+  },
+  RouteTypeGuards: {
+    path: '/route-type-guards',
+    component: RouteTypeGuards
   },
   Limitations: {
     path: '/limitations',

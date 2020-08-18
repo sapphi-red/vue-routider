@@ -1,10 +1,12 @@
 # Introduction
 
+See [GitHub][] or [npm][] to install.  
+  
 Vue Routider is a slim wrapper for [Vue Router][].  
 It makes Vue Router type safe and has a very similar API.  
   
-We pass a object which has a key of route name and a value of route
-with Vue Routider while Vue Router requires an array of routes.
+Vue Routider requires a object which has a key of route name and a value of route
+while Vue Router requires an array of routes.
 
 ```ts:f=router/index.ts
 import { createWebHistory } from 'vue-router'
@@ -26,10 +28,11 @@ const { router, useRouter, useRoute } = createRoutider({
       component: /* something */
     },
     Users: {
+      // use createPaths for alias paths (you can use an array if it does not include params)
       path: createPaths(
         createPath`/users/${'id'}`,
         createPath`/u/${'id'}`
-      ), // use createPaths for alias paths (you can use a array if it does not include params)
+      ),
       component: /* something */
     }
   }
@@ -46,11 +49,11 @@ import { useRoute } from '../router'
 export default defineComponent({
   setup() {
     const route = useRoute('Item')
-    /*
-     * here type of `route.params` will become `{ id: string }`
-     */
+    // here type of `route.params` will become `{ id: string | string[] }`
   }
 })
 ```
 
+[GitHub]: https://github.com/sapphi-red/vue-routider
+[npm]: https://www.npmjs.com/package/vue-routider
 [Vue Router]: https://router.vuejs.org/
