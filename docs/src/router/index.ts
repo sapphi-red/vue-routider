@@ -1,6 +1,6 @@
 import { createRoutider } from 'vue-routider'
 import { createWebHistory } from 'vue-router'
-import { VueComponent as Index } from '/@/pages/Index.md'
+import { VueComponent as Introduction } from '/@/pages/Introduction.md'
 import { VueComponent as RouteMatching } from '/@/pages/RouteMatching.md'
 import { VueComponent as UseRoute } from '/@/pages/UseRoute.md'
 import { VueComponent as Navigation } from '/@/pages/Navigation.md'
@@ -12,9 +12,9 @@ import { VueComponent as Limitations } from '/@/pages/Limitations.md'
 const history = createWebHistory()
 
 export const routes = {
-  Index: {
+  Introduction: {
     path: '/',
-    component: Index
+    component: Introduction
   },
   RouteMatching: {
     path: '/route-matching',
