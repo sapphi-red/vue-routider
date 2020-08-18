@@ -2,6 +2,7 @@ import { createRoutider } from 'vue-routider'
 import { createWebHistory } from 'vue-router'
 import { VueComponent as Index } from '/@/pages/Index.md'
 import { VueComponent as RouteMatching } from '/@/pages/RouteMatching.md'
+import { VueComponent as UseRoute } from '/@/pages/UseRoute.md'
 import { VueComponent as Navigation } from '/@/pages/Navigation.md'
 import { VueComponent as RedirectAndAlias } from '/@/pages/RedirectAndAlias.md'
 import { VueComponent as NavigationGuards } from '/@/pages/NavigationGuards.md'
@@ -18,6 +19,10 @@ export const routes = {
   RouteMatching: {
     path: '/route-matching',
     component: RouteMatching
+  },
+  UseRoute: {
+    path: '/use-route',
+    component: UseRoute
   },
   Navigation: {
     path: '/navigation',
