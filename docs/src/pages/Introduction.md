@@ -1,10 +1,13 @@
 # Introduction
 
+[GitHub](https://github.com/sapphi-red/vue-routider)  
+[npm](https://www.npmjs.com/package/vue-routider)  
+  
 Vue Routider is a slim wrapper for [Vue Router][].  
 It makes Vue Router type safe and has a very similar API.  
   
-We pass a object which has a key of route name and a value of route
-with Vue Routider while Vue Router requires an array of routes.
+Vue Routider requires a object which has a key of route name and a value of route
+while Vue Router requires an array of routes.
 
 ```ts:f=router/index.ts
 import { createWebHistory } from 'vue-router'
