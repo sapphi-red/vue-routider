@@ -5,6 +5,7 @@
 [![codecov](https://codecov.io/gh/sapphi-red/vue-routider/branch/master/graph/badge.svg)](https://codecov.io/gh/sapphi-red/vue-routider)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=sapphi-red/vue-routider)](https://dependabot.com)
 [![bundlephobia](https://badgen.net/bundlephobia/min/vue-routider)](https://bundlephobia.com/result?p=vue-routider)
+[![bundlephobia](https://badgen.net/bundlephobia/minzip/vue-routider)](https://bundlephobia.com/result?p=vue-routider)
 
 Make vue-router type safe.
 (Not compatible with vue-router@3)
