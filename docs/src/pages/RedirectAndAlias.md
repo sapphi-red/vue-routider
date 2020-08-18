@@ -1,5 +1,35 @@
 # Redirect and Alias
 
+## Redirect
+
+With Vue Router we wrote like below in `routes` for redirecting.
+```ts:l=3
+{
+  path: '/a',
+  redirect: '/b'
+}
+```
+
+With Vue Routider we write like this.
+```ts:l=4,5,6,7,8,9
+const routes = {
+  Desc: createRoute({
+    path: '/a',
+    redirect: to => {
+      // `: unknown` is necessary here for avoiding circular type inference
+      // use `ensureLocationType` to only accept valid routes
+      const newTo: unknown = ensureLocationType({ name: 'About' })
+      return newTo
+    }
+  })
+}
+
+const { ensureLocationType } = createRoutider({
+  history: /* something */,
+  routes
+})
+```
+
 ## Alias Routes
 
 With Vue Router we wrote like below to create aliases.
