@@ -4,6 +4,7 @@ import { VueComponent as Index } from '/@/pages/Index.md'
 import { VueComponent as RouteMatching } from '/@/pages/RouteMatching.md'
 import { VueComponent as Navigation } from '/@/pages/Navigation.md'
 import { VueComponent as RedirectAndAlias } from '/@/pages/RedirectAndAlias.md'
+import { VueComponent as NavigationGuards } from '/@/pages/NavigationGuards.md'
 import { VueComponent as Limitations } from '/@/pages/Limitations.md'
 
 const history = createWebHistory()
@@ -24,6 +25,10 @@ export const routes = {
   RedirectAndAlias: {
     path: '/redirect-and-alias',
     component: RedirectAndAlias
+  },
+  NavigationGuards: {
+    path: '/navigation-guards',
+    component: NavigationGuards
   },
   Limitations: {
     path: '/limitations',
