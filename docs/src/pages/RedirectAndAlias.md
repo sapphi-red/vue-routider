@@ -13,6 +13,7 @@ With Vue Router we wrote like below in `routes` for redirecting.
 With Vue Routider we write like this.
 ```ts:l=4,5,6,7,8,9
 const routes = {
+  // createRoute is necessary for correct type inference
   Desc: createRoute({
     path: '/a',
     redirect: to => {

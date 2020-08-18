@@ -47,7 +47,7 @@ export default defineComponent({
   setup() {
     const route = useRoute('Item')
     /*
-     * here type of `route.params` will become `{ id: string }`
+     * here type of `route.params` will become `{ id: string | string[] }`
      */
   }
 })
