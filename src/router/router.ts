@@ -28,6 +28,9 @@ export type RoutiderRouteLocation<
   RouteLocationOptions
 
 export interface RoutiderRouter<O extends RoutiderOptions> extends Router {
+  addRoute: never
+  removeRoute: never
+
   push<N extends RouteNames<O['routes']>>(
     to: RoutiderRouteLocation<O['routes'], N>
   ): Promise<NavigationFailure | void | undefined>
