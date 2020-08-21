@@ -1,6 +1,8 @@
-import { NavigationFailure } from 'vue-router'
+import { NavigationFailure, createMemoryHistory, Router } from 'vue-router'
 import { Equal, Same, IsNotAnyOrUndefined } from './type'
-import { RoutiderRouter } from './router/router'
+import { defineComponent } from 'vue'
+import { RoutiderRouter, createRoutider, createRoute, createPath } from '.'
+import { mount } from '@vue/test-utils'
 
 export const isTypeEqual = <Left, Right>(
   shouldBeEqual: Equal<Left, Right>
@@ -53,4 +55,55 @@ export const waitNavigation = async (
       })
     }
   )
+}
+
+export const getSkeletonRouter = async (
+  initPath = '/'
+): Promise<{ routerInstall: Router } & typeof obj> => {
+  const Com = defineComponent({
+    template: '<div></div>'
+  })
+
+  const obj = createRoutider({
+    history: createMemoryHistory(),
+    routes: {
+      Index: {
+        path: '/',
+        component: Com
+      },
+      Item: createRoute({
+        path: createPath`/items/${'id'}`,
+        component: Com,
+        props: to => {
+          return { id: to.params.id }
+        }
+      }),
+      UserItem: {
+        path: createPath`/users/${'userId'}/${'id'}`,
+        component: Com
+      },
+      About: {
+        path: createPath`/about`,
+        component: Com
+      }
+    }
+  })
+  obj.rawRouter.push(initPath)
+  await obj.rawRouter.isReady()
+  const routerInstall = obj.router
+  return { routerInstall, ...obj }
+}
+
+export const runInsideComponent = (
+  routerInstall: Router,
+  func: () => unknown
+): void => {
+  const Com = defineComponent({
+    template: '<div></div>',
+    setup() {
+      func()
+      return {}
+    }
+  })
+  mount(Com, { global: { plugins: [routerInstall] } })
 }

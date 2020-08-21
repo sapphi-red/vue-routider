@@ -22,7 +22,7 @@ import { RoutiderNavigationGuard } from './router/navigationGuard'
 declare const validTypeLocation: unique symbol
 export type ValidTypeLocation = typeof validTypeLocation
 
-interface Routider<O extends RoutiderOptions> {
+export interface Routider<O extends RoutiderOptions> {
   rawRouter: Router
   router: RoutiderRouter<O>
   useRouter: () => RoutiderRouter<O>
