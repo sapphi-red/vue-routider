@@ -47,9 +47,9 @@ export type RoutiderLocation<
 
 type RoutesOfNames<
   Routes extends RoutiderRoutes,
-  Ns extends RouteNames<Routes>
+  Ns extends RouteNames<Routes> | RouteNames<Routes>[]
 > = {
-  [N in Ns]: Routes[N]
+  [N in EntityOrArrayToUnion<Ns>]: Routes[N]
 }
 
 type IntersectionParamsOfRoutes<
@@ -75,6 +75,6 @@ export type RoutiderLocationOfNames<
   Routes extends RoutiderRoutes,
   N extends RouteNames<Routes> | RouteNames<Routes>[]
 > = RoutiderLocation<
-  IntersectionParamsOfRoutes<RoutesOfNames<Routes, EntityOrArrayToUnion<N>>>,
-  UnionParamsOfRoutes<RoutesOfNames<Routes, EntityOrArrayToUnion<N>>>
+  IntersectionParamsOfRoutes<RoutesOfNames<Routes, N>>,
+  UnionParamsOfRoutes<RoutesOfNames<Routes, N>>
 >

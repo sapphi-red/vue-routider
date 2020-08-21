@@ -49,7 +49,7 @@ export interface RoutiderRouter<O extends RoutiderOptions> extends Router {
   ): location is RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
   getOptionalTypedRoute(
     location: RoutiderLocation<undefined, undefined>
-  ): RoutiderLocationOfNames<O['routes'], keyof O['routes']>
+  ): RoutiderLocationOfNames<O['routes'], RouteNames<O['routes']>>
 }
 
 export const createRoutiderRouter = <O extends RoutiderOptions>(
@@ -62,7 +62,7 @@ export const createRoutiderRouter = <O extends RoutiderOptions>(
     name === location.name
   const getOptionalTypedRoute = (
     location: RoutiderLocation<undefined, undefined>
-  ) => location as RoutiderLocationOfNames<O['routes'], keyof O['routes']>
+  ) => location as RoutiderLocationOfNames<O['routes'], RouteNames<O['routes']>>
 
   return { ...router, isRouteName, getOptionalTypedRoute } as RoutiderRouter<O>
 }

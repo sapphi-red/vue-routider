@@ -8,7 +8,12 @@ export interface RoutiderOptions extends Omit<RouterOptions, 'routes'> {
   routes: RoutiderRoutes
 }
 
-export type RouteNames<Routes extends RoutiderRoutes> = keyof Routes
+export type RouteNames<Routes extends RoutiderRoutes> = Routes extends Record<
+  infer K,
+  unknown
+>
+  ? K
+  : never
 
 export const routiderOptionsToRouterOptions = (
   options: RoutiderOptions
