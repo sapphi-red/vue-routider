@@ -23,4 +23,15 @@ describe('createQueries', () => {
     expect(query).toStrictEqual(['one', 'two'])
     isTypeEqual<Array<'one' | 'two'>, typeof query>(true)
   })
+
+  it('should warn if it includes same string (1)', () => {
+    console.warn = jest.fn()
+    createQueries('id', 'id')
+    expect(console.warn).toBeCalled()
+  })
+  it('should warn if it includes same string (2)', () => {
+    console.warn = jest.fn()
+    createQueries('id', 'id2', 'id')
+    expect(console.warn).toBeCalled()
+  })
 })

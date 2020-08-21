@@ -2,8 +2,23 @@ import { RoutiderRouteRecord } from '../route/route'
 import { LocationQuery } from 'vue-router'
 import { IfNotString } from '../type'
 
-export const createQueries = <T extends string>(...queries: [T, ...T[]]): T[] =>
-  queries
+export const createQueries = <T extends string>(
+  ...queries: [T, ...T[]]
+): T[] => {
+  if (__DEV__) {
+    const qs = new Set<T>()
+    for (const q of queries) {
+      if (qs.has(q)) {
+        console.warn(
+          `vue-routider: duplicated query key was passed to createQueries. (${q})`
+        )
+      }
+      qs.add(q)
+    }
+  }
+
+  return queries
+}
 
 export type ExtractQueries<
   Route extends RoutiderRouteRecord
