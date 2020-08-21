@@ -2,6 +2,8 @@
 
 - Nested routes are not supported. [#4][]
 - `<router-link>` is not supported. [#15][]
+- Adding routes dynamically is not supported.
+  - `router.addRoute`/`router.removeRoute` is disabled. Although you can call this function using `as Router`. This will break types of `router.push` and so on.
 - Alias paths' type check would not work correctly with more than 10 paths. (Simillar with `Promise.all`.)
 
 [#4]: https://github.com/sapphi-red/vue-routider/issues/4
