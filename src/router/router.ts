@@ -41,14 +41,14 @@ export interface RoutiderRouter<O extends RoutiderOptions> extends Router {
   beforeResolve(
     guard: RoutiderNavigationGuardWithThis<undefined, O['routes']>
   ): () => void
-  afterEach(guard: RoutiderPostNavigationGuard): () => void
+  afterEach(guard: RoutiderPostNavigationGuard<O['routes']>): () => void
 
   isRouteName<N extends RouteNames<O['routes']>>(
-    location: RoutiderLocation<undefined, undefined>,
+    location: RoutiderLocation<undefined, undefined, RouteNames<O['routes']>>,
     name: N
   ): location is RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
   getOptionalTypedRoute(
-    location: RoutiderLocation<undefined, undefined>
+    location: RoutiderLocation<undefined, undefined, RouteNames<O['routes']>>
   ): RoutiderLocationOfNames<O['routes'], RouteNames<O['routes']>>
 }
 
@@ -56,12 +56,12 @@ export const createRoutiderRouter = <O extends RoutiderOptions>(
   router: Router
 ): RoutiderRouter<O> => {
   const isRouteName = <N extends RouteNames<O['routes']>>(
-    location: RoutiderLocation<undefined, undefined>,
+    location: RoutiderLocation<undefined, undefined, RouteNames<O['routes']>>,
     name: N
   ): location is RoutiderLocationOfNames<O['routes'], Exclude<N, null>> =>
     name === location.name
   const getOptionalTypedRoute = (
-    location: RoutiderLocation<undefined, undefined>
+    location: RoutiderLocation<undefined, undefined, RouteNames<O['routes']>>
   ) => location as RoutiderLocationOfNames<O['routes'], RouteNames<O['routes']>>
 
   return { ...router, isRouteName, getOptionalTypedRoute } as RoutiderRouter<O>

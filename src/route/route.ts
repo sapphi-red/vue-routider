@@ -14,32 +14,40 @@ import {
 } from '../options/path'
 import { RoutiderLocation, RoutiderLocationN } from './location'
 import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
+import { RouteRecordName } from '../options/name'
 
 /**
  * Typed _RouteRecordProps
  */
-export type _RouteRecordProps<Params extends string | undefined> =
+export type _RouteRecordProps<
+  Params extends string | undefined,
+  RouteName extends RouteRecordName = RouteRecordName
+> =
   | boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | Record<string, any>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | ((to: RoutiderLocation<Params, undefined>) => Record<string, any>)
+  | ((
+      to: RoutiderLocation<Params, undefined, RouteName>
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ) => Record<string, any>)
 
-type RoutiderRouteRecordRedirectOption<Params extends string | undefined> = (
-  to: RoutiderLocation<Params, undefined>
-) => unknown
+type RoutiderRouteRecordRedirectOption<
+  Params extends string | undefined,
+  RouteName extends RouteRecordName = RouteRecordName
+> = (to: RoutiderLocation<Params, undefined, RouteName>) => unknown
 
 /**
  * Typed `NavigationGuardWithThis` for beforeEnter
  */
 export interface RoutiderBeforeEnterGuardWithThis<
   T,
-  Params extends string | undefined
+  Params extends string | undefined,
+  RouteName extends RouteRecordName = RouteRecordName
 > {
   (
     this: T,
-    to: RoutiderLocationN<Params, undefined>,
-    from: RoutiderLocationN<undefined, undefined>,
+    to: RoutiderLocationN<Params, undefined, RouteName>,
+    from: RoutiderLocationN<undefined, undefined, RouteName>,
     next: RoutiderNavigationGuardNext<Record<never, never>>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }

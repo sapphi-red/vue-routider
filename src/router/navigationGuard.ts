@@ -4,7 +4,7 @@ import {
   NavigationGuardNextCallback
 } from '../vue-router-utils'
 import { RoutiderLocation } from '../route/location'
-import { RoutiderRoutes } from '../options/options'
+import { RoutiderRoutes, RouteNames } from '../options/options'
 import { RoutiderRouteLocation } from './router'
 import { ValidTypeLocation } from '../createRoutider'
 
@@ -30,8 +30,8 @@ export interface RoutiderNavigationGuardWithThis<
 > {
   (
     this: T,
-    to: RoutiderLocation<undefined, undefined>,
-    from: RoutiderLocation<undefined, undefined>,
+    to: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
+    from: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
     next: RoutiderNavigationGuardNext<Routes>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }
@@ -39,10 +39,10 @@ export interface RoutiderNavigationGuardWithThis<
 /**
  * Typed `PostNavigationGuard`
  */
-export interface RoutiderPostNavigationGuard {
+export interface RoutiderPostNavigationGuard<Routes extends RoutiderRoutes> {
   (
-    to: RoutiderLocation<undefined, undefined>,
-    from: RoutiderLocation<undefined, undefined>,
+    to: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
+    from: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
     failure?: NavigationFailure | void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any
@@ -53,8 +53,8 @@ export interface RoutiderPostNavigationGuard {
  */
 export interface RoutiderNavigationGuard<Routes extends RoutiderRoutes> {
   (
-    to: RoutiderLocation<undefined, undefined>,
-    from: RoutiderLocation<undefined, undefined>,
+    to: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
+    from: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
     next: RoutiderNavigationGuardNext<Routes>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }

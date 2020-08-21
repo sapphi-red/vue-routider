@@ -32,18 +32,22 @@ export interface Params<
  */
 export type RoutiderLocationN<
   ParamNames extends string | undefined,
-  OptionalParamNames extends string | undefined
-> = Omit<RouteLocationNormalized, 'params'> &
-  Params<ParamNames, OptionalParamNames>
+  OptionalParamNames extends string | undefined,
+  RouteName extends RouteNames<RoutiderRoutes>
+> = Omit<RouteLocationNormalized, 'params'> & {
+  name: RouteName
+} & Params<ParamNames, OptionalParamNames>
 
 /**
  * Typed `RouteLocationNormalizedLoaded`
  */
 export type RoutiderLocation<
   ParamNames extends string | undefined,
-  OptionalParamNames extends string | undefined
-> = Omit<RouteLocationNormalizedLoaded, 'params'> &
-  Params<ParamNames, OptionalParamNames>
+  OptionalParamNames extends string | undefined,
+  RouteName extends RouteNames<RoutiderRoutes>
+> = Omit<RouteLocationNormalizedLoaded, 'params'> & {
+  name: RouteName
+} & Params<ParamNames, OptionalParamNames>
 
 type RoutesOfNames<
   Routes extends RoutiderRoutes,
@@ -76,5 +80,6 @@ export type RoutiderLocationOfNames<
   N extends RouteNames<Routes> | RouteNames<Routes>[]
 > = RoutiderLocation<
   IntersectionParamsOfRoutes<RoutesOfNames<Routes, N>>,
-  UnionParamsOfRoutes<RoutesOfNames<Routes, N>>
+  UnionParamsOfRoutes<RoutesOfNames<Routes, N>>,
+  EntityOrArrayToUnion<N>
 >

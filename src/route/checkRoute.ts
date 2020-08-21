@@ -1,6 +1,7 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router'
 import { RouteNames, RoutiderRoutes } from '../options/options'
 import warning from 'tiny-warning'
+import { RouteRecordName } from '../options/name'
 
 export const warnIfIncorrectRoute = <Routes extends RoutiderRoutes>(
   route: RouteLocationNormalizedLoaded,
@@ -11,7 +12,7 @@ export const warnIfIncorrectRoute = <Routes extends RoutiderRoutes>(
   const matchedName = route.matched[0]?.name
   if (matchedName === undefined) return
 
-  const names = Array.isArray(name) ? name : [name]
+  const names: RouteRecordName[] = Array.isArray(name) ? name : [name]
   warning(
     names.includes(matchedName),
     `vue-routider: Incorrect useRoute usage. Path is now matched '${String(

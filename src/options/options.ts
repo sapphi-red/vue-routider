@@ -19,11 +19,11 @@ export const routiderOptionsToRouterOptions = (
   options: RoutiderOptions
 ): RouterOptions => {
   const routes = Object.entries(options.routes).map(
-    ([name, route]): RouteRecordRaw => ({
+    ([name, route]): Omit<RouteRecordRaw, 'beforeEnter'> => ({
       ...route,
       name,
       ...pathToPathAndAlias(route.path)
     })
-  )
+  ) as RouteRecordRaw[]
   return { ...options, routes }
 }
