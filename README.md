@@ -10,6 +10,8 @@
 Make vue-router type safe.
 (Not compatible with vue-router@3)
 
+[Documents](https://vue-routider.sapphi.red/)
+
 ## Installation
 ```shell
 $ npm i vue@next vue-router@next vue-routider
