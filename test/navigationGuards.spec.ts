@@ -6,6 +6,7 @@ import { createPath } from '#/options/path'
 import { mount } from '@vue/test-utils'
 import { RoutiderLocation } from '#/route/location'
 import { RoutiderNavigationGuardNext } from '#/router/navigationGuard'
+import { RouteNames } from '#/options/options'
 
 const AppCom = defineComponent({
   template: '<router-view />'
@@ -41,10 +42,15 @@ const setupRouter = async () => {
 describe('navigationGuards', () => {
   it('should be called and has correct type (beforeEach)', async done => {
     const { routes, router } = await setupRouter()
+    type UnknownLocation = RoutiderLocation<
+      undefined,
+      undefined,
+      RouteNames<typeof routes>
+    >
 
     router.beforeEach((to, from, next) => {
-      isTypeEqual<typeof to, RoutiderLocation<undefined, undefined>>(true)
-      isTypeEqual<typeof from, RoutiderLocation<undefined, undefined>>(true)
+      isTypeEqual<typeof to, UnknownLocation>(true)
+      isTypeEqual<typeof from, UnknownLocation>(true)
       isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(true)
 
       expect(to.name).toBe('Item')
@@ -57,10 +63,15 @@ describe('navigationGuards', () => {
   })
   it('should be called and has correct type (beforeResolve)', async done => {
     const { routes, router } = await setupRouter()
+    type UnknownLocation = RoutiderLocation<
+      undefined,
+      undefined,
+      RouteNames<typeof routes>
+    >
 
     router.beforeResolve((to, from, next) => {
-      isTypeEqual<typeof to, RoutiderLocation<undefined, undefined>>(true)
-      isTypeEqual<typeof from, RoutiderLocation<undefined, undefined>>(true)
+      isTypeEqual<typeof to, UnknownLocation>(true)
+      isTypeEqual<typeof from, UnknownLocation>(true)
       isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(true)
 
       expect(to.name).toBe('Item')
@@ -72,11 +83,16 @@ describe('navigationGuards', () => {
     router.push({ name: 'Item', params: { id: '1' } })
   })
   it('should be called and has correct type (afterEach)', async done => {
-    const { router } = await setupRouter()
+    const { routes, router } = await setupRouter()
+    type UnknownLocation = RoutiderLocation<
+      undefined,
+      undefined,
+      RouteNames<typeof routes>
+    >
 
     router.afterEach((to, from, next) => {
-      isTypeEqual<typeof to, RoutiderLocation<undefined, undefined>>(true)
-      isTypeEqual<typeof from, RoutiderLocation<undefined, undefined>>(true)
+      isTypeEqual<typeof to, UnknownLocation>(true)
+      isTypeEqual<typeof from, UnknownLocation>(true)
       isTypeEqual<typeof next, undefined | NavigationFailure | void>(true)
 
       expect(to.name).toBe('Item')
@@ -88,12 +104,18 @@ describe('navigationGuards', () => {
   })
 
   it('should be called and has correct type (onBeforeRouteLeave)', async done => {
+    type UnknownLocation = RoutiderLocation<
+      undefined,
+      undefined,
+      RouteNames<typeof routes>
+    >
+
     const IndexCom = defineComponent({
       template: '<div></div>',
       setup() {
         onBeforeRouteLeave((to, from, next) => {
-          isTypeEqual<typeof to, RoutiderLocation<undefined, undefined>>(true)
-          isTypeEqual<typeof from, RoutiderLocation<undefined, undefined>>(true)
+          isTypeEqual<typeof to, UnknownLocation>(true)
+          isTypeEqual<typeof from, UnknownLocation>(true)
           isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(
             true
           )
@@ -129,12 +151,18 @@ describe('navigationGuards', () => {
     router.push({ name: 'Item', params: { id: '1' } })
   })
   it('should be called and has correct type (onBeforeRouteUpdate)', async done => {
+    type UnknownLocation = RoutiderLocation<
+      undefined,
+      undefined,
+      RouteNames<typeof routes>
+    >
+
     const ItemCom = defineComponent({
       template: '<div></div>',
       setup() {
         onBeforeRouteUpdate((to, from, next) => {
-          isTypeEqual<typeof to, RoutiderLocation<undefined, undefined>>(true)
-          isTypeEqual<typeof from, RoutiderLocation<undefined, undefined>>(true)
+          isTypeEqual<typeof to, UnknownLocation>(true)
+          isTypeEqual<typeof from, UnknownLocation>(true)
           isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(
             true
           )

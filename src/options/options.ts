@@ -8,17 +8,22 @@ export interface RoutiderOptions extends Omit<RouterOptions, 'routes'> {
   routes: RoutiderRoutes
 }
 
-export type RouteNames<Routes extends RoutiderRoutes> = keyof Routes
+export type RouteNames<Routes extends RoutiderRoutes> = Routes extends Record<
+  infer K,
+  unknown
+>
+  ? K
+  : never
 
 export const routiderOptionsToRouterOptions = (
   options: RoutiderOptions
 ): RouterOptions => {
   const routes = Object.entries(options.routes).map(
-    ([name, route]): RouteRecordRaw => ({
+    ([name, route]): Omit<RouteRecordRaw, 'beforeEnter'> => ({
       ...route,
       name,
       ...pathToPathAndAlias(route.path)
     })
-  )
+  ) as RouteRecordRaw[]
   return { ...options, routes }
 }

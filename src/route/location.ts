@@ -32,24 +32,28 @@ export interface Params<
  */
 export type RoutiderLocationN<
   ParamNames extends string | undefined,
-  OptionalParamNames extends string | undefined
-> = Omit<RouteLocationNormalized, 'params'> &
-  Params<ParamNames, OptionalParamNames>
+  OptionalParamNames extends string | undefined,
+  RouteName extends RouteNames<RoutiderRoutes>
+> = Omit<RouteLocationNormalized, 'params'> & {
+  name: RouteName
+} & Params<ParamNames, OptionalParamNames>
 
 /**
  * Typed `RouteLocationNormalizedLoaded`
  */
 export type RoutiderLocation<
   ParamNames extends string | undefined,
-  OptionalParamNames extends string | undefined
-> = Omit<RouteLocationNormalizedLoaded, 'params'> &
-  Params<ParamNames, OptionalParamNames>
+  OptionalParamNames extends string | undefined,
+  RouteName extends RouteNames<RoutiderRoutes>
+> = Omit<RouteLocationNormalizedLoaded, 'params'> & {
+  name: RouteName
+} & Params<ParamNames, OptionalParamNames>
 
 type RoutesOfNames<
   Routes extends RoutiderRoutes,
-  Ns extends RouteNames<Routes>
+  Ns extends RouteNames<Routes> | RouteNames<Routes>[]
 > = {
-  [N in Ns]: Routes[N]
+  [N in EntityOrArrayToUnion<Ns>]: Routes[N]
 }
 
 type IntersectionParamsOfRoutes<
@@ -75,6 +79,7 @@ export type RoutiderLocationOfNames<
   Routes extends RoutiderRoutes,
   N extends RouteNames<Routes> | RouteNames<Routes>[]
 > = RoutiderLocation<
-  IntersectionParamsOfRoutes<RoutesOfNames<Routes, EntityOrArrayToUnion<N>>>,
-  UnionParamsOfRoutes<RoutesOfNames<Routes, EntityOrArrayToUnion<N>>>
+  IntersectionParamsOfRoutes<RoutesOfNames<Routes, N>>,
+  UnionParamsOfRoutes<RoutesOfNames<Routes, N>>,
+  EntityOrArrayToUnion<N>
 >

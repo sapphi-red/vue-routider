@@ -3,7 +3,8 @@ import {
   createRouter,
   useRoute as useRouteVueRouter,
   onBeforeRouteLeave as onBeforeRouteLeaveVueRouter,
-  onBeforeRouteUpdate as onBeforeRouteUpdateVueRouter
+  onBeforeRouteUpdate as onBeforeRouteUpdateVueRouter,
+  NavigationGuard
 } from 'vue-router'
 import { RoutiderLocation, RoutiderLocationOfNames } from './route/location'
 import {
@@ -31,7 +32,7 @@ export interface Routider<O extends RoutiderOptions> {
   >(
     name: N
   ) => N extends null
-    ? RoutiderLocation<undefined, string>
+    ? RoutiderLocation<undefined, string, RouteNames<O['routes']>>
     : RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
   onBeforeRouteLeave: (leaveGuard: RoutiderNavigationGuard<O['routes']>) => void
   onBeforeRouteUpdate: (
@@ -62,19 +63,19 @@ export const createRoutider = <O extends RoutiderOptions>(
       warnIfIncorrectRoute<O['routes']>(route, name)
     }
     return route as N extends null
-      ? RoutiderLocation<undefined, string>
+      ? RoutiderLocation<undefined, string, RouteNames<O['routes']>>
       : RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
   }
 
   const onBeforeRouteLeave = (
     leaveGuard: RoutiderNavigationGuard<O['routes']>
   ) => {
-    onBeforeRouteLeaveVueRouter(leaveGuard)
+    onBeforeRouteLeaveVueRouter(leaveGuard as NavigationGuard)
   }
   const onBeforeRouteUpdate = (
     updateGuard: RoutiderNavigationGuard<O['routes']>
   ) => {
-    onBeforeRouteUpdateVueRouter(updateGuard)
+    onBeforeRouteUpdateVueRouter(updateGuard as NavigationGuard)
   }
 
   const ensureLocationType = <N extends RouteNames<O['routes']>>(
