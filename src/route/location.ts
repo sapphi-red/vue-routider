@@ -7,6 +7,7 @@ import { ExtractParams } from '../options/path'
 import { RouteRecordName } from '../options/name'
 import { RoutiderRouteRecord } from './route'
 import { EntityOrArrayToUnion, UnionToIntersection } from '../type'
+import { ExtractQueries, QueryMap } from '../options/queries'
 
 type RecordWithOptional<
   KRequired extends string | number | symbol,
@@ -27,16 +28,22 @@ export interface Params<
   >
 }
 
+export interface Queries<Names extends string | undefined> {
+  query: Readonly<QueryMap<Exclude<Names, undefined>>>
+}
+
 /**
  * Typed `RouteLocationNormalized`
  */
 export type RoutiderLocationN<
   ParamNames extends string | undefined,
   OptionalParamNames extends string | undefined,
+  QueryNames extends string | undefined,
   RouteName extends RouteNames<RoutiderRoutes>
-> = Omit<RouteLocationNormalized, 'params'> & {
+> = Omit<RouteLocationNormalized, 'params' | 'query'> & {
   name: RouteName
-} & Params<ParamNames, OptionalParamNames>
+} & Params<ParamNames, OptionalParamNames> &
+  Queries<QueryNames>
 
 /**
  * Typed `RouteLocationNormalizedLoaded`
@@ -44,10 +51,12 @@ export type RoutiderLocationN<
 export type RoutiderLocation<
   ParamNames extends string | undefined,
   OptionalParamNames extends string | undefined,
+  QueryNames extends string | undefined,
   RouteName extends RouteNames<RoutiderRoutes>
-> = Omit<RouteLocationNormalizedLoaded, 'params'> & {
+> = Omit<RouteLocationNormalizedLoaded, 'params' | 'query'> & {
   name: RouteName
-} & Params<ParamNames, OptionalParamNames>
+} & Params<ParamNames, OptionalParamNames> &
+  Queries<QueryNames>
 
 type RoutesOfNames<
   Routes extends RoutiderRoutes,
@@ -72,6 +81,12 @@ type UnionParamsOfRoutes<
   [K in keyof Rs]: ExtractParams<Rs[K]['path']>
 }[keyof Rs]
 
+type UnionQueriesOfRoutes<
+  Rs extends Record<RouteRecordName, RoutiderRouteRecord>
+> = {
+  [K in keyof Rs]: ExtractQueries<Rs[K]>
+}[keyof Rs]
+
 /**
  * Get Typed `RouteLocationNormalizedLoaded` from Route
  */
@@ -81,5 +96,6 @@ export type RoutiderLocationOfNames<
 > = RoutiderLocation<
   IntersectionParamsOfRoutes<RoutesOfNames<Routes, N>>,
   UnionParamsOfRoutes<RoutesOfNames<Routes, N>>,
+  UnionQueriesOfRoutes<RoutesOfNames<Routes, N>>,
   EntityOrArrayToUnion<N>
 >

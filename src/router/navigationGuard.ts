@@ -30,8 +30,8 @@ export interface RoutiderNavigationGuardWithThis<
 > {
   (
     this: T,
-    to: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
-    from: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
+    to: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
+    from: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
     next: RoutiderNavigationGuardNext<Routes>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }
@@ -41,8 +41,8 @@ export interface RoutiderNavigationGuardWithThis<
  */
 export interface RoutiderPostNavigationGuard<Routes extends RoutiderRoutes> {
   (
-    to: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
-    from: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
+    to: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
+    from: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
     failure?: NavigationFailure | void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any
@@ -53,8 +53,8 @@ export interface RoutiderPostNavigationGuard<Routes extends RoutiderRoutes> {
  */
 export interface RoutiderNavigationGuard<Routes extends RoutiderRoutes> {
   (
-    to: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
-    from: RoutiderLocation<undefined, undefined, RouteNames<Routes>>,
+    to: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
+    from: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
     next: RoutiderNavigationGuardNext<Routes>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }

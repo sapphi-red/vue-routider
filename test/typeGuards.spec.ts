@@ -5,6 +5,7 @@ import {
   getSkeletonRouter,
   runInsideComponent
 } from '#/test-util'
+import { QueryMap } from '#/options/queries'
 
 type NeverRecord = Record<never, never>
 
@@ -21,9 +22,11 @@ describe('typeGuards', () => {
       >(true)
       if (router.isRouteName(route, 'Item')) {
         isSameType<{ id: string | string[] }, typeof route.params>(true)
+        isSameType<QueryMap<'order' | 'row'>, typeof route.query>(true)
       }
       if (router.isRouteName(route, 'Index')) {
         isSameType<NeverRecord, typeof route.params>(true)
+        isSameType<NeverRecord, typeof route.query>(true)
       }
     })
   })
@@ -39,6 +42,9 @@ describe('typeGuards', () => {
         { id?: string | string[]; userId?: string | string[] },
         typeof optionalTypedRoute.params
       >(true)
+      isSameType<QueryMap<'order' | 'row'>, typeof optionalTypedRoute.query>(
+        true
+      )
     })
   })
 
