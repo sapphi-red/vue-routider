@@ -3,6 +3,7 @@ import { Equal, Same, IsNotAnyOrUndefined } from './type'
 import { defineComponent } from 'vue'
 import { RoutiderRouter, createRoutider, createRoute, createPath } from '.'
 import { mount } from '@vue/test-utils'
+import { createQueries } from './options/queries'
 
 export const isTypeEqual = <Left, Right>(
   shouldBeEqual: Equal<Left, Right>
@@ -76,12 +77,14 @@ export const getSkeletonRouter = async (
         component: Com,
         props: to => {
           return { id: to.params.id }
-        }
+        },
+        query: createQueries('order', 'row')
       }),
-      UserItem: {
+      UserItem: createRoute({
         path: createPath`/users/${'userId'}/${'id'}`,
-        component: Com
-      },
+        component: Com,
+        query: createQueries('order')
+      }),
       About: {
         path: createPath`/about`,
         component: Com

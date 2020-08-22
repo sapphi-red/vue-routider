@@ -9,8 +9,7 @@ import {
   RoutiderPath,
   RoutiderPaths,
   pathToString,
-  pathsToString,
-  ExtractParams
+  pathsToString
 } from '../options/path'
 import { RoutiderLocation, RoutiderLocationN } from './location'
 import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
@@ -21,20 +20,22 @@ import { RouteRecordName } from '../options/name'
  */
 export type _RouteRecordProps<
   Params extends string | undefined,
+  Queries extends string | undefined,
   RouteName extends RouteRecordName = RouteRecordName
 > =
   | boolean
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | Record<string, any>
   | ((
-      to: RoutiderLocation<Params, undefined, RouteName>
+      to: RoutiderLocation<Params, undefined, Queries, RouteName>
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => Record<string, any>)
 
 type RoutiderRouteRecordRedirectOption<
   Params extends string | undefined,
+  Queries extends string | undefined,
   RouteName extends RouteRecordName = RouteRecordName
-> = (to: RoutiderLocation<Params, undefined, RouteName>) => unknown
+> = (to: RoutiderLocation<Params, undefined, Queries, RouteName>) => unknown
 
 /**
  * Typed `NavigationGuardWithThis` for beforeEnter
@@ -42,12 +43,13 @@ type RoutiderRouteRecordRedirectOption<
 export interface RoutiderBeforeEnterGuardWithThis<
   T,
   Params extends string | undefined,
+  Queries extends string | undefined,
   RouteName extends RouteRecordName = RouteRecordName
 > {
   (
     this: T,
-    to: RoutiderLocationN<Params, undefined, RouteName>,
-    from: RoutiderLocationN<undefined, undefined, RouteName>,
+    to: RoutiderLocationN<Params, undefined, Queries, RouteName>,
+    from: RoutiderLocationN<undefined, undefined, Queries, RouteName>,
     next: RoutiderNavigationGuardNext<Record<never, never>>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }
@@ -55,8 +57,10 @@ export interface RoutiderBeforeEnterGuardWithThis<
 /**
  * Typed RouteRecordBase
  */
-export interface _RoutiderRouteRecordBase<T extends string | undefined>
-  extends Omit<_RouteRecordBase, 'path' | 'beforeEnter'> {
+export interface _RoutiderRouteRecordBase<
+  Params extends string | undefined,
+  Queries extends string | undefined
+> extends Omit<_RouteRecordBase, 'path' | 'query' | 'beforeEnter'> {
   /**
    * `name` will be automatically set from key
    */
@@ -65,24 +69,30 @@ export interface _RoutiderRouteRecordBase<T extends string | undefined>
    * Path of the record. Should start with / unless the record is the child of another record.
    * @example createPath`/users/${'id'}` matches `/users/1` as well as `/users/posva`. '/users' matches only `/users`.
    */
-  path: RoutiderPath<T> | string | RoutiderPaths<T> | string[]
+  path: RoutiderPath<Params> | string | RoutiderPaths<Params> | string[]
   /**
    * Use `path` with an array for aliases.
    */
   alias?: never
   /**
+   * Define queries which may receive
+   */
+  query?: Queries[]
+  /**
    * Nested routes are not supported by vue-routider because of type inference limitations.
    * @see {@link https://github.com/sapphi-red/vue-routider/issues/4}
    */
   children?: never
-  redirect?: RoutiderRouteRecordRedirectOption<T>
+  redirect?: RoutiderRouteRecordRedirectOption<Params, Queries>
   beforeEnter?:
-    | RoutiderBeforeEnterGuardWithThis<undefined, T>
-    | RoutiderBeforeEnterGuardWithThis<undefined, T>[]
+    | RoutiderBeforeEnterGuardWithThis<undefined, Params, Queries>
+    | RoutiderBeforeEnterGuardWithThis<undefined, Params, Queries>[]
 }
 
-interface RoutiderRouteRecordSingleView<T extends string | undefined>
-  extends _RoutiderRouteRecordBase<T> {
+interface RoutiderRouteRecordSingleView<
+  Params extends string | undefined,
+  Queries extends string | undefined
+> extends _RoutiderRouteRecordBase<Params, Queries> {
   /**
    * Component to display when the URL matches this route.
    */
@@ -90,10 +100,12 @@ interface RoutiderRouteRecordSingleView<T extends string | undefined>
   /**
    * Allow passing down params as props to the component rendered by `router-view`.
    */
-  props?: _RouteRecordProps<T>
+  props?: _RouteRecordProps<Params, Queries>
 }
-interface RoutiderRouteRecordMultipleViews<T extends string | undefined>
-  extends _RoutiderRouteRecordBase<T> {
+interface RoutiderRouteRecordMultipleViews<
+  Params extends string | undefined,
+  Queries extends string | undefined
+> extends _RoutiderRouteRecordBase<Params, Queries> {
   /**
    * Components to display when the URL matches this route. Allow using named views.
    */
@@ -103,22 +115,25 @@ interface RoutiderRouteRecordMultipleViews<T extends string | undefined>
    * `router-view`. Should be an object with the same keys as `components` or a
    * boolean to be applied to every component.
    */
-  props?: Record<string, _RouteRecordProps<T>> | boolean
+  props?: Record<string, _RouteRecordProps<Params, Queries>> | boolean
 }
-interface RoutiderRouteRecordRedirect<T extends string | undefined>
-  extends _RoutiderRouteRecordBase<T> {
-  redirect: RoutiderRouteRecordRedirectOption<T>
+interface RoutiderRouteRecordRedirect<
+  Params extends string | undefined,
+  Queries extends string | undefined
+> extends _RoutiderRouteRecordBase<Params, Queries> {
+  redirect: RoutiderRouteRecordRedirectOption<Params, Queries>
   component?: never
   components?: never
   children?: never
 }
 
 export declare type RoutiderRouteRecord<
-  T extends string | undefined = string | undefined
+  Params extends string | undefined = string | undefined,
+  Queries extends string | undefined = string | undefined
 > =
-  | RoutiderRouteRecordSingleView<T>
-  | RoutiderRouteRecordMultipleViews<T>
-  | RoutiderRouteRecordRedirect<T>
+  | RoutiderRouteRecordSingleView<Params, Queries>
+  | RoutiderRouteRecordMultipleViews<Params, Queries>
+  | RoutiderRouteRecordRedirect<Params, Queries>
 
 interface PathAndAlias {
   path: string
@@ -144,11 +159,28 @@ export const pathToPathAndAlias = (
 
 type ConvertToUndefinedIfStringPath<
   Route extends RoutiderRouteRecord
-> = string extends ExtractParams<Route['path']>
-  ? RoutiderRouteRecord<undefined>
-  : Route
+> = Route extends RoutiderRouteRecord<infer P, infer Q>
+  ? string extends P
+    ? RoutiderRouteRecord<undefined, Q>
+    : Route
+  : never
 
-export const createRoute = <T extends string | undefined>(
-  route: RoutiderRouteRecord<T>
-): ConvertToUndefinedIfStringPath<RoutiderRouteRecord<T>> =>
-  route as ConvertToUndefinedIfStringPath<RoutiderRouteRecord<T>>
+type ConvertToUndefinedIfStringQuery<
+  Route extends RoutiderRouteRecord
+> = Route extends RoutiderRouteRecord<infer P, infer Q>
+  ? string extends Q
+    ? RoutiderRouteRecord<P, undefined>
+    : Route
+  : never
+
+export const createRoute = <
+  Params extends string | undefined,
+  Queries extends string | undefined
+>(
+  route: RoutiderRouteRecord<Params, Queries>
+): ConvertToUndefinedIfStringQuery<
+  ConvertToUndefinedIfStringPath<RoutiderRouteRecord<Params, Queries>>
+> =>
+  route as ConvertToUndefinedIfStringQuery<
+    ConvertToUndefinedIfStringPath<RoutiderRouteRecord<Params, Queries>>
+  >

@@ -1,4 +1,5 @@
 import { isSameType, getSkeletonRouter, runInsideComponent } from '#/test-util'
+import { QueryMap } from '#/options/queries'
 
 type NeverRecord = Record<never, never>
 
@@ -8,6 +9,7 @@ describe('useRoute', () => {
     runInsideComponent(routerInstall, () => {
       const route = useRoute('Item')
       isSameType<{ id: string | string[] }, typeof route.params>(true)
+      isSameType<QueryMap<'order' | 'row'>, typeof route.query>(true)
     })
   })
   it('has typed route (2)', async () => {
@@ -18,6 +20,7 @@ describe('useRoute', () => {
         { userId: string | string[]; id: string | string[] },
         typeof route.params
       >(true)
+      isSameType<QueryMap<'order'>, typeof route.query>(true)
     })
   })
   it('has typed route (3)', async () => {
@@ -25,6 +28,7 @@ describe('useRoute', () => {
     runInsideComponent(routerInstall, () => {
       const route = useRoute('Index')
       isSameType<NeverRecord, typeof route.params>(true)
+      isSameType<NeverRecord, typeof route.query>(true)
     })
   })
   it('has typed route (4)', async () => {
@@ -32,6 +36,7 @@ describe('useRoute', () => {
     runInsideComponent(routerInstall, () => {
       const route = useRoute('About')
       isSameType<NeverRecord, typeof route.params>(true)
+      isSameType<NeverRecord, typeof route.query>(true)
     })
   })
 
@@ -43,6 +48,7 @@ describe('useRoute', () => {
         { userId?: string | string[]; id: string | string[] },
         typeof route.params
       >(true)
+      isSameType<QueryMap<'order' | 'row'>, typeof route.query>(true)
     })
   })
   it('has union typed route', async () => {
@@ -53,6 +59,7 @@ describe('useRoute', () => {
         { userId?: string | string[]; id?: string | string[] },
         typeof route.params
       >(true)
+      isSameType<QueryMap<'order' | 'row'>, typeof route.query>(true)
     })
   })
   it('has intersection typed route', async () => {
@@ -60,6 +67,7 @@ describe('useRoute', () => {
     runInsideComponent(routerInstall, () => {
       const route = useRoute(['Index', 'About'])
       isSameType<NeverRecord, typeof route.params>(true)
+      isSameType<NeverRecord, typeof route.query>(true)
     })
   })
 
@@ -71,6 +79,7 @@ describe('useRoute', () => {
         Record<string, string | string[] | undefined>,
         typeof route.params
       >(true)
+      isSameType<QueryMap<string>, typeof route.query>(true)
     })
   })
 

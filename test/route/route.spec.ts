@@ -7,6 +7,7 @@ import {
 import { isSubType, isTypeEqual } from '#/test-util'
 import { createPath, createPaths } from '#/options/path'
 import { defineComponent } from 'vue'
+import { createQueries } from '#/options/queries'
 
 const Com = defineComponent({
   template: '<div></div>'
@@ -70,20 +71,36 @@ describe('createRoute', () => {
       path: '/',
       component: Com
     })
-    isTypeEqual<typeof route, RoutiderRouteRecord<undefined>>(true)
+    isTypeEqual<typeof route, RoutiderRouteRecord<undefined, undefined>>(true)
   })
   it('can infer route type (2)', () => {
     const route = createRoute({
       path: createPath`/`,
       component: Com
     })
-    isTypeEqual<typeof route, RoutiderRouteRecord<undefined>>(true)
+    isTypeEqual<typeof route, RoutiderRouteRecord<undefined, undefined>>(true)
   })
   it('can infer route type (3)', () => {
     const route = createRoute({
       path: createPath`/items/${'id'}`,
       component: Com
     })
-    isTypeEqual<typeof route, RoutiderRouteRecord<'id'>>(true)
+    isTypeEqual<typeof route, RoutiderRouteRecord<'id', undefined>>(true)
+  })
+  it('can infer route type (4)', () => {
+    const route = createRoute({
+      path: '/',
+      component: Com,
+      query: createQueries('id')
+    })
+    isTypeEqual<typeof route, RoutiderRouteRecord<undefined, 'id'>>(true)
+  })
+  it('can infer route type (5)', () => {
+    const route = createRoute({
+      path: createPath`/items/${'id'}`,
+      component: Com,
+      query: createQueries('id')
+    })
+    isTypeEqual<typeof route, RoutiderRouteRecord<'id', 'id'>>(true)
   })
 })

@@ -45,6 +45,7 @@ describe('navigationGuards', () => {
     type UnknownLocation = RoutiderLocation<
       undefined,
       undefined,
+      undefined,
       RouteNames<typeof routes>
     >
 
@@ -64,6 +65,7 @@ describe('navigationGuards', () => {
   it('should be called and has correct type (beforeResolve)', async done => {
     const { routes, router } = await setupRouter()
     type UnknownLocation = RoutiderLocation<
+      undefined,
       undefined,
       undefined,
       RouteNames<typeof routes>
@@ -87,6 +89,7 @@ describe('navigationGuards', () => {
     type UnknownLocation = RoutiderLocation<
       undefined,
       undefined,
+      undefined,
       RouteNames<typeof routes>
     >
 
@@ -105,6 +108,7 @@ describe('navigationGuards', () => {
 
   it('should be called and has correct type (onBeforeRouteLeave)', async done => {
     type UnknownLocation = RoutiderLocation<
+      undefined,
       undefined,
       undefined,
       RouteNames<typeof routes>
@@ -152,6 +156,7 @@ describe('navigationGuards', () => {
   })
   it('should be called and has correct type (onBeforeRouteUpdate)', async done => {
     type UnknownLocation = RoutiderLocation<
+      undefined,
       undefined,
       undefined,
       RouteNames<typeof routes>

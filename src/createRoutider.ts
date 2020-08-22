@@ -32,7 +32,7 @@ export interface Routider<O extends RoutiderOptions> {
   >(
     name: N
   ) => N extends null
-    ? RoutiderLocation<undefined, string, RouteNames<O['routes']>>
+    ? RoutiderLocation<undefined, string, string, RouteNames<O['routes']>>
     : RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
   onBeforeRouteLeave: (leaveGuard: RoutiderNavigationGuard<O['routes']>) => void
   onBeforeRouteUpdate: (
@@ -63,7 +63,7 @@ export const createRoutider = <O extends RoutiderOptions>(
       warnIfIncorrectRoute<O['routes']>(route, name)
     }
     return route as N extends null
-      ? RoutiderLocation<undefined, string, RouteNames<O['routes']>>
+      ? RoutiderLocation<undefined, string, string, RouteNames<O['routes']>>
       : RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
   }
 

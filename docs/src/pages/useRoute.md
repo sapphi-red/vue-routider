@@ -23,7 +23,7 @@ const { useRoute } = createRoutider({
 
 ## `useRoute(routeName)`
 This is simillar to [`router.isRouteName(route, routeName)`](/route-type-guards).
-```ts:f=router/index.ts
+```ts
 // inside component
 
 const route = useRoute('Item')
@@ -33,7 +33,7 @@ Calling this function when the path does not match the `routeName` argument(cf. 
 it will output a warning if it is running in development environment(`NODE_ENV`).
 
 ## `useRoute([routeName1, routeName2, ...])`
-```ts:f=router/index.ts
+```ts
 // inside component
 
 const route = useRoute(['Item', 'UserItem'])
@@ -44,7 +44,7 @@ it will output a warning if it is running in development environment(`NODE_ENV`)
 
 ## `useRoute(null)`
 This is simillar to [`router.getOptionalTypedRoute(route)`](/route-type-guards).
-```ts:f=router/index.ts
+```ts
 // inside component
 
 const route = useRoute(null)

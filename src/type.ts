@@ -37,3 +37,5 @@ export type IfNotUnion<MaybeUnion> = UnionToIntersection<
 export type EntityOrArrayToUnion<T> = T extends infer S | Array<infer S>
   ? S
   : never
+
+export type IfNotString<T> = string extends T ? never : T
