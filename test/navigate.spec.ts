@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   waitNavigation,
   getSkeletonRouter,
@@ -70,6 +71,62 @@ describe('router.push', () => {
       })
     })
   })
+
+  it('should not accept invalid route (1)', async done => {
+    const { routerInstall, useRouter } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+      try {
+        // @ts-expect-error
+        router.push({ name: 'Item' })
+      } catch {
+        expect(true).toBe(true)
+      }
+
+      done()
+    })
+  })
+  it('should not accept invalid route (2)', async done => {
+    const { routerInstall, useRouter } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+      try {
+        // @ts-expect-error
+        router.push({ name: 'UserItem', params: { id: '1' } })
+      } catch {
+        expect(true).toBe(true)
+      }
+
+      done()
+    })
+  })
+  it('should not accept invalid route (3)', async done => {
+    const { routerInstall, useRouter } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+      try {
+        // @ts-expect-error
+        router.push({ name: 'Invalid' })
+      } catch {
+        expect(true).toBe(true)
+      }
+
+      done()
+    })
+  })
+  it('should not accept invalid route (4)', async done => {
+    const { routerInstall, useRouter } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+
+      console.warn = jest.fn()
+      // @ts-expect-error
+      router.push('invalid')
+      expect(console.warn).toBeCalled()
+
+      done()
+    })
+  })
 })
 
 describe('router.replace', () => {
@@ -136,6 +193,62 @@ describe('router.replace', () => {
       rs.forEach(r => {
         router.replace(r)
       })
+    })
+  })
+
+  it('should not accept invalid route (1)', async done => {
+    const { routerInstall, useRouter } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+      try {
+        // @ts-expect-error
+        router.replace({ name: 'Item' })
+      } catch {
+        expect(true).toBe(true)
+      }
+
+      done()
+    })
+  })
+  it('should not accept invalid route (2)', async done => {
+    const { routerInstall, useRouter } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+      try {
+        // @ts-expect-error
+        router.replace({ name: 'UserItem', params: { id: '1' } })
+      } catch {
+        expect(true).toBe(true)
+      }
+
+      done()
+    })
+  })
+  it('should not accept invalid route (3)', async done => {
+    const { routerInstall, useRouter } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+      try {
+        // @ts-expect-error
+        router.replace({ name: 'Invalid' })
+      } catch {
+        expect(true).toBe(true)
+      }
+
+      done()
+    })
+  })
+  it('should not accept invalid route (4)', async done => {
+    const { routerInstall, useRouter } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, () => {
+      const router = useRouter()
+
+      console.warn = jest.fn()
+      // @ts-expect-error
+      router.replace('invalid')
+      expect(console.warn).toBeCalled()
+
+      done()
     })
   })
 })

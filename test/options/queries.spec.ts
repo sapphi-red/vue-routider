@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { isTypeEqual } from '#/test-util'
 import { createQueries } from '#/options/queries'
 
@@ -22,6 +23,13 @@ describe('createQueries', () => {
     const query = createQueries(...arr)
     expect(query).toStrictEqual(['one', 'two'])
     isTypeEqual<Array<'one' | 'two'>, typeof query>(true)
+  })
+
+  it('cannot create queries with string array', () => {
+    const arr = ['one', 'two']
+    // @ts-expect-error
+    createQueries(...arr)
+    expect(true).toBe(true)
   })
 
   it('should warn if it includes same string (1)', () => {

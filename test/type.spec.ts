@@ -4,9 +4,11 @@ import {
   IfNotUnion,
   IfNotAny,
   IfNotUndefined,
-  IsNotAnyOrUndefined
+  IsNotAnyOrUndefined,
+  EntityOrArrayToUnion,
+  IfNotString
 } from '#/type'
-import { isTypeEqual } from '#/test-util'
+import { isTypeEqual, isSameType } from '#/test-util'
 
 describe('Same', () => {
   it('can detect primitives', () => {
@@ -127,5 +129,42 @@ describe('IfNotUnion', () => {
   it('can detect union (4)', () => {
     type A = { str: 'a' } | { str: 'b' }
     isTypeEqual<IfNotUnion<A>, void>(true)
+  })
+})
+
+describe('EntityOrArrayToUnion', () => {
+  it('can convert to union (1)', () => {
+    type A = string | string[]
+    isTypeEqual<EntityOrArrayToUnion<A>, string>(true)
+  })
+  it('can convert to union (2)', () => {
+    type A = 0 | 0[]
+    isTypeEqual<EntityOrArrayToUnion<A>, 0>(true)
+  })
+  it('can convert to union (3)', () => {
+    type A = undefined | undefined[]
+    isTypeEqual<EntityOrArrayToUnion<A>, undefined>(true)
+  })
+  it('can convert to union (4)', () => {
+    type A = { key: 'value' } | Array<{ key: 'value' }>
+    isSameType<EntityOrArrayToUnion<A>, { key: 'value' }>(true)
+  })
+})
+
+describe('IfNotString', () => {
+  it('can detect string', () => {
+    isTypeEqual<IfNotString<string>, never>(true)
+  })
+  it('can detect string literal (1)', () => {
+    isTypeEqual<IfNotString<'a'>, 'a'>(true)
+  })
+  it('can detect string literal (2)', () => {
+    isTypeEqual<IfNotString<'a' | 'b'>, 'a' | 'b'>(true)
+  })
+  it('can detect primitive', () => {
+    isTypeEqual<IfNotString<number>, number>(true)
+  })
+  it('can detect undefined', () => {
+    isTypeEqual<IfNotString<undefined>, undefined>(true)
   })
 })
