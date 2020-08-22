@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { isSameType, getSkeletonRouter, runInsideComponent } from '#/test-util'
 import { QueryMap } from '#/options/queries'
 
@@ -89,6 +90,31 @@ describe('useRoute', () => {
       console.warn = jest.fn()
       useRoute('Item')
       expect(console.warn).toBeCalled()
+    })
+  })
+
+  it('should not accept invalid route (1)', async () => {
+    const { routerInstall, useRoute } = await getSkeletonRouter('/about')
+    runInsideComponent(routerInstall, () => {
+      // @ts-expect-error
+      useRoute('Invalid')
+      expect(true).toBe(true)
+    })
+  })
+  it('should not accept invalid route (2)', async () => {
+    const { routerInstall, useRoute } = await getSkeletonRouter('/about')
+    runInsideComponent(routerInstall, () => {
+      // @ts-expect-error
+      useRoute({ name: 'Invalid' })
+      expect(true).toBe(true)
+    })
+  })
+  it('should not accept invalid route (3)', async () => {
+    const { routerInstall, useRoute } = await getSkeletonRouter('/about')
+    runInsideComponent(routerInstall, () => {
+      // @ts-expect-error
+      useRoute()
+      expect(true).toBe(true)
     })
   })
 })
