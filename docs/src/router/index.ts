@@ -4,6 +4,7 @@ import { VueComponent as Introduction } from '/@/pages/Introduction.md'
 import { VueComponent as RouteMatching } from '/@/pages/RouteMatching.md'
 import { VueComponent as useRoutePage } from '/@/pages/useRoute.md'
 import { VueComponent as Navigation } from '/@/pages/Navigation.md'
+import { VueComponent as Queries } from '/@/pages/Queries.md'
 import { VueComponent as RedirectAndAlias } from '/@/pages/RedirectAndAlias.md'
 import { VueComponent as NavigationGuards } from '/@/pages/NavigationGuards.md'
 import { VueComponent as RouteTypeGuards } from '/@/pages/RouteTypeGuards.md'
@@ -27,6 +28,10 @@ export const routes = {
   Navigation: {
     path: '/navigation',
     component: Navigation
+  },
+  Queries: {
+    path: '/queries',
+    component: Queries
   },
   RedirectAndAlias: {
     path: '/redirect-and-alias',
