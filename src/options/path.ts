@@ -60,144 +60,14 @@ export function createPath<T extends string>(
   return (path as unknown) as RoutiderPath<T>
 }
 
-type PathArrayToPaths<T> = T extends RoutiderPath<infer S>[]
+type PathArrayToPaths<T> = T extends RoutiderPath<infer S>
   ? RoutiderPaths<S>
-  : T
+  : T[]
 
-export function createPaths<T1 extends RoutiderPath, T2 extends RoutiderPath>(
-  p1: T1,
-  p2: T2
-): PathArrayToPaths<IfNotUnion<T1 | T2>[]>
 export function createPaths<
-  T1 extends RoutiderPath,
-  T2 extends RoutiderPath,
-  T3 extends RoutiderPath
->(p1: T1, p2: T2, p3: T3): PathArrayToPaths<IfNotUnion<T1 | T2 | T3>[]>
-export function createPaths<
-  T1 extends RoutiderPath,
-  T2 extends RoutiderPath,
-  T3 extends RoutiderPath,
-  T4 extends RoutiderPath
->(
-  p1: T1,
-  p2: T2,
-  p3: T3,
-  p4: T4
-): PathArrayToPaths<IfNotUnion<T1 | T2 | T3 | T4>[]>
-export function createPaths<
-  T1 extends RoutiderPath,
-  T2 extends RoutiderPath,
-  T3 extends RoutiderPath,
-  T4 extends RoutiderPath,
-  T5 extends RoutiderPath
->(
-  p1: T1,
-  p2: T2,
-  p3: T3,
-  p4: T4,
-  p5: T5
-): PathArrayToPaths<IfNotUnion<T1 | T2 | T3 | T4 | T5>[]>
-export function createPaths<
-  T1 extends RoutiderPath,
-  T2 extends RoutiderPath,
-  T3 extends RoutiderPath,
-  T4 extends RoutiderPath,
-  T5 extends RoutiderPath,
-  T6 extends RoutiderPath
->(
-  p1: T1,
-  p2: T2,
-  p3: T3,
-  p4: T4,
-  p5: T5,
-  p6: T6
-): PathArrayToPaths<IfNotUnion<T1 | T2 | T3 | T4 | T5 | T6>[]>
-export function createPaths<
-  T1 extends RoutiderPath,
-  T2 extends RoutiderPath,
-  T3 extends RoutiderPath,
-  T4 extends RoutiderPath,
-  T5 extends RoutiderPath,
-  T6 extends RoutiderPath,
-  T7 extends RoutiderPath
->(
-  p1: T1,
-  p2: T2,
-  p3: T3,
-  p4: T4,
-  p5: T5,
-  p6: T6,
-  p7: T7
-): PathArrayToPaths<IfNotUnion<T1 | T2 | T3 | T4 | T5 | T6 | T7>[]>
-export function createPaths<
-  T1 extends RoutiderPath,
-  T2 extends RoutiderPath,
-  T3 extends RoutiderPath,
-  T4 extends RoutiderPath,
-  T5 extends RoutiderPath,
-  T6 extends RoutiderPath,
-  T7 extends RoutiderPath,
-  T8 extends RoutiderPath
->(
-  p1: T1,
-  p2: T2,
-  p3: T3,
-  p4: T4,
-  p5: T5,
-  p6: T6,
-  p7: T7,
-  p8: T8
-): PathArrayToPaths<IfNotUnion<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8>[]>
-export function createPaths<
-  T1 extends RoutiderPath,
-  T2 extends RoutiderPath,
-  T3 extends RoutiderPath,
-  T4 extends RoutiderPath,
-  T5 extends RoutiderPath,
-  T6 extends RoutiderPath,
-  T7 extends RoutiderPath,
-  T8 extends RoutiderPath,
-  T9 extends RoutiderPath
->(
-  p1: T1,
-  p2: T2,
-  p3: T3,
-  p4: T4,
-  p5: T5,
-  p6: T6,
-  p7: T7,
-  p8: T8,
-  p9: T9
-): PathArrayToPaths<IfNotUnion<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9>[]>
-export function createPaths<
-  T1 extends RoutiderPath,
-  T2 extends RoutiderPath,
-  T3 extends RoutiderPath,
-  T4 extends RoutiderPath,
-  T5 extends RoutiderPath,
-  T6 extends RoutiderPath,
-  T7 extends RoutiderPath,
-  T8 extends RoutiderPath,
-  T9 extends RoutiderPath,
-  T10 extends RoutiderPath
->(
-  p1: T1,
-  p2: T2,
-  p3: T3,
-  p4: T4,
-  p5: T5,
-  p6: T6,
-  p7: T7,
-  p8: T8,
-  p9: T9,
-  p10: T10
-): PathArrayToPaths<
-  IfNotUnion<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10>[]
->
-export function createPaths<T extends RoutiderPath>(
-  ...args: readonly T[]
-): PathArrayToPaths<IfNotUnion<T>[]> {
-  return args as PathArrayToPaths<IfNotUnion<T>[]>
+  T extends readonly [RoutiderPath, ...RoutiderPath[]]
+>(...args: T): PathArrayToPaths<IfNotUnion<T[number]>> {
+  return (args as unknown) as PathArrayToPaths<IfNotUnion<T[number]>>
 }
 
 export const pathToString = (path: RoutiderPath | string): string =>

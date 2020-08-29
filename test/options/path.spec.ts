@@ -14,6 +14,12 @@ const a2 = createPath`/a2/${'a'}`
 const a3 = createPath`/a3/${'a'}`
 const a4 = createPath`/a4/${'a'}`
 const a5 = createPath`/a5/${'a'}`
+const a6 = createPath`/a6/${'a'}`
+const a7 = createPath`/a7/${'a'}`
+const a8 = createPath`/a8/${'a'}`
+const a9 = createPath`/a9/${'a'}`
+const a10 = createPath`/a10/${'a'}`
+const a11 = createPath`/a11/${'a'}`
 const b = createPath`/b/${'b'}`
 const ab = createPath`/ab/${'a'}/${'b'}`
 const ab2 = createPath`/ab2/${'a'}/${'b'}`
@@ -70,6 +76,23 @@ describe('createPaths', () => {
     ])
     isTypeEqual<RoutiderPaths<'a'>, typeof paths>(true)
   })
+  it('can create paths (4)', () => {
+    const paths = createPaths(a, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11)
+    expect(paths).toStrictEqual([
+      '/a/:a',
+      '/a2/:a',
+      '/a3/:a',
+      '/a4/:a',
+      '/a5/:a',
+      '/a6/:a',
+      '/a7/:a',
+      '/a8/:a',
+      '/a9/:a',
+      '/a10/:a',
+      '/a11/:a'
+    ])
+    isTypeEqual<RoutiderPaths<'a'>, typeof paths>(true)
+  })
   it('can reject invalid paths (1)', () => {
     const paths = createPaths(a, b)
     isTypeEqual<void[], typeof paths>(true)
@@ -84,6 +107,14 @@ describe('createPaths', () => {
   })
   it('can reject invalid paths (4)', () => {
     const paths = createPaths(a, a2, a3, ab)
+    isTypeEqual<void[], typeof paths>(true)
+  })
+  it('can reject invalid paths (5)', () => {
+    const paths = createPaths(a, a2, a3, a4, a5, a6, a7, a8, a9, a10, ab)
+    isTypeEqual<void[], typeof paths>(true)
+  })
+  it('can reject invalid paths (6)', () => {
+    const paths = createPaths(a, b, ab)
     isTypeEqual<void[], typeof paths>(true)
   })
 })
