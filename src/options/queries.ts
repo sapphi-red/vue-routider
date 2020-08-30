@@ -4,7 +4,7 @@ import { IfNotString } from '../type'
 
 export const createQueries = <T extends string>(
   ...queries: [T, ...T[]]
-): T[] => {
+): Array<IfNotString<T>> => {
   if (__DEV__) {
     const qs = new Set<T>()
     for (const q of queries) {
@@ -17,7 +17,7 @@ export const createQueries = <T extends string>(
     }
   }
 
-  return queries
+  return (queries as unknown) as Array<IfNotString<T>>
 }
 
 export type ExtractQueries<

@@ -24,6 +24,11 @@ describe('createQueries', () => {
     expect(query).toStrictEqual(['one', 'two'])
     isTypeEqual<Array<'one' | 'two'>, typeof query>(true)
   })
+  it('can reject invalid query', () => {
+    const query = createQueries('aa' as string)
+    expect(query).toStrictEqual(['aa'])
+    isTypeEqual<Array<never>, typeof query>(true)
+  })
 
   it('cannot create queries with string array', () => {
     const arr = ['one', 'two']
