@@ -1,13 +1,13 @@
 <template>
+  <!-- eslint-disable vue/require-v-for-key -->
   <div class="routes">
     <a class="link" @click="moveTo({ name: routeNames[0] })">{{
       formatRouteName(routeNames[0])
     }}</a>
-    <template v-for="name in routeNames.slice(1)">
-      <span :key="name"> | </span>
-      <a :key="name" class="link" @click="moveTo({ name })">{{
-        formatRouteName(name)
-      }}</a>
+    <!-- eslint-disable-next-line vue/no-template-key -->
+    <template v-for="name in routeNames.slice(1)" :key="name">
+      <span> | </span>
+      <a class="link" @click="moveTo({ name })">{{ formatRouteName(name) }}</a>
     </template>
   </div>
 </template>
