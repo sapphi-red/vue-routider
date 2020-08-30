@@ -57,7 +57,7 @@ export function createPath<T extends string>(
     !lastL.includes(':'),
     `vue-routider: \`:\` should not be included in createPath argument. (${lastL})`
   )
-  return (path as unknown) as RoutiderPath<T>
+  return (path as unknown) as RoutiderPath<IfNotString<T>>
 }
 
 type PathArrayToPaths<T> = T extends RoutiderPath<infer S>
