@@ -1,4 +1,4 @@
-import { IfNotUnion } from '../type'
+import { IfNotUnion, IfNotString } from '../type'
 import warning from 'tiny-warning'
 
 declare const params: unique symbol
@@ -31,11 +31,11 @@ export function createPath(
 export function createPath<T extends string>(
   literals: Readonly<TemplateStringsArray>,
   ...placeholders: readonly T[]
-): RoutiderPath<T>
+): RoutiderPath<IfNotString<T>>
 export function createPath<T extends string>(
   literals: Readonly<TemplateStringsArray>,
   ...placeholders: readonly T[]
-): RoutiderPath<T> {
+): RoutiderPath<IfNotString<T>> {
   let path = ''
   for (let i = 0; i < placeholders.length; i++) {
     const l = literals[i]
@@ -73,6 +73,5 @@ export function createPaths<
 export const pathToString = (path: RoutiderPath | string): string =>
   path as string
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const pathsToString = (paths: RoutiderPaths | string[]): string[] =>
   paths as string[]

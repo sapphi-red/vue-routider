@@ -23,6 +23,7 @@ const a11 = createPath`/a11/${'a'}`
 const b = createPath`/b/${'b'}`
 const ab = createPath`/ab/${'a'}/${'b'}`
 const ab2 = createPath`/ab2/${'a'}/${'b'}`
+const stringParamPath = createPath`/c/${'a' as string}`
 
 describe('createPath', () => {
   it('can create path without params', () => {
@@ -40,6 +41,9 @@ describe('createPath', () => {
   it('can create path (3)', () => {
     expect(ab).toBe('/ab/:a/:b')
     isTypeEqual<RoutiderPath<'a' | 'b'>, typeof ab>(true)
+  })
+  it('can reject invalid path', () => {
+    isTypeEqual<RoutiderPath<never>, typeof stringParamPath>(true)
   })
 
   it('should warn if it includes `:` (1)', () => {
