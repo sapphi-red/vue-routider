@@ -65,7 +65,7 @@ type PathArrayToPaths<T> = T extends RoutiderPath<infer S>
   : T[]
 
 export function createPaths<
-  T extends readonly [RoutiderPath, ...RoutiderPath[]]
+  T extends readonly [RoutiderPath, RoutiderPath, ...RoutiderPath[]]
 >(...args: T): PathArrayToPaths<IfNotUnion<T[number]>> {
   return (args as unknown) as PathArrayToPaths<IfNotUnion<T[number]>>
 }

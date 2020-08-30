@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {
   createPath,
   createPaths,
@@ -120,6 +121,16 @@ describe('createPaths', () => {
   it('can reject invalid paths (6)', () => {
     const paths = createPaths(a, b, ab)
     isTypeEqual<void[], typeof paths>(true)
+  })
+  it('can reject invalid paths (7)', () => {
+    // @ts-expect-error
+    createPaths()
+    expect(true).toBe(true)
+  })
+  it('can reject invalid paths (8)', () => {
+    // @ts-expect-error
+    createPaths(a)
+    expect(true).toBe(true)
   })
 })
 
