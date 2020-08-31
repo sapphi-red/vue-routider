@@ -3,6 +3,7 @@ import { RouteRecordName } from './name'
 import { RoutiderRouteRecord, pathToPathAndAlias } from '../route/route'
 import { UnionToIntersection } from '../type'
 import { CobinePaths, Path, pathsToString, pathToString } from './path'
+import warning from 'tiny-warning'
 
 export type RoutiderRoutes = Record<RouteRecordName, RoutiderRouteRecord>
 
@@ -41,20 +42,36 @@ export type FlatRoutes<T extends RoutiderRoutes> = T &
     }[keyof T]
   >
 
+export const warnIfNonTopLevelAbsolutePath = (path: Path): void => {
+  const warnText = 'Absolute paths cannot be used with Vue Routider.'
+  if (Array.isArray(path)) {
+    warning(
+      !pathsToString(path).some(p => p.startsWith('/')),
+      `${warnText} (${path.join(', ')})`
+    )
+  } else {
+    warning(!pathToString(path).startsWith('/'), `${warnText} (${path})`)
+  }
+}
+
 export const routiderRoutesToRouteRecords = (
-  routes: RoutiderRoutes
+  routes: RoutiderRoutes,
+  isTopLevel = true
 ): RouteRecordRaw[] =>
-  Object.entries(routes).map(
-    ([name, route]) =>
-      ({
-        ...route,
-        name,
-        ...pathToPathAndAlias(route.path),
-        children: route.children
-          ? routiderRoutesToRouteRecords(route.children)
-          : undefined
-      } as RouteRecordRaw)
-  )
+  Object.entries(routes).map(([name, route]) => {
+    if (__DEV__ && !isTopLevel) {
+      warnIfNonTopLevelAbsolutePath(route.path)
+    }
+
+    return {
+      ...route,
+      name,
+      ...pathToPathAndAlias(route.path),
+      children: route.children
+        ? routiderRoutesToRouteRecords(route.children, false)
+        : undefined
+    } as RouteRecordRaw
+  })
 
 export const routiderOptionsToRouterOptions = (
   options: RoutiderOptions

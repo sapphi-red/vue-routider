@@ -230,4 +230,23 @@ describe('routiderRoutesToRouteRecords', () => {
       }
     ])
   })
+
+  it('should warn if nested routes includes absolute path', () => {
+    const route = {
+      User: {
+        path: createPath`/users/${'userId'}`,
+        component: com,
+        children: {
+          UserItem: {
+            path: createPath`/${'itemId'}`,
+            component: com
+          }
+        }
+      }
+    }
+
+    console.warn = jest.fn()
+    routiderRoutesToRouteRecords(route)
+    expect(console.warn).toBeCalled()
+  })
 })
