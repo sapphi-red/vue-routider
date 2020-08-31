@@ -9,7 +9,8 @@ import {
   RoutiderPath,
   RoutiderPaths,
   pathToString,
-  pathsToString
+  pathsToString,
+  Path
 } from '../options/path'
 import { RoutiderLocation, RoutiderLocationN } from './location'
 import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
@@ -69,7 +70,7 @@ export interface _RoutiderRouteRecordBase<
    * Path of the record. Should start with / unless the record is the child of another record.
    * @example createPath`/users/${'id'}` matches `/users/1` as well as `/users/posva`. '/users' matches only `/users`.
    */
-  path: RoutiderPath<Params> | string | RoutiderPaths<Params> | string[]
+  path: Path<Params>
   /**
    * Use `path` with an array for aliases.
    */

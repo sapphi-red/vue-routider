@@ -1,14 +1,33 @@
 import { IfNotUnion, IfNotString } from '../type'
 import warning from 'tiny-warning'
 
+export type Path<T extends string | undefined = string | undefined> =
+  | string
+  | string[]
+  | RoutiderPath<T>
+  | RoutiderPaths<T>
+
+/**
+ * fake symbol for nominal typing
+ */
 declare const params: unique symbol
+
+/**
+ * Type for valid path
+ */
 export type RoutiderPath<T extends string | undefined = string | undefined> = {
   readonly [params]: T
 }
+/**
+ * Type for valid path and aliases
+ */
 export type RoutiderPaths<
   T extends string | undefined = string | undefined
 > = typeof params & RoutiderPath<T>[]
 
+/**
+ * Extracts params from RoutiderPath & RoutiderPaths
+ */
 export type ExtractParams<T> = Exclude<
   T extends never
     ? never
