@@ -80,11 +80,31 @@ export const getSkeletonRouter = async (
         },
         query: createQueries('order', 'row')
       }),
-      UserItem: createRoute({
-        path: createPath`/users/${'userId'}/${'id'}`,
+      UserItemDetail: {
+        path: createPath`/users/${'userId'}/${'id'}/detail`,
         component: Com,
         query: createQueries('order')
-      }),
+      },
+      Users: {
+        path: '/users',
+        component: Com,
+        children: {
+          User: {
+            path: createPath`${'userId'}`,
+            component: Com,
+            children: {
+              UserDetail: {
+                path: 'detail',
+                component: Com
+              },
+              UserItem: {
+                path: createPath`${'id'}`,
+                component: Com
+              }
+            }
+          }
+        }
+      },
       About: {
         path: createPath`/about`,
         component: Com

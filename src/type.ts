@@ -39,3 +39,5 @@ export type EntityOrArrayToUnion<T> = T extends infer S | Array<infer S>
   : never
 
 export type IfNotString<T> = string extends T ? never : T
+
+export type NeverToUndefined<T> = [T] extends [never] ? undefined : T

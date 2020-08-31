@@ -1,5 +1,10 @@
 import { Router, NavigationFailure, RouteLocationOptions } from 'vue-router'
-import { RoutiderOptions, RouteNames, RoutiderRoutes } from '../options/options'
+import {
+  RoutiderOptions,
+  RouteNames,
+  RoutiderRoutes,
+  FlatRoutes
+} from '../options/options'
 import { RouteQueryAndHash } from '../vue-router-utils'
 import { ExtractParams } from '../options/path'
 import { RoutiderRouteRecord } from '../route/route'
@@ -31,61 +36,75 @@ export interface RoutiderRouter<O extends RoutiderOptions> extends Router {
   addRoute: never
   removeRoute: never
 
-  push<N extends RouteNames<O['routes']>>(
-    to: RoutiderRouteLocation<O['routes'], N>
+  push<N extends RouteNames<FlatRoutes<O['routes']>>>(
+    to: RoutiderRouteLocation<FlatRoutes<O['routes']>, N>
   ): Promise<NavigationFailure | void | undefined>
-  replace<N extends RouteNames<O['routes']>>(
-    to: RoutiderRouteLocation<O['routes'], N>
+  replace<N extends RouteNames<FlatRoutes<O['routes']>>>(
+    to: RoutiderRouteLocation<FlatRoutes<O['routes']>, N>
   ): Promise<NavigationFailure | void | undefined>
 
   beforeEach(
-    guard: RoutiderNavigationGuardWithThis<undefined, O['routes']>
+    guard: RoutiderNavigationGuardWithThis<undefined, FlatRoutes<O['routes']>>
   ): () => void
   beforeResolve(
-    guard: RoutiderNavigationGuardWithThis<undefined, O['routes']>
+    guard: RoutiderNavigationGuardWithThis<undefined, FlatRoutes<O['routes']>>
   ): () => void
-  afterEach(guard: RoutiderPostNavigationGuard<O['routes']>): () => void
+  afterEach(
+    guard: RoutiderPostNavigationGuard<FlatRoutes<O['routes']>>
+  ): () => void
 
-  isRouteName<N extends RouteNames<O['routes']>>(
+  isRouteName<N extends RouteNames<FlatRoutes<O['routes']>>>(
     location: RoutiderLocation<
       undefined,
       undefined,
       undefined,
-      RouteNames<O['routes']>
+      RouteNames<FlatRoutes<O['routes']>>
     >,
     name: N
-  ): location is RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
+  ): location is RoutiderLocationOfNames<
+    FlatRoutes<O['routes']>,
+    Exclude<N, null>
+  >
   getOptionalTypedRoute(
     location: RoutiderLocation<
       undefined,
       undefined,
       undefined,
-      RouteNames<O['routes']>
+      RouteNames<FlatRoutes<O['routes']>>
     >
-  ): RoutiderLocationOfNames<O['routes'], RouteNames<O['routes']>>
+  ): RoutiderLocationOfNames<
+    FlatRoutes<O['routes']>,
+    RouteNames<FlatRoutes<O['routes']>>
+  >
 }
 
 export const createRoutiderRouter = <O extends RoutiderOptions>(
   router: Router
 ): RoutiderRouter<O> => {
-  const isRouteName = <N extends RouteNames<O['routes']>>(
+  const isRouteName = <N extends RouteNames<FlatRoutes<O['routes']>>>(
     location: RoutiderLocation<
       undefined,
       undefined,
       undefined,
-      RouteNames<O['routes']>
+      RouteNames<FlatRoutes<O['routes']>>
     >,
     name: N
-  ): location is RoutiderLocationOfNames<O['routes'], Exclude<N, null>> =>
-    name === location.name
+  ): location is RoutiderLocationOfNames<
+    FlatRoutes<O['routes']>,
+    Exclude<N, null>
+  > => name === location.name
   const getOptionalTypedRoute = (
     location: RoutiderLocation<
       undefined,
       undefined,
       undefined,
-      RouteNames<O['routes']>
+      RouteNames<FlatRoutes<O['routes']>>
     >
-  ) => location as RoutiderLocationOfNames<O['routes'], RouteNames<O['routes']>>
+  ) =>
+    location as RoutiderLocationOfNames<
+      FlatRoutes<O['routes']>,
+      RouteNames<FlatRoutes<O['routes']>>
+    >
 
   return { ...router, isRouteName, getOptionalTypedRoute } as RoutiderRouter<O>
 }

@@ -3,7 +3,8 @@ import {
   createPaths,
   RoutiderRoutes,
   createRoute,
-  createRoutider
+  createRoutider,
+  routiderRoutesToRouteRecords
 } from '#/index'
 import { isSubType, isSameType } from '#/test-util'
 import { defineComponent } from 'vue'
@@ -62,6 +63,28 @@ describe('routiderOptions', () => {
       Index: {
         path: createPaths(createPath`/items/${'id'}`, createPath`/i/${'id'}`),
         component: com
+      }
+    }
+    isSubType<RoutiderRoutes, typeof options>(true)
+  })
+
+  it('can declare nested route', () => {
+    const options = {
+      User: {
+        path: createPath`/users/${'userId'}`,
+        component: com,
+        children: {
+          UserItem: {
+            path: createPath`${'itemId'}`,
+            component: com,
+            children: {
+              UserItemDetail: {
+                path: createPath`detail`,
+                component: com
+              }
+            }
+          }
+        }
       }
     }
     isSubType<RoutiderRoutes, typeof options>(true)
@@ -143,5 +166,68 @@ describe('routiderOptions', () => {
       }
     }
     isSubType<RoutiderRoutes, typeof options>(false)
+  })
+})
+
+describe('routiderRoutesToRouteRecords', () => {
+  it('can convert normal routes', () => {
+    const route = {
+      Index: {
+        path: '/',
+        component: com
+      }
+    }
+    const actual = routiderRoutesToRouteRecords(route)
+    expect(actual).toStrictEqual([
+      {
+        name: 'Index',
+        path: '/',
+        component: com,
+        children: undefined
+      }
+    ])
+  })
+  it('can convert nested routes', () => {
+    const route = {
+      User: {
+        path: createPath`/users/${'userId'}`,
+        component: com,
+        children: {
+          UserItem: {
+            path: createPath`${'itemId'}`,
+            component: com,
+            children: {
+              UserItemDetail: {
+                path: createPath`detail`,
+                component: com
+              }
+            }
+          }
+        }
+      }
+    }
+    const actual = routiderRoutesToRouteRecords(route)
+    expect(actual).toStrictEqual([
+      {
+        name: 'User',
+        path: '/users/:userId',
+        component: com,
+        children: [
+          {
+            name: 'UserItem',
+            path: ':itemId',
+            component: com,
+            children: [
+              {
+                name: 'UserItemDetail',
+                path: 'detail',
+                component: com,
+                children: undefined
+              }
+            ]
+          }
+        ]
+      }
+    ])
   })
 })

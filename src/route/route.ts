@@ -15,6 +15,7 @@ import {
 import { RoutiderLocation, RoutiderLocationN } from './location'
 import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
 import { RouteRecordName } from '../options/name'
+import { RoutiderRoutes } from '../options/options'
 
 /**
  * Typed _RouteRecordProps
@@ -61,7 +62,11 @@ export interface RoutiderBeforeEnterGuardWithThis<
 export interface _RoutiderRouteRecordBase<
   Params extends string | undefined,
   Queries extends string | undefined
-> extends Omit<_RouteRecordBase, 'path' | 'query' | 'beforeEnter'> {
+>
+  extends Omit<
+    _RouteRecordBase,
+    'path' | 'query' | 'children' | 'beforeEnter'
+  > {
   /**
    * `name` will be automatically set from key
    */
@@ -79,11 +84,7 @@ export interface _RoutiderRouteRecordBase<
    * Define queries which may receive
    */
   query?: Queries[]
-  /**
-   * Nested routes are not supported by vue-routider because of type inference limitations.
-   * @see {@link https://github.com/sapphi-red/vue-routider/issues/4}
-   */
-  children?: never
+  children?: RoutiderRoutes
   redirect?: RoutiderRouteRecordRedirectOption<Params, Queries>
   beforeEnter?:
     | RoutiderBeforeEnterGuardWithThis<undefined, Params, Queries>

@@ -6,7 +6,8 @@ import {
   IfNotUndefined,
   IsNotAnyOrUndefined,
   EntityOrArrayToUnion,
-  IfNotString
+  IfNotString,
+  NeverToUndefined
 } from '#/type'
 import { isTypeEqual, isSameType } from '#/test-util'
 
@@ -166,5 +167,20 @@ describe('IfNotString', () => {
   })
   it('can detect undefined', () => {
     isTypeEqual<IfNotString<undefined>, undefined>(true)
+  })
+})
+
+describe('NeverToUndefined', () => {
+  it('can convert never', () => {
+    isTypeEqual<NeverToUndefined<never>, undefined>(true)
+  })
+  it('does nothing with not never (1)', () => {
+    isTypeEqual<NeverToUndefined<undefined>, undefined>(true)
+  })
+  it('does nothing with not never (2)', () => {
+    isTypeEqual<NeverToUndefined<string>, string>(true)
+  })
+  it('does nothing with not never (3)', () => {
+    isTypeEqual<NeverToUndefined<0 | 1>, 0 | 1>(true)
   })
 })

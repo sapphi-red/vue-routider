@@ -16,7 +16,7 @@ describe('useRoute', () => {
   it('has typed route (2)', async () => {
     const { routerInstall, useRoute } = await getSkeletonRouter('/users/1/1')
     runInsideComponent(routerInstall, () => {
-      const route = useRoute('UserItem')
+      const route = useRoute('UserItemDetail')
       isSameType<
         { userId: string | string[]; id: string | string[] },
         typeof route.params
@@ -37,6 +37,25 @@ describe('useRoute', () => {
     runInsideComponent(routerInstall, () => {
       const route = useRoute('About')
       isSameType<NeverRecord, typeof route.params>(true)
+      isSameType<NeverRecord, typeof route.query>(true)
+    })
+  })
+  it('has typed route (5)', async () => {
+    const { routerInstall, useRoute } = await getSkeletonRouter('/about')
+    runInsideComponent(routerInstall, () => {
+      const route = useRoute('UserItem')
+      isSameType<
+        { id: string | string[]; userId: string | string[] },
+        typeof route.params
+      >(true)
+      isSameType<NeverRecord, typeof route.query>(true)
+    })
+  })
+  it('has typed route (6)', async () => {
+    const { routerInstall, useRoute } = await getSkeletonRouter('/about')
+    runInsideComponent(routerInstall, () => {
+      const route = useRoute('UserDetail')
+      isSameType<{ userId: string | string[] }, typeof route.params>(true)
       isSameType<NeverRecord, typeof route.query>(true)
     })
   })
