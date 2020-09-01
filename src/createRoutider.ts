@@ -20,9 +20,13 @@ import {
 } from './router/router'
 import { warnIfIncorrectRoute } from './route/checkRoute'
 import { RoutiderNavigationGuard } from './router/navigationGuard'
+import { RoutiderRouteRecordRedirectOption } from './route/route'
 
 declare const validTypeLocation: unique symbol
 export type ValidTypeLocation = typeof validTypeLocation
+
+declare const validRedirectFunction: unique symbol
+export type ValidRedirectFunction = typeof validRedirectFunction
 
 export interface Routider<O extends RoutiderOptions> {
   rawRouter: Router
@@ -53,6 +57,14 @@ export interface Routider<O extends RoutiderOptions> {
   ensureLocationType<N extends RouteNames<FlatRoutes<O['routes']>>>(
     location: RoutiderRouteLocation<FlatRoutes<O['routes']>, N>
   ): RoutiderRouteLocation<FlatRoutes<O['routes']>, N> & ValidTypeLocation
+
+  createRedirect<N extends RouteNames<FlatRoutes<O['routes']>>>(
+    name: N,
+    redirectFunc: RoutiderRouteRecordRedirectOption<
+      FlatRoutes<O['routes']>[N],
+      N
+    >
+  ): unknown
 }
 
 export const createRoutider = <O extends RoutiderOptions>(
@@ -103,6 +115,14 @@ export const createRoutider = <O extends RoutiderOptions>(
     location as RoutiderRouteLocation<FlatRoutes<O['routes']>, N> &
       ValidTypeLocation
 
+  const createRedirect = <N extends RouteNames<FlatRoutes<O['routes']>>>(
+    _name: N,
+    redirectFunc: RoutiderRouteRecordRedirectOption<
+      FlatRoutes<O['routes']>[N],
+      N
+    >
+  ) => redirectFunc as unknown
+
   return {
     rawRouter,
     router,
@@ -110,6 +130,7 @@ export const createRoutider = <O extends RoutiderOptions>(
     useRoute,
     onBeforeRouteLeave,
     onBeforeRouteUpdate,
-    ensureLocationType
+    ensureLocationType,
+    createRedirect
   }
 }

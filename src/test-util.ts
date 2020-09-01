@@ -1,7 +1,7 @@
 import { NavigationFailure, createMemoryHistory, Router } from 'vue-router'
 import { Equal, Same, IsNotAnyOrUndefined } from './type'
 import { defineComponent } from 'vue'
-import { RoutiderRouter, createRoutider, createRoute, createPath } from '.'
+import { RoutiderRouter, createRoutider, createPath } from '.'
 import { mount } from '@vue/test-utils'
 import { createQueries } from './options/queries'
 
@@ -72,14 +72,20 @@ export const getSkeletonRouter = async (
         path: '/',
         component: Com
       },
-      Item: createRoute({
+      Item: {
         path: createPath`/items/${'id'}`,
         component: Com,
         props: to => {
           return { id: to.params.id }
         },
-        query: createQueries('order', 'row')
-      }),
+        query: createQueries('order', 'row'),
+        children: {
+          ItemDetail: {
+            path: '/detail',
+            component: Com
+          }
+        }
+      },
       UserItemDetail: {
         path: createPath`/users/${'userId'}/${'id'}/detail`,
         component: Com,

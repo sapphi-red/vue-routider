@@ -2,7 +2,6 @@ import {
   createPath,
   createPaths,
   RoutiderRoutes,
-  createRoute,
   createRoutider,
   routiderRoutesToRouteRecords
 } from '#/index'
@@ -96,18 +95,19 @@ describe('routiderOptions', () => {
         path: '/about',
         component: com
       },
-      Desc: createRoute({
+      Desc: {
         path: createPath`/desc/${'id'}`,
-        redirect: to => {
-          isSameType<typeof to.params, { id: string | string[] }>(true)
+        redirect: (): unknown =>
+          createRedirect('Desc', to => {
+            isSameType<typeof to.params, { id: string | string[] }>(true)
 
-          const newTo: unknown = ensureLocationType({ name: 'About' })
-          return newTo
-        }
-      })
+            const newTo: unknown = ensureLocationType({ name: 'About' })
+            return newTo
+          })
+      }
     }
 
-    const { ensureLocationType } = createRoutider({
+    const { ensureLocationType, createRedirect } = createRoutider({
       history: createMemoryHistory(),
       routes
     })
@@ -116,7 +116,7 @@ describe('routiderOptions', () => {
   })
   it('can declare beforeEnter', () => {
     const routes = {
-      Item: createRoute({
+      Item: {
         path: createPath`/item/${'id'}`,
         component: com,
         beforeEnter: (to, from, next) => {
@@ -129,7 +129,7 @@ describe('routiderOptions', () => {
           })
           next(newTo)
         }
-      })
+      }
     }
 
     const { ensureLocationType } = createRoutider({

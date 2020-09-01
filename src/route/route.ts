@@ -10,12 +10,14 @@ import {
   RoutiderPaths,
   pathToString,
   pathsToString,
-  Path
+  Path,
+  ExtractParams
 } from '../options/path'
 import { RoutiderLocation, RoutiderLocationN } from './location'
 import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
 import { RouteRecordName } from '../options/name'
 import { RoutiderRoutes } from '../options/options'
+import { ExtractQueries } from '../options/queries'
 
 /**
  * Typed _RouteRecordProps
@@ -33,11 +35,17 @@ export type _RouteRecordProps<
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => Record<string, any>)
 
-type RoutiderRouteRecordRedirectOption<
-  Params extends string | undefined,
-  Queries extends string | undefined,
-  RouteName extends RouteRecordName = RouteRecordName
-> = (to: RoutiderLocation<Params, undefined, Queries, RouteName>) => unknown
+export type RoutiderRouteRecordRedirectOption<
+  Route extends RoutiderRouteRecord,
+  RouteName extends RouteRecordName
+> = (
+  to: RoutiderLocation<
+    ExtractParams<Route>,
+    undefined,
+    ExtractQueries<Route>,
+    RouteName
+  >
+) => unknown
 
 /**
  * Typed `NavigationGuardWithThis` for beforeEnter
@@ -85,7 +93,7 @@ export interface _RoutiderRouteRecordBase<
    */
   query?: Queries[]
   children?: RoutiderRoutes
-  redirect?: RoutiderRouteRecordRedirectOption<Params, Queries>
+  redirect?: () => unknown
   beforeEnter?:
     | RoutiderBeforeEnterGuardWithThis<undefined, Params, Queries>
     | RoutiderBeforeEnterGuardWithThis<undefined, Params, Queries>[]
@@ -123,7 +131,7 @@ interface RoutiderRouteRecordRedirect<
   Params extends string | undefined,
   Queries extends string | undefined
 > extends _RoutiderRouteRecordBase<Params, Queries> {
-  redirect: RoutiderRouteRecordRedirectOption<Params, Queries>
+  redirect: () => unknown
   component?: never
   components?: never
   children?: never
@@ -158,31 +166,3 @@ export const pathToPathAndAlias = (
   const pathProp = pathStrings.shift()!
   return { path: pathProp, alias: pathStrings }
 }
-
-type ConvertToUndefinedIfStringPath<
-  Route extends RoutiderRouteRecord
-> = Route extends RoutiderRouteRecord<infer P, infer Q>
-  ? string extends P
-    ? RoutiderRouteRecord<undefined, Q>
-    : Route
-  : never
-
-type ConvertToUndefinedIfStringQuery<
-  Route extends RoutiderRouteRecord
-> = Route extends RoutiderRouteRecord<infer P, infer Q>
-  ? string extends Q
-    ? RoutiderRouteRecord<P, undefined>
-    : Route
-  : never
-
-export const createRoute = <
-  Params extends string | undefined,
-  Queries extends string | undefined
->(
-  route: RoutiderRouteRecord<Params, Queries>
-): ConvertToUndefinedIfStringQuery<
-  ConvertToUndefinedIfStringPath<RoutiderRouteRecord<Params, Queries>>
-> =>
-  route as ConvertToUndefinedIfStringQuery<
-    ConvertToUndefinedIfStringPath<RoutiderRouteRecord<Params, Queries>>
-  >
