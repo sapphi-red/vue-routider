@@ -57,6 +57,17 @@ describe('createPath', () => {
     createPath`/item/${':id'}`
     expect(console.warn).toBeCalled()
   })
+
+  it('should warn if it includes same string (1)', () => {
+    console.warn = jest.fn()
+    createPath`/${'id'}/${'id'}`
+    expect(console.warn).toBeCalled()
+  })
+  it('should warn if it includes same string (2)', () => {
+    console.warn = jest.fn()
+    createPath`/${'id'}/${'id2'}/${'id'}`
+    expect(console.warn).toBeCalled()
+  })
 })
 
 describe('createPaths', () => {
