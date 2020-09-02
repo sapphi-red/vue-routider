@@ -63,8 +63,7 @@ export interface _RoutiderRouteRecordBase<
   Params extends string | undefined,
   Queries extends string | undefined,
   Children extends RoutiderRoutes | undefined
->
-  extends Omit<
+> extends Omit<
     _RouteRecordBase,
     'path' | 'query' | 'children' | 'beforeEnter'
   > {
