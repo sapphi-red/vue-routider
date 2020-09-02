@@ -1,9 +1,14 @@
 import { RouterOptions, RouteRecordRaw } from 'vue-router'
 import { RouteRecordName } from './name'
-import { RoutiderRouteRecord, pathToPathAndAlias } from '../route/route'
+import {
+  RoutiderRouteRecord,
+  pathToPathAndAlias,
+  ExtractChildren
+} from '../route/route'
 import { UnionToIntersection } from '../type'
-import { CobinePaths, Path, pathsToString, pathToString } from './path'
+import { Path, pathsToString, pathToString, ExtractParams } from './path'
 import warning from 'tiny-warning'
+import { ExtractQueries } from './queries'
 
 export type RoutiderRoutes = Record<RouteRecordName, RoutiderRouteRecord>
 
@@ -22,23 +27,23 @@ type AddParentParams<
   ParentPath extends Path,
   Children extends RoutiderRoutes
 > = {
-  [K in keyof Children]: Omit<Children[K], 'path'> & {
-    path: CobinePaths<ParentPath, Children[K]['path']>
-  }
+  [K in keyof Children]: RoutiderRouteRecord<
+    ExtractParams<ParentPath> | ExtractParams<Children[K]['path']>,
+    ExtractQueries<Children[K]>,
+    ExtractChildren<Children[K]>
+  >
 }
 
-type ExtractChildren<T extends RoutiderRouteRecord> = T extends {
-  children: infer S
-}
-  ? S extends RoutiderRoutes
-    ? AddParentParams<T['path'], S>
-    : never
+type ExtractChildrenWithParentParams<
+  T extends RoutiderRouteRecord
+> = ExtractChildren<T> extends RoutiderRoutes
+  ? AddParentParams<T['path'], ExtractChildren<T>>
   : never
 
 export type FlatRoutes<T extends RoutiderRoutes> = T &
   UnionToIntersection<
     {
-      [K in keyof T]: FlatRoutes<ExtractChildren<T[K]>>
+      [K in keyof T]: FlatRoutes<ExtractChildrenWithParentParams<T[K]>>
     }[keyof T]
   >
 

@@ -61,7 +61,8 @@ export interface RoutiderBeforeEnterGuardWithThis<
  */
 export interface _RoutiderRouteRecordBase<
   Params extends string | undefined,
-  Queries extends string | undefined
+  Queries extends string | undefined,
+  Children extends RoutiderRoutes | undefined
 >
   extends Omit<
     _RouteRecordBase,
@@ -84,7 +85,7 @@ export interface _RoutiderRouteRecordBase<
    * Define queries which may receive
    */
   query?: Queries[]
-  children?: RoutiderRoutes
+  children?: Children
   redirect?: RoutiderRouteRecordRedirectOption<Params, Queries>
   beforeEnter?:
     | RoutiderBeforeEnterGuardWithThis<undefined, Params, Queries>
@@ -93,8 +94,9 @@ export interface _RoutiderRouteRecordBase<
 
 interface RoutiderRouteRecordSingleView<
   Params extends string | undefined,
-  Queries extends string | undefined
-> extends _RoutiderRouteRecordBase<Params, Queries> {
+  Queries extends string | undefined,
+  Children extends RoutiderRoutes | undefined
+> extends _RoutiderRouteRecordBase<Params, Queries, Children> {
   /**
    * Component to display when the URL matches this route.
    */
@@ -106,8 +108,9 @@ interface RoutiderRouteRecordSingleView<
 }
 interface RoutiderRouteRecordMultipleViews<
   Params extends string | undefined,
-  Queries extends string | undefined
-> extends _RoutiderRouteRecordBase<Params, Queries> {
+  Queries extends string | undefined,
+  Children extends RoutiderRoutes | undefined
+> extends _RoutiderRouteRecordBase<Params, Queries, Children> {
   /**
    * Components to display when the URL matches this route. Allow using named views.
    */
@@ -121,21 +124,34 @@ interface RoutiderRouteRecordMultipleViews<
 }
 interface RoutiderRouteRecordRedirect<
   Params extends string | undefined,
-  Queries extends string | undefined
-> extends _RoutiderRouteRecordBase<Params, Queries> {
+  Queries extends string | undefined,
+  Children extends RoutiderRoutes | undefined
+> extends _RoutiderRouteRecordBase<Params, Queries, Children> {
   redirect: RoutiderRouteRecordRedirectOption<Params, Queries>
   component?: never
   components?: never
   children?: never
 }
 
-export declare type RoutiderRouteRecord<
+export type RoutiderRouteRecord<
   Params extends string | undefined = string | undefined,
-  Queries extends string | undefined = string | undefined
+  Queries extends string | undefined = string | undefined,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Children extends RoutiderRoutes | undefined = any
 > =
-  | RoutiderRouteRecordSingleView<Params, Queries>
-  | RoutiderRouteRecordMultipleViews<Params, Queries>
-  | RoutiderRouteRecordRedirect<Params, Queries>
+  | RoutiderRouteRecordSingleView<Params, Queries, Children>
+  | RoutiderRouteRecordMultipleViews<Params, Queries, Children>
+  | RoutiderRouteRecordRedirect<Params, Queries, Children>
+
+export type ExtractChildren<
+  T extends RoutiderRouteRecord
+> = T extends RoutiderRouteRecord<
+  string | undefined,
+  string | undefined,
+  infer C
+>
+  ? C
+  : never
 
 interface PathAndAlias {
   path: string
@@ -177,12 +193,15 @@ type ConvertToUndefinedIfStringQuery<
 
 export const createRoute = <
   Params extends string | undefined,
-  Queries extends string | undefined
+  Queries extends string | undefined,
+  Children extends RoutiderRoutes | undefined = undefined
 >(
-  route: RoutiderRouteRecord<Params, Queries>
+  route: RoutiderRouteRecord<Params, Queries, Children>
 ): ConvertToUndefinedIfStringQuery<
-  ConvertToUndefinedIfStringPath<RoutiderRouteRecord<Params, Queries>>
+  ConvertToUndefinedIfStringPath<RoutiderRouteRecord<Params, Queries, Children>>
 > =>
   route as ConvertToUndefinedIfStringQuery<
-    ConvertToUndefinedIfStringPath<RoutiderRouteRecord<Params, Queries>>
+    ConvertToUndefinedIfStringPath<
+      RoutiderRouteRecord<Params, Queries, Children>
+    >
   >

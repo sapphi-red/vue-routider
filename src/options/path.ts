@@ -1,4 +1,4 @@
-import { IfNotUnion, IfNotString, NeverToUndefined } from '../type'
+import { IfNotUnion, IfNotString } from '../type'
 import warning from 'tiny-warning'
 
 export type Path<T extends string | undefined = string | undefined> =
@@ -6,10 +6,6 @@ export type Path<T extends string | undefined = string | undefined> =
   | string[]
   | RoutiderPath<T>
   | RoutiderPaths<T>
-
-export type CobinePaths<P1 extends Path, P2 extends Path> = RoutiderPath<
-  NeverToUndefined<ExtractParams<P1> | ExtractParams<P2>>
->
 
 /**
  * fake symbol for nominal typing

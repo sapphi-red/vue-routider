@@ -78,7 +78,13 @@ export const getSkeletonRouter = async (
         props: to => {
           return { id: to.params.id }
         },
-        query: createQueries('order', 'row')
+        query: createQueries('order', 'row'),
+        children: {
+          ItemDetail: {
+            path: 'detail',
+            component: Com
+          }
+        }
       }),
       UserItemDetail: {
         path: createPath`/users/${'userId'}/${'id'}/detail`,

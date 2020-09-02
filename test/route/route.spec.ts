@@ -101,6 +101,6 @@ describe('createRoute', () => {
       component: Com,
       query: createQueries('id')
     })
-    isTypeEqual<typeof route, RoutiderRouteRecord<'id', 'id'>>(true)
+    isTypeEqual<typeof route, RoutiderRouteRecord<'id', 'id', undefined>>(true)
   })
 })
