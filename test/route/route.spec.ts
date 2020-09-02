@@ -71,21 +71,29 @@ describe('createRoute', () => {
       path: '/',
       component: Com
     })
-    isTypeEqual<typeof route, RoutiderRouteRecord<undefined, undefined>>(true)
+    isTypeEqual<
+      typeof route,
+      RoutiderRouteRecord<undefined, undefined, undefined>
+    >(true)
   })
   it('can infer route type (2)', () => {
     const route = createRoute({
       path: createPath`/`,
       component: Com
     })
-    isTypeEqual<typeof route, RoutiderRouteRecord<undefined, undefined>>(true)
+    isTypeEqual<
+      typeof route,
+      RoutiderRouteRecord<undefined, undefined, undefined>
+    >(true)
   })
   it('can infer route type (3)', () => {
     const route = createRoute({
       path: createPath`/items/${'id'}`,
       component: Com
     })
-    isTypeEqual<typeof route, RoutiderRouteRecord<'id', undefined>>(true)
+    isTypeEqual<typeof route, RoutiderRouteRecord<'id', undefined, undefined>>(
+      true
+    )
   })
   it('can infer route type (4)', () => {
     const route = createRoute({
@@ -93,7 +101,9 @@ describe('createRoute', () => {
       component: Com,
       query: createQueries('id')
     })
-    isTypeEqual<typeof route, RoutiderRouteRecord<undefined, 'id'>>(true)
+    isTypeEqual<typeof route, RoutiderRouteRecord<undefined, 'id', undefined>>(
+      true
+    )
   })
   it('can infer route type (5)', () => {
     const route = createRoute({
@@ -102,5 +112,30 @@ describe('createRoute', () => {
       query: createQueries('id')
     })
     isTypeEqual<typeof route, RoutiderRouteRecord<'id', 'id', undefined>>(true)
+  })
+  it('can infer route type (5)', () => {
+    const route = createRoute({
+      path: createPath`/items/${'id'}`,
+      component: Com,
+      children: {
+        Child: {
+          path: '/child',
+          component: Com
+        }
+      }
+    })
+    isTypeEqual<
+      typeof route,
+      RoutiderRouteRecord<
+        'id',
+        undefined,
+        {
+          Child: {
+            path: string
+            component: typeof Com
+          }
+        }
+      >
+    >(true)
   })
 })

@@ -177,17 +177,17 @@ export const pathToPathAndAlias = (
 
 type ConvertToUndefinedIfStringPath<
   Route extends RoutiderRouteRecord
-> = Route extends RoutiderRouteRecord<infer P, infer Q>
+> = Route extends RoutiderRouteRecord<infer P, infer Q, infer C>
   ? string extends P
-    ? RoutiderRouteRecord<undefined, Q>
+    ? RoutiderRouteRecord<undefined, Q, C>
     : Route
   : never
 
 type ConvertToUndefinedIfStringQuery<
   Route extends RoutiderRouteRecord
-> = Route extends RoutiderRouteRecord<infer P, infer Q>
+> = Route extends RoutiderRouteRecord<infer P, infer Q, infer C>
   ? string extends Q
-    ? RoutiderRouteRecord<P, undefined>
+    ? RoutiderRouteRecord<P, undefined, C>
     : Route
   : never
 
