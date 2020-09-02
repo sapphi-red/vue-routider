@@ -7,7 +7,7 @@
 [![bundlephobia](https://badgen.net/bundlephobia/min/vue-routider)](https://bundlephobia.com/result?p=vue-routider)
 [![bundlephobia](https://badgen.net/bundlephobia/minzip/vue-routider)](https://bundlephobia.com/result?p=vue-routider)
 
-Make vue-router type safe.
+Make Vue Router type safe with a very similar API.
 (Not compatible with vue-router@3)
 
 [Documents](https://vue-routider.sapphi.red/)
@@ -84,9 +84,7 @@ import { useRoute } from '../router'
 export default defineComponent({
   setup() {
     const route = useRoute('Item')
-    /*
-      here type of `route.params` will become `{ id: string }`
-    */
+    // here type of `route.params` will become `{ id: string | string[] }`
   }
 })
 ```
@@ -99,9 +97,7 @@ import { useRoute } from '../router'
 export default defineComponent({
   setup() {
     const route = useRoute(['Item', 'UserItem'])
-    /*
-      here type of `route.params` will become `{ id: string, userId?: string }`
-    */
+    // here type of `route.params` will become `{ id: string | string[], userId?: string | string[] }`
   }
 })
 ```
