@@ -111,7 +111,7 @@ describe('navigationGuards', () => {
       undefined,
       undefined,
       undefined,
-      RouteNames<typeof routes>
+      RouteNames<Routes>
     >
 
     const IndexCom = defineComponent({
@@ -120,9 +120,7 @@ describe('navigationGuards', () => {
         onBeforeRouteLeave((to, from, next) => {
           isTypeEqual<typeof to, UnknownLocation>(true)
           isTypeEqual<typeof from, UnknownLocation>(true)
-          isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(
-            true
-          )
+          isTypeEqual<typeof next, RoutiderNavigationGuardNext<Routes>>(true)
 
           expect(to.name).toBe('Item')
           expect(from.name).toBe('Index')
@@ -143,6 +141,7 @@ describe('navigationGuards', () => {
         component: EmptyCom
       }
     }
+    type Routes = typeof routes
 
     const { rawRouter, router, onBeforeRouteLeave } = createRoutider({
       history: createMemoryHistory(),
@@ -159,7 +158,7 @@ describe('navigationGuards', () => {
       undefined,
       undefined,
       undefined,
-      RouteNames<typeof routes>
+      RouteNames<Routes>
     >
 
     const ItemCom = defineComponent({
@@ -168,9 +167,7 @@ describe('navigationGuards', () => {
         onBeforeRouteUpdate((to, from, next) => {
           isTypeEqual<typeof to, UnknownLocation>(true)
           isTypeEqual<typeof from, UnknownLocation>(true)
-          isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(
-            true
-          )
+          isTypeEqual<typeof next, RoutiderNavigationGuardNext<Routes>>(true)
 
           expect(to.name).toBe('Item')
           expect(from.name).toBe('Item')
@@ -191,6 +188,7 @@ describe('navigationGuards', () => {
         component: ItemCom
       }
     }
+    type Routes = typeof routes
 
     const { rawRouter, router, onBeforeRouteUpdate } = createRoutider({
       history: createMemoryHistory(),
