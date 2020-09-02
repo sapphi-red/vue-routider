@@ -139,6 +139,47 @@ describe('routiderOptions', () => {
 
     isSubType<RoutiderRoutes, typeof routes>(true)
   })
+  it('can declare beforeEnter with nested route', () => {
+    const routes = {
+      About: {
+        path: '/about',
+        component: com
+      },
+      Descs: createRoute({
+        path: createPath`/desc`,
+        query: ['first'],
+        component: com,
+        beforeEnter: (to, _from, next) => {
+          const newTo = ensureLocationType({
+            name: 'Desc',
+            params: { id: '0' }
+          })
+
+          if (Array.isArray(to.query.first)) {
+            if (to.query.first.length > 0) {
+              next(newTo)
+            }
+          } else if (to.query.first) {
+            next(newTo)
+          }
+          next()
+        },
+        children: {
+          Desc: {
+            path: createPath`/${'id'}`,
+            component: com
+          }
+        }
+      })
+    }
+
+    const { ensureLocationType } = createRoutider({
+      history: createMemoryHistory(),
+      routes
+    })
+
+    isSubType<RoutiderRoutes, typeof routes>(true)
+  })
 
   it('can detect invalid path (1)', () => {
     const options = {
