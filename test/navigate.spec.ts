@@ -48,7 +48,31 @@ describe('router.push', () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
     runInsideComponent(routerInstall, async () => {
       const router = useRouter()
-      router.push({ name: 'UserItem', params: { id: '1', userId: '1' } })
+      router.push({ name: 'UserItemDetail', params: { id: '1', userId: '1' } })
+
+      const route = useRoute(null)
+      await waitNavigation(router)
+      expect(route.path).toBe('/users/1/1/detail')
+      done()
+    })
+  })
+  it('has typed router.push (5)', async done => {
+    const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, async () => {
+      const router = useRouter()
+      router.push({ name: 'User', params: { userId: '1' } })
+
+      const route = useRoute(null)
+      await waitNavigation(router)
+      expect(route.path).toBe('/users/1')
+      done()
+    })
+  })
+  it('has typed router.push (6)', async done => {
+    const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, async () => {
+      const router = useRouter()
+      router.push({ name: 'UserItem', params: { userId: '1', id: '1' } })
 
       const route = useRoute(null)
       await waitNavigation(router)
@@ -172,7 +196,34 @@ describe('router.replace', () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
     runInsideComponent(routerInstall, async () => {
       const router = useRouter()
-      router.replace({ name: 'UserItem', params: { id: '1', userId: '1' } })
+      router.replace({
+        name: 'UserItemDetail',
+        params: { id: '1', userId: '1' }
+      })
+
+      const route = useRoute(null)
+      await waitNavigation(router)
+      expect(route.path).toBe('/users/1/1/detail')
+      done()
+    })
+  })
+  it('has typed router.replace (5)', async done => {
+    const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, async () => {
+      const router = useRouter()
+      router.replace({ name: 'User', params: { userId: '1' } })
+
+      const route = useRoute(null)
+      await waitNavigation(router)
+      expect(route.path).toBe('/users/1')
+      done()
+    })
+  })
+  it('has typed router.replace (6)', async done => {
+    const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
+    runInsideComponent(routerInstall, async () => {
+      const router = useRouter()
+      router.replace({ name: 'UserItem', params: { userId: '1', id: '1' } })
 
       const route = useRoute(null)
       await waitNavigation(router)

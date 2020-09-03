@@ -9,14 +9,14 @@ export const warnIfIncorrectRoute = <Routes extends RoutiderRoutes>(
 ): void => {
   if (name === null) return
 
-  const matchedName = route.matched[0]?.name
-  if (matchedName === undefined) return
+  const matchedNames = route.matched.map(m => m.name)
+  if (matchedNames.length <= 0) return
 
   const names: RouteRecordName[] = Array.isArray(name) ? name : [name]
   warning(
-    names.includes(matchedName),
+    names.some(name => matchedNames.includes(name)),
     `vue-routider: Incorrect useRoute usage. Path is now matched '${String(
-      matchedName
+      matchedNames.join(',')
     )}' but \`useRoute([${names.join(',')}])\` is used.`
   )
 }

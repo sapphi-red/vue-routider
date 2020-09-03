@@ -10,7 +10,8 @@ import { RoutiderLocation, RoutiderLocationOfNames } from './route/location'
 import {
   RoutiderOptions,
   RouteNames,
-  routiderOptionsToRouterOptions
+  routiderOptionsToRouterOptions,
+  FlatRoutes
 } from './options/options'
 import {
   RoutiderRouter,
@@ -28,20 +29,30 @@ export interface Routider<O extends RoutiderOptions> {
   router: RoutiderRouter<O>
   useRouter: () => RoutiderRouter<O>
   useRoute: <
-    N extends RouteNames<O['routes']> | RouteNames<O['routes']>[] | null
+    N extends
+      | RouteNames<FlatRoutes<O['routes']>>
+      | RouteNames<FlatRoutes<O['routes']>>[]
+      | null
   >(
     name: N
   ) => N extends null
-    ? RoutiderLocation<undefined, string, string, RouteNames<O['routes']>>
-    : RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
-  onBeforeRouteLeave: (leaveGuard: RoutiderNavigationGuard<O['routes']>) => void
+    ? RoutiderLocation<
+        undefined,
+        string,
+        string,
+        RouteNames<FlatRoutes<O['routes']>>
+      >
+    : RoutiderLocationOfNames<FlatRoutes<O['routes']>, Exclude<N, null>>
+  onBeforeRouteLeave: (
+    leaveGuard: RoutiderNavigationGuard<FlatRoutes<O['routes']>>
+  ) => void
   onBeforeRouteUpdate: (
-    updateGuard: RoutiderNavigationGuard<O['routes']>
+    updateGuard: RoutiderNavigationGuard<FlatRoutes<O['routes']>>
   ) => void
 
-  ensureLocationType<N extends RouteNames<O['routes']>>(
-    location: RoutiderRouteLocation<O['routes'], N>
-  ): RoutiderRouteLocation<O['routes'], N> & ValidTypeLocation
+  ensureLocationType<N extends RouteNames<FlatRoutes<O['routes']>>>(
+    location: RoutiderRouteLocation<FlatRoutes<O['routes']>, N>
+  ): RoutiderRouteLocation<FlatRoutes<O['routes']>, N> & ValidTypeLocation
 }
 
 export const createRoutider = <O extends RoutiderOptions>(
@@ -54,33 +65,43 @@ export const createRoutider = <O extends RoutiderOptions>(
   const useRouter = () => router
 
   const useRoute = <
-    N extends RouteNames<O['routes']> | RouteNames<O['routes']>[] | null
+    N extends
+      | RouteNames<FlatRoutes<O['routes']>>
+      | RouteNames<FlatRoutes<O['routes']>>[]
+      | null
   >(
     name: N
   ) => {
     const route = useRouteVueRouter()
     if (__DEV__) {
-      warnIfIncorrectRoute<O['routes']>(route, name)
+      warnIfIncorrectRoute<FlatRoutes<O['routes']>>(route, name)
     }
     return route as N extends null
-      ? RoutiderLocation<undefined, string, string, RouteNames<O['routes']>>
-      : RoutiderLocationOfNames<O['routes'], Exclude<N, null>>
+      ? RoutiderLocation<
+          undefined,
+          string,
+          string,
+          RouteNames<FlatRoutes<O['routes']>>
+        >
+      : RoutiderLocationOfNames<FlatRoutes<O['routes']>, Exclude<N, null>>
   }
 
   const onBeforeRouteLeave = (
-    leaveGuard: RoutiderNavigationGuard<O['routes']>
+    leaveGuard: RoutiderNavigationGuard<FlatRoutes<O['routes']>>
   ) => {
     onBeforeRouteLeaveVueRouter(leaveGuard as NavigationGuard)
   }
   const onBeforeRouteUpdate = (
-    updateGuard: RoutiderNavigationGuard<O['routes']>
+    updateGuard: RoutiderNavigationGuard<FlatRoutes<O['routes']>>
   ) => {
     onBeforeRouteUpdateVueRouter(updateGuard as NavigationGuard)
   }
 
-  const ensureLocationType = <N extends RouteNames<O['routes']>>(
-    location: RoutiderRouteLocation<O['routes'], N>
-  ) => location as RoutiderRouteLocation<O['routes'], N> & ValidTypeLocation
+  const ensureLocationType = <N extends RouteNames<FlatRoutes<O['routes']>>>(
+    location: RoutiderRouteLocation<FlatRoutes<O['routes']>, N>
+  ) =>
+    location as RoutiderRouteLocation<FlatRoutes<O['routes']>, N> &
+      ValidTypeLocation
 
   return {
     rawRouter,

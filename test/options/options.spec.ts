@@ -3,7 +3,8 @@ import {
   createPaths,
   RoutiderRoutes,
   createRoute,
-  createRoutider
+  createRoutider,
+  routiderRoutesToRouteRecords
 } from '#/index'
 import { isSubType, isSameType } from '#/test-util'
 import { defineComponent } from 'vue'
@@ -67,6 +68,28 @@ describe('routiderOptions', () => {
     isSubType<RoutiderRoutes, typeof options>(true)
   })
 
+  it('can declare nested route', () => {
+    const options = {
+      User: {
+        path: createPath`/users/${'userId'}`,
+        component: com,
+        children: {
+          UserItem: {
+            path: createPath`${'itemId'}`,
+            component: com,
+            children: {
+              UserItemDetail: {
+                path: createPath`detail`,
+                component: com
+              }
+            }
+          }
+        }
+      }
+    }
+    isSubType<RoutiderRoutes, typeof options>(true)
+  })
+
   it('can declare redirect path', () => {
     const routes = {
       About: {
@@ -116,6 +139,47 @@ describe('routiderOptions', () => {
 
     isSubType<RoutiderRoutes, typeof routes>(true)
   })
+  it('can declare beforeEnter with nested route', () => {
+    const routes = {
+      About: {
+        path: '/about',
+        component: com
+      },
+      Descs: createRoute({
+        path: createPath`/desc`,
+        query: ['first'],
+        component: com,
+        beforeEnter: (to, _from, next) => {
+          const newTo = ensureLocationType({
+            name: 'Desc',
+            params: { id: '0' }
+          })
+
+          if (Array.isArray(to.query.first)) {
+            if (to.query.first.length > 0) {
+              next(newTo)
+            }
+          } else if (to.query.first) {
+            next(newTo)
+          }
+          next()
+        },
+        children: {
+          Desc: {
+            path: createPath`${'id'}`,
+            component: com
+          }
+        }
+      })
+    }
+
+    const { ensureLocationType } = createRoutider({
+      history: createMemoryHistory(),
+      routes
+    })
+
+    isSubType<RoutiderRoutes, typeof routes>(true)
+  })
 
   it('can detect invalid path (1)', () => {
     const options = {
@@ -143,5 +207,108 @@ describe('routiderOptions', () => {
       }
     }
     isSubType<RoutiderRoutes, typeof options>(false)
+  })
+})
+
+describe('routiderRoutesToRouteRecords', () => {
+  it('can convert normal routes', () => {
+    const route = {
+      Index: {
+        path: '/',
+        component: com
+      }
+    }
+    const actual = routiderRoutesToRouteRecords(route)
+    expect(actual).toStrictEqual([
+      {
+        name: 'Index',
+        path: '/',
+        component: com,
+        children: undefined
+      }
+    ])
+  })
+  it('can convert nested routes', () => {
+    const route = {
+      User: {
+        path: createPath`/users/${'userId'}`,
+        component: com,
+        children: {
+          UserItem: {
+            path: createPath`${'itemId'}`,
+            component: com,
+            children: {
+              UserItemDetail: {
+                path: createPath`detail`,
+                component: com
+              }
+            }
+          }
+        }
+      }
+    }
+    const actual = routiderRoutesToRouteRecords(route)
+    expect(actual).toStrictEqual([
+      {
+        name: 'User',
+        path: '/users/:userId',
+        component: com,
+        children: [
+          {
+            name: 'UserItem',
+            path: ':itemId',
+            component: com,
+            children: [
+              {
+                name: 'UserItemDetail',
+                path: 'detail',
+                component: com,
+                children: undefined
+              }
+            ]
+          }
+        ]
+      }
+    ])
+  })
+
+  it('should warn if nested routes includes absolute path (1)', () => {
+    const route = {
+      User: {
+        path: createPath`/users/${'userId'}`,
+        component: com,
+        children: {
+          UserItem: {
+            path: createPath`/${'itemId'}`,
+            component: com
+          }
+        }
+      }
+    }
+
+    console.warn = jest.fn()
+    routiderRoutesToRouteRecords(route)
+    expect(console.warn).toBeCalled()
+  })
+  it('should warn if nested routes includes absolute path (2)', () => {
+    const route = {
+      User: {
+        path: createPath`/users/${'userId'}`,
+        component: com,
+        children: {
+          UserItem: {
+            path: createPaths(
+              createPath`/${'itemId'}`,
+              createPath`/${'itemId'}/alias`
+            ),
+            component: com
+          }
+        }
+      }
+    }
+
+    console.warn = jest.fn()
+    routiderRoutesToRouteRecords(route)
+    expect(console.warn).toBeCalled()
   })
 })

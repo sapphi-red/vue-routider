@@ -19,9 +19,22 @@ const { router, useRouter, useRoute } = createRoutider({
       path: '/', // use can just pass a string when it does not include params
       component: /* something */
     },
-    Item: {
-      path: createPath`/items/${'id'}`,
-      component: /* something */
+    // nested routes are supported
+    Items: {
+      path: '/items',
+      component: /* something */,
+      children: {
+        Item: {
+          path: createPath`${'id'}`,
+          component: /* something */,
+          children: {
+            ItemDetail: {
+              path: '/detail',
+              component: /* something */
+            }
+          }
+        }
+      }
     },
     UserItem: {
       path: createPath`/users/${'userId'}/${'id'}`,
