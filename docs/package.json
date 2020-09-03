@@ -13,7 +13,7 @@
     "prismjs": "^1.21.0",
     "vue": "^3.0.0-rc.9",
     "vue-router": "^4.0.0-beta.9",
-    "vue-routider": "^0.9.1"
+    "vue-routider": "^0.10.0"
   },
   "devDependencies": {
     "@types/markdown-it": "^10.0.2",
