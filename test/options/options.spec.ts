@@ -166,7 +166,7 @@ describe('routiderOptions', () => {
         },
         children: {
           Desc: {
-            path: createPath`/${'id'}`,
+            path: createPath`${'id'}`,
             component: com
           }
         }
