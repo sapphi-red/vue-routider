@@ -55,6 +55,18 @@ export function createPath<T extends string>(
   literals: Readonly<TemplateStringsArray>,
   ...placeholders: readonly T[]
 ): RoutiderPath<IfNotString<T>> {
+  if (__DEV__) {
+    const ps = new Set<T>()
+    for (const p of placeholders) {
+      if (ps.has(p)) {
+        console.warn(
+          `vue-routider: duplicated param was passed to createPath. (${p})`
+        )
+      }
+      ps.add(p)
+    }
+  }
+
   let path = ''
   for (let i = 0; i < placeholders.length; i++) {
     const l = literals[i]
