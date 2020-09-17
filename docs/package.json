@@ -11,7 +11,7 @@
   "dependencies": {
     "patch-package": "^6.2.2",
     "prismjs": "^1.21.0",
-    "vue": "^3.0.0-rc.11",
+    "vue": "^3.0.0-rc.12",
     "vue-router": "^4.0.0-beta.9",
     "vue-routider": "^0.10.0"
   },
@@ -20,7 +20,7 @@
     "@types/prismjs": "^1.16.1",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
-    "@vue/compiler-sfc": "^3.0.0-rc.11",
+    "@vue/compiler-sfc": "^3.0.0-rc.12",
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
