@@ -49,7 +49,7 @@
     "tsdx": "^0.13.3",
     "tslib": "^2.0.1",
     "typescript": "^4.0.3",
-    "vue": "^3.0.0-rc.10",
+    "vue": "^3.0.0",
     "vue-router": "^4.0.0-beta.9"
   },
   "dependencies": {
