@@ -12,7 +12,7 @@ import {
   RoutiderNavigationGuardWithThis,
   RoutiderPostNavigationGuard
 } from './navigationGuard'
-import { RoutiderLocation, RoutiderLocationOfNames } from '../route/location'
+import { RoutiderLocationNL, RoutiderLocationOfNames } from '../route/location'
 
 type ParamsOfRouteName<Route extends RoutiderRouteRecord> = ExtractParams<
   Route['path']
@@ -54,7 +54,7 @@ export interface RoutiderRouter<O extends RoutiderOptions> extends Router {
   ): () => void
 
   isRouteName<N extends RouteNames<FlatRoutes<O['routes']>>>(
-    location: RoutiderLocation<
+    location: RoutiderLocationNL<
       undefined,
       undefined,
       undefined,
@@ -66,7 +66,7 @@ export interface RoutiderRouter<O extends RoutiderOptions> extends Router {
     Exclude<N, null>
   >
   getOptionalTypedRoute(
-    location: RoutiderLocation<
+    location: RoutiderLocationNL<
       undefined,
       undefined,
       undefined,
@@ -82,7 +82,7 @@ export const createRoutiderRouter = <O extends RoutiderOptions>(
   router: Router
 ): RoutiderRouter<O> => {
   const isRouteName = <N extends RouteNames<FlatRoutes<O['routes']>>>(
-    location: RoutiderLocation<
+    location: RoutiderLocationNL<
       undefined,
       undefined,
       undefined,
@@ -94,7 +94,7 @@ export const createRoutiderRouter = <O extends RoutiderOptions>(
     Exclude<N, null>
   > => name === location.name
   const getOptionalTypedRoute = (
-    location: RoutiderLocation<
+    location: RoutiderLocationNL<
       undefined,
       undefined,
       undefined,

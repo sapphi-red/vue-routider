@@ -1,6 +1,7 @@
 import {
   RouteLocationNormalizedLoaded,
-  RouteLocationNormalized
+  RouteLocationNormalized,
+  RouteLocation
 } from 'vue-router'
 import { RouteNames, RoutiderRoutes } from '../options/options'
 import { ExtractParams } from '../options/path'
@@ -32,6 +33,32 @@ export interface Queries<Names extends string | undefined> {
   query: Readonly<QueryMap<Exclude<Names, undefined>>>
 }
 
+type RoutiderLocationBase<
+  ParamNames extends string | undefined,
+  OptionalParamNames extends string | undefined,
+  QueryNames extends string | undefined,
+  RouteName extends RouteNames<RoutiderRoutes>
+> = Omit<RouteLocation, 'params' | 'query'> & {
+  name: RouteName
+} & Params<ParamNames, OptionalParamNames> &
+  Queries<QueryNames>
+
+/**
+ * Typed `RouteLocation`
+ */
+export type RoutiderLocation<
+  ParamNames extends string | undefined,
+  OptionalParamNames extends string | undefined,
+  QueryNames extends string | undefined,
+  RouteName extends RouteNames<RoutiderRoutes>
+> = RoutiderLocationBase<
+  ParamNames,
+  OptionalParamNames,
+  QueryNames,
+  RouteName
+> &
+  Pick<RouteLocation, 'matched'>
+
 /**
  * Typed `RouteLocationNormalized`
  */
@@ -40,23 +67,29 @@ export type RoutiderLocationN<
   OptionalParamNames extends string | undefined,
   QueryNames extends string | undefined,
   RouteName extends RouteNames<RoutiderRoutes>
-> = Omit<RouteLocationNormalized, 'params' | 'query'> & {
-  name: RouteName
-} & Params<ParamNames, OptionalParamNames> &
-  Queries<QueryNames>
+> = RoutiderLocationBase<
+  ParamNames,
+  OptionalParamNames,
+  QueryNames,
+  RouteName
+> &
+  Pick<RouteLocationNormalized, 'matched'>
 
 /**
  * Typed `RouteLocationNormalizedLoaded`
  */
-export type RoutiderLocation<
+export type RoutiderLocationNL<
   ParamNames extends string | undefined,
   OptionalParamNames extends string | undefined,
   QueryNames extends string | undefined,
   RouteName extends RouteNames<RoutiderRoutes>
-> = Omit<RouteLocationNormalizedLoaded, 'params' | 'query'> & {
-  name: RouteName
-} & Params<ParamNames, OptionalParamNames> &
-  Queries<QueryNames>
+> = RoutiderLocationBase<
+  ParamNames,
+  OptionalParamNames,
+  QueryNames,
+  RouteName
+> &
+  Pick<RouteLocationNormalizedLoaded, 'matched'>
 
 type RoutesOfNames<
   Routes extends RoutiderRoutes,
@@ -93,7 +126,7 @@ type UnionQueriesOfRoutes<
 export type RoutiderLocationOfNames<
   Routes extends RoutiderRoutes,
   N extends RouteNames<Routes> | RouteNames<Routes>[]
-> = RoutiderLocation<
+> = RoutiderLocationNL<
   IntersectionParamsOfRoutes<RoutesOfNames<Routes, N>>,
   UnionParamsOfRoutes<RoutesOfNames<Routes, N>>,
   UnionQueriesOfRoutes<RoutesOfNames<Routes, N>>,

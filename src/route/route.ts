@@ -12,7 +12,7 @@ import {
   pathsToString,
   Path
 } from '../options/path'
-import { RoutiderLocation, RoutiderLocationN } from './location'
+import { RoutiderLocationNL, RoutiderLocationN } from './location'
 import { RoutiderNavigationGuardNext } from '../router/navigationGuard'
 import { RouteRecordName } from '../options/name'
 import { RoutiderRoutes } from '../options/options'
@@ -29,7 +29,7 @@ export type _RouteRecordProps<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | Record<string, any>
   | ((
-      to: RoutiderLocation<Params, undefined, Queries, RouteName>
+      to: RoutiderLocationNL<Params, undefined, Queries, RouteName>
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) => Record<string, any>)
 
@@ -37,7 +37,7 @@ type RoutiderRouteRecordRedirectOption<
   Params extends string | undefined,
   Queries extends string | undefined,
   RouteName extends RouteRecordName = RouteRecordName
-> = (to: RoutiderLocation<Params, undefined, Queries, RouteName>) => unknown
+> = (to: RoutiderLocationN<Params, undefined, Queries, RouteName>) => unknown
 
 /**
  * Typed `NavigationGuardWithThis` for beforeEnter
@@ -65,7 +65,7 @@ export interface _RoutiderRouteRecordBase<
   Children extends RoutiderRoutes | undefined
 > extends Omit<
     _RouteRecordBase,
-    'path' | 'query' | 'children' | 'beforeEnter'
+    'path' | 'query' | 'children' | 'redirect' | 'beforeEnter'
   > {
   /**
    * `name` will be automatically set from key

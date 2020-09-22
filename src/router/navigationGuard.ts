@@ -3,7 +3,7 @@ import {
   NavigationGuardReturn,
   NavigationGuardNextCallback
 } from '../vue-router-utils'
-import { RoutiderLocation } from '../route/location'
+import { RoutiderLocationNL } from '../route/location'
 import { RoutiderRoutes, RouteNames } from '../options/options'
 import { RoutiderRouteLocation } from './router'
 import { ValidTypeLocation } from '../createRoutider'
@@ -30,8 +30,13 @@ export interface RoutiderNavigationGuardWithThis<
 > {
   (
     this: T,
-    to: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
-    from: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
+    to: RoutiderLocationNL<undefined, undefined, undefined, RouteNames<Routes>>,
+    from: RoutiderLocationNL<
+      undefined,
+      undefined,
+      undefined,
+      RouteNames<Routes>
+    >,
     next: RoutiderNavigationGuardNext<Routes>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }
@@ -41,8 +46,13 @@ export interface RoutiderNavigationGuardWithThis<
  */
 export interface RoutiderPostNavigationGuard<Routes extends RoutiderRoutes> {
   (
-    to: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
-    from: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
+    to: RoutiderLocationNL<undefined, undefined, undefined, RouteNames<Routes>>,
+    from: RoutiderLocationNL<
+      undefined,
+      undefined,
+      undefined,
+      RouteNames<Routes>
+    >,
     failure?: NavigationFailure | void
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): any
@@ -53,8 +63,13 @@ export interface RoutiderPostNavigationGuard<Routes extends RoutiderRoutes> {
  */
 export interface RoutiderNavigationGuard<Routes extends RoutiderRoutes> {
   (
-    to: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
-    from: RoutiderLocation<undefined, undefined, undefined, RouteNames<Routes>>,
+    to: RoutiderLocationNL<undefined, undefined, undefined, RouteNames<Routes>>,
+    from: RoutiderLocationNL<
+      undefined,
+      undefined,
+      undefined,
+      RouteNames<Routes>
+    >,
     next: RoutiderNavigationGuardNext<Routes>
   ): NavigationGuardReturn | Promise<NavigationGuardReturn>
 }
