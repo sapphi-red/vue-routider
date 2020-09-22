@@ -4,7 +4,7 @@ import { createRoutider } from '#/createRoutider'
 import { createMemoryHistory, NavigationFailure } from 'vue-router'
 import { createPath } from '#/options/path'
 import { mount } from '@vue/test-utils'
-import { RoutiderLocation } from '#/route/location'
+import { RoutiderLocationNL } from '#/route/location'
 import { RoutiderNavigationGuardNext } from '#/router/navigationGuard'
 import { RouteNames } from '#/options/options'
 
@@ -42,7 +42,7 @@ const setupRouter = async () => {
 describe('navigationGuards', () => {
   it('should be called and has correct type (beforeEach)', async done => {
     const { routes, router } = await setupRouter()
-    type UnknownLocation = RoutiderLocation<
+    type UnknownLocation = RoutiderLocationNL<
       undefined,
       undefined,
       undefined,
@@ -64,7 +64,7 @@ describe('navigationGuards', () => {
   })
   it('should be called and has correct type (beforeResolve)', async done => {
     const { routes, router } = await setupRouter()
-    type UnknownLocation = RoutiderLocation<
+    type UnknownLocation = RoutiderLocationNL<
       undefined,
       undefined,
       undefined,
@@ -86,7 +86,7 @@ describe('navigationGuards', () => {
   })
   it('should be called and has correct type (afterEach)', async done => {
     const { routes, router } = await setupRouter()
-    type UnknownLocation = RoutiderLocation<
+    type UnknownLocation = RoutiderLocationNL<
       undefined,
       undefined,
       undefined,
@@ -107,7 +107,7 @@ describe('navigationGuards', () => {
   })
 
   it('should be called and has correct type (onBeforeRouteLeave)', async done => {
-    type UnknownLocation = RoutiderLocation<
+    type UnknownLocation = RoutiderLocationNL<
       undefined,
       undefined,
       undefined,
@@ -154,7 +154,7 @@ describe('navigationGuards', () => {
     router.push({ name: 'Item', params: { id: '1' } })
   })
   it('should be called and has correct type (onBeforeRouteUpdate)', async done => {
-    type UnknownLocation = RoutiderLocation<
+    type UnknownLocation = RoutiderLocationNL<
       undefined,
       undefined,
       undefined,

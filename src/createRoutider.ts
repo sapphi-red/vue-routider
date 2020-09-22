@@ -6,7 +6,7 @@ import {
   onBeforeRouteUpdate as onBeforeRouteUpdateVueRouter,
   NavigationGuard
 } from 'vue-router'
-import { RoutiderLocation, RoutiderLocationOfNames } from './route/location'
+import { RoutiderLocationNL, RoutiderLocationOfNames } from './route/location'
 import {
   RoutiderOptions,
   RouteNames,
@@ -36,7 +36,7 @@ export interface Routider<O extends RoutiderOptions> {
   >(
     name: N
   ) => N extends null
-    ? RoutiderLocation<
+    ? RoutiderLocationNL<
         undefined,
         string,
         string,
@@ -77,7 +77,7 @@ export const createRoutider = <O extends RoutiderOptions>(
       warnIfIncorrectRoute<FlatRoutes<O['routes']>>(route, name)
     }
     return route as N extends null
-      ? RoutiderLocation<
+      ? RoutiderLocationNL<
           undefined,
           string,
           string,

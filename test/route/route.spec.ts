@@ -15,8 +15,14 @@ const Com = defineComponent({
 
 describe('RoutiderRouteRecord compatibility', () => {
   it('has compatibility with RouteRecordRaw', () => {
-    type Original = Omit<RouteRecordRaw, 'path' | 'children' | 'beforeEnter'>
-    type Custom = Omit<RoutiderRouteRecord, 'path' | 'children' | 'beforeEnter'>
+    type Original = Omit<
+      RouteRecordRaw,
+      'path' | 'children' | 'redirect' | 'beforeEnter'
+    >
+    type Custom = Omit<
+      RoutiderRouteRecord,
+      'path' | 'children' | 'redirect' | 'beforeEnter'
+    >
 
     isSubType<Original, Custom>(true)
   })
