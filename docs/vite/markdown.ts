@@ -28,6 +28,7 @@ const wrapLines = (code: string, lines: string[]) =>
     .join('')
 
 const md = new MarkdownIt({
+  html: true,
   highlight(code, meta) {
     const metas = meta.split(':')
     let lang = metas[0]
@@ -54,6 +55,24 @@ const md = new MarkdownIt({
     }><code>${output}</code></pre>`
   }
 })
+md.renderer.rules.link_open = (tokens, idx) => {
+  const token = tokens[idx]
+  const href = token.attrGet('href')
+  if (href?.startsWith('/')) {
+    return `<router-link to="${href}">`
+  } else {
+    return `<a href="${href}" target="_blank">`
+  }
+}
+md.renderer.rules.link_close = (tokens, idx) => {
+  const token = tokens[idx - 2]
+  const href = token.attrGet('href')
+  if (href?.startsWith('/')) {
+    return '</router-link>'
+  } else {
+    return '</a>'
+  }
+}
 
 export default markdownPlugin({
   mode: ['vue' as Mode],
