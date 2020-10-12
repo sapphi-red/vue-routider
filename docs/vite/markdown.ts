@@ -58,7 +58,7 @@ const md = new MarkdownIt({
 md.renderer.rules.link_open = (tokens, idx) => {
   const token = tokens[idx]
   const href = token.attrGet('href')
-  if (href?.startsWith('/')) {
+  if (href && href.startsWith('/')) {
     return `<router-link to="${href}">`
   } else {
     return `<a href="${href}" target="_blank">`
@@ -67,7 +67,7 @@ md.renderer.rules.link_open = (tokens, idx) => {
 md.renderer.rules.link_close = (tokens, idx) => {
   const token = tokens[idx - 2]
   const href = token.attrGet('href')
-  if (href?.startsWith('/')) {
+  if (href && href.startsWith('/')) {
     return '</router-link>'
   } else {
     return '</a>'
