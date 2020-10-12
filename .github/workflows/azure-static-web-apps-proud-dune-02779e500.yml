@@ -4,10 +4,14 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'docs/**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
       - master
+    paths:
+      - 'docs/**'
 
 jobs:
   build_and_deploy_job:
