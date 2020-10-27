@@ -28,7 +28,7 @@
     "markdown-it": "^12.0.2",
     "prettier": "^2.1.2",
     "typescript": "^4.0.5",
-    "vite": "^1.0.0-rc.6",
+    "vite": "^1.0.0-rc.8",
     "vite-plugin-markdown": "^1.1.1"
   },
   "private": true
