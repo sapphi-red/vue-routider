@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@types/markdown-it": "^10.0.2",
-    "@types/prismjs": "^1.16.1",
+    "@types/prismjs": "^1.16.2",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
     "@vue/compiler-sfc": "^3.0.2",
