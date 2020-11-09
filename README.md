@@ -1,7 +1,8 @@
 # Vue Routider
 
 [![npm version](https://badge.fury.io/js/vue-routider.svg)](https://badge.fury.io/js/vue-routider)
-![CI](https://github.com/sapphi-red/vue-routider/workflows/CI/badge.svg)
+![CI (main)](https://github.com/sapphi-red/vue-routider/workflows/CI%20(main)/badge.svg)
+![CI (docs)](https://github.com/sapphi-red/vue-routider/workflows/CI%20(docs)/badge.svg)
 [![codecov](https://codecov.io/gh/sapphi-red/vue-routider/branch/master/graph/badge.svg)](https://codecov.io/gh/sapphi-red/vue-routider)
 [![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=sapphi-red/vue-routider)](https://dependabot.com)
 [![bundlephobia](https://badgen.net/bundlephobia/min/vue-routider)](https://bundlephobia.com/result?p=vue-routider)
