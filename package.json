@@ -38,7 +38,7 @@
   "homepage": "https://github.com/sapphi-red/vue-routider#readme",
   "module": "dist/vue-routider.esm.js",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.0",
     "@typescript-eslint/parser": "^4.8.0",
     "@vue/test-utils": "^2.0.0-beta.9",
     "eslint": "^7.13.0",
