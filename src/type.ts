@@ -26,9 +26,9 @@ export type UnionToIntersection<U> = (
   ? I
   : never
 
-export type IfNotUnion<MaybeUnion> = UnionToIntersection<
+export type IfNotUnion<
   MaybeUnion
-> extends never
+> = UnionToIntersection<MaybeUnion> extends never
   ? void
   : Equal<MaybeUnion, UnionToIntersection<MaybeUnion>> extends true
   ? MaybeUnion
