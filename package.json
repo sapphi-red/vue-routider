@@ -43,7 +43,7 @@
     "@vue/test-utils": "^2.0.0-beta.12",
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
-    "eslint-plugin-prettier": "^3.2.0",
+    "eslint-plugin-prettier": "^3.3.0",
     "husky": "^4.3.6",
     "prettier": "^2.2.1",
     "tsdx": "^0.14.1",
