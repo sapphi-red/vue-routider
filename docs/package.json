@@ -24,7 +24,7 @@
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-prettier": "^3.3.0",
-    "eslint-plugin-vue": "^7.2.0",
+    "eslint-plugin-vue": "^7.4.0",
     "markdown-it": "^12.0.4",
     "prettier": "^2.2.1",
     "typescript": "^4.1.3",
