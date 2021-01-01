@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "patch-package": "^6.2.2",
-    "prismjs": "^1.22.0",
+    "prismjs": "^1.23.0",
     "vue": "^3.0.5",
     "vue-router": "^4.0.1",
     "vue-routider": "^0.10.0"
