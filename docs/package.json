@@ -12,7 +12,7 @@
     "patch-package": "^6.2.2",
     "prismjs": "^1.23.0",
     "vue": "^3.0.5",
-    "vue-router": "^4.0.2",
+    "vue-router": "^4.0.3",
     "vue-routider": "^0.10.0"
   },
   "devDependencies": {
