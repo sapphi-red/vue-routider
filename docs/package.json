@@ -16,7 +16,7 @@
     "vue-routider": "^0.10.0"
   },
   "devDependencies": {
-    "@types/markdown-it": "^12.0.0",
+    "@types/markdown-it": "^12.0.1",
     "@types/prismjs": "^1.16.2",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
