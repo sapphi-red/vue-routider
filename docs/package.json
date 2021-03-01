@@ -5,11 +5,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint --ext .js,.vue src",
-    "type-check": "tsc",
-    "postinstall": "patch-package"
+    "type-check": "tsc"
   },
   "dependencies": {
-    "patch-package": "^6.4.0",
     "prismjs": "^1.23.0",
     "vue": "^3.0.6",
     "vue-router": "^4.0.4",
@@ -20,6 +18,7 @@
     "@types/prismjs": "^1.16.3",
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.14.1",
+    "@vitejs/plugin-vue": "^1.1.5",
     "@vue/compiler-sfc": "^3.0.6",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
@@ -28,8 +27,8 @@
     "markdown-it": "^12.0.4",
     "prettier": "^2.2.1",
     "typescript": "^4.2.2",
-    "vite": "^1.0.0-rc.13",
-    "vite-plugin-markdown": "^1.1.1"
+    "vite": "^2.0.4",
+    "vite-plugin-markdown": "^2.0.1"
   },
   "private": true
 }
