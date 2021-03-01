@@ -1,15 +1,15 @@
-import { UserConfig } from 'vite'
+import { defineConfig } from 'vite'
 import path from 'path'
+import vue from '@vitejs/plugin-vue'
 import mdPlugin from './vite/markdown'
 
-const config: UserConfig = {
-  alias: {
-    '/@/': path.resolve(__dirname, 'src')
+const config = defineConfig({
+  resolve: {
+    alias: {
+      '/@': path.resolve(__dirname, 'src')
+    }
   },
-  plugins: [mdPlugin],
-  optimizeDeps: {
-    exclude: ['patch-package']
-  }
-}
+  plugins: [vue(), mdPlugin]
+})
 
 export default config

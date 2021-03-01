@@ -1,4 +1,4 @@
-import { markdownPlugin, Mode } from 'vite-plugin-markdown'
+import markdownPlugin, { Mode } from 'vite-plugin-markdown'
 import MarkdownIt from 'markdown-it'
 import Prism from 'prismjs'
 
@@ -75,6 +75,6 @@ md.renderer.rules.link_close = (tokens, idx) => {
 }
 
 export default markdownPlugin({
-  mode: ['vue' as Mode],
+  mode: [Mode.VUE],
   markdownIt: md
 })
