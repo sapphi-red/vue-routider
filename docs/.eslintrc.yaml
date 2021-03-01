@@ -13,8 +13,6 @@ extends:
   - plugin:@typescript-eslint/recommended
   - plugin:vue/vue3-recommended
   - plugin:prettier/recommended
-  - prettier/vue
-  - prettier/@typescript-eslint
 rules:
   no-console: warn
   no-debugger: warn
