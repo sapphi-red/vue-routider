@@ -26,7 +26,7 @@
     "eslint-plugin-vue": "^7.6.0",
     "markdown-it": "^12.0.4",
     "prettier": "^2.2.1",
-    "typescript": "^4.2.2",
+    "typescript": "^4.3.2",
     "vite": "^2.0.4",
     "vite-plugin-markdown": "^2.0.1"
   },
