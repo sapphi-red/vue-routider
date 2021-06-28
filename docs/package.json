@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "prismjs": "^1.24.0",
-    "vue": "^3.0.6",
+    "vue": "^3.1.2",
     "vue-router": "^4.0.4",
     "vue-routider": "^0.10.0"
   },
@@ -19,7 +19,7 @@
     "@typescript-eslint/eslint-plugin": "^4.14.1",
     "@typescript-eslint/parser": "^4.15.2",
     "@vitejs/plugin-vue": "^1.1.5",
-    "@vue/compiler-sfc": "^3.0.6",
+    "@vue/compiler-sfc": "^3.1.2",
     "eslint": "^7.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^3.3.1",
