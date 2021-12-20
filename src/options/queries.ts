@@ -1,11 +1,12 @@
 import { RoutiderRouteRecord } from '../route/route'
 import { LocationQuery } from 'vue-router'
 import { IfNotString } from '../type'
+import { isDev } from '../util'
 
 export const createQueries = <T extends string>(
   ...queries: [T, ...T[]]
 ): Array<IfNotString<T>> => {
-  if (__DEV__) {
+  if (isDev) {
     const qs = new Set<T>()
     for (const q of queries) {
       if (qs.has(q)) {

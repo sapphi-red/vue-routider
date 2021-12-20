@@ -1,5 +1,6 @@
 import { IfNotUnion, IfNotString } from '../type'
 import warning from 'tiny-warning'
+import { isDev } from '../util'
 
 export type Path<T extends string | undefined = string | undefined> =
   | string
@@ -55,7 +56,7 @@ export function createPath<T extends string>(
   literals: Readonly<TemplateStringsArray>,
   ...placeholders: readonly T[]
 ): RoutiderPath<IfNotString<T>> {
-  if (__DEV__) {
+  if (isDev) {
     const ps = new Set<T>()
     for (const p of placeholders) {
       if (ps.has(p)) {

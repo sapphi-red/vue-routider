@@ -125,14 +125,18 @@ export const getSkeletonRouter = async (
 
 export const runInsideComponent = (
   routerInstall: Router,
-  func: () => unknown
-): void => {
-  const Com = defineComponent({
-    template: '<div></div>',
-    setup() {
-      func()
-      return {}
-    }
+  func: () => void | Promise<void>
+): Promise<void> => {
+  return new Promise(resolve => {
+    const Com = defineComponent({
+      template: '<div></div>',
+      setup() {
+        Promise.resolve(func()).then(() => {
+          resolve()
+        })
+        return {}
+      }
+    })
+    mount(Com, { global: { plugins: [routerInstall] } })
   })
-  mount(Com, { global: { plugins: [routerInstall] } })
 }

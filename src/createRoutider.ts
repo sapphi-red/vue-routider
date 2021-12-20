@@ -20,6 +20,7 @@ import {
 } from './router/router'
 import { warnIfIncorrectRoute } from './route/checkRoute'
 import { RoutiderNavigationGuard } from './router/navigationGuard'
+import { isDev } from './util'
 
 declare const validTypeLocation: unique symbol
 export type ValidTypeLocation = typeof validTypeLocation
@@ -73,7 +74,7 @@ export const createRoutider = <O extends RoutiderOptions>(
     name: N
   ) => {
     const route = useRouteVueRouter()
-    if (__DEV__) {
+    if (isDev) {
       warnIfIncorrectRoute<FlatRoutes<O['routes']>>(route, name)
     }
     return route as N extends null

@@ -9,6 +9,7 @@ import { UnionToIntersection } from '../type'
 import { Path, pathsToString, pathToString, ExtractParams } from './path'
 import warning from 'tiny-warning'
 import { ExtractQueries } from './queries'
+import { isDev } from '../util'
 
 export type RoutiderRoutes = Record<RouteRecordName, RoutiderRouteRecord>
 
@@ -64,7 +65,7 @@ export const routiderRoutesToRouteRecords = (
   isTopLevel = true
 ): RouteRecordRaw[] =>
   Object.entries(routes).map(([name, route]) => {
-    if (__DEV__ && !isTopLevel) {
+    if (isDev && !isTopLevel) {
       warnIfNonTopLevelAbsolutePath(route.path)
     }
 

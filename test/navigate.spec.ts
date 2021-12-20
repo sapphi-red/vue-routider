@@ -6,78 +6,72 @@ import {
 } from '#/test-util'
 
 describe('router.push', () => {
-  it('has typed router.push (1)', async done => {
+  it('has typed router.push (1)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'About' })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/about')
-      done()
     })
   })
-  it('has typed router.push (2)', async done => {
+  it('has typed router.push (2)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter(
       '/about'
     )
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'Index' })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/')
-      done()
     })
   })
-  it('has typed router.push (3)', async done => {
+  it('has typed router.push (3)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'Item', params: { id: '1' } })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/items/1')
-      done()
     })
   })
-  it('has typed router.push (4)', async done => {
+  it('has typed router.push (4)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'UserItemDetail', params: { id: '1', userId: '1' } })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/users/1/1/detail')
-      done()
     })
   })
-  it('has typed router.push (5)', async done => {
+  it('has typed router.push (5)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'User', params: { userId: '1' } })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/users/1')
-      done()
     })
   })
-  it('has typed router.push (6)', async done => {
+  it('has typed router.push (6)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.push({ name: 'UserItem', params: { userId: '1', id: '1' } })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/users/1/1')
-      done()
     })
   })
   it('can accept genetic route with router.push', async () => {
@@ -96,9 +90,9 @@ describe('router.push', () => {
     })
   })
 
-  it('should not accept invalid route (1)', async done => {
+  it('should not accept invalid route (1)', async () => {
     const { routerInstall, useRouter } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, () => {
+    await runInsideComponent(routerInstall, () => {
       const router = useRouter()
       try {
         // @ts-expect-error
@@ -106,13 +100,11 @@ describe('router.push', () => {
       } catch {
         expect(true).toBe(true)
       }
-
-      done()
     })
   })
-  it('should not accept invalid route (2)', async done => {
+  it('should not accept invalid route (2)', async () => {
     const { routerInstall, useRouter } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, () => {
+    await runInsideComponent(routerInstall, () => {
       const router = useRouter()
       try {
         // @ts-expect-error
@@ -120,13 +112,11 @@ describe('router.push', () => {
       } catch {
         expect(true).toBe(true)
       }
-
-      done()
     })
   })
-  it('should not accept invalid route (3)', async done => {
+  it('should not accept invalid route (3)', async () => {
     const { routerInstall, useRouter } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, () => {
+    await runInsideComponent(routerInstall, () => {
       const router = useRouter()
       try {
         // @ts-expect-error
@@ -134,67 +124,60 @@ describe('router.push', () => {
       } catch {
         expect(true).toBe(true)
       }
-
-      done()
     })
   })
-  it('should not accept invalid route (4)', async done => {
+  it('should not accept invalid route (4)', async () => {
     const { routerInstall, useRouter } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, () => {
+    await runInsideComponent(routerInstall, () => {
       const router = useRouter()
 
       console.warn = jest.fn()
       // @ts-expect-error
       router.push('invalid')
       expect(console.warn).toBeCalled()
-
-      done()
     })
   })
 })
 
 describe('router.replace', () => {
-  it('has typed router.replace (1)', async done => {
+  it('has typed router.replace (1)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.replace({ name: 'About' })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/about')
-      done()
     })
   })
-  it('has typed router.replace (2)', async done => {
+  it('has typed router.replace (2)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter(
       '/about'
     )
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.replace({ name: 'Index' })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/')
-      done()
     })
   })
-  it('has typed router.replace (3)', async done => {
+  it('has typed router.replace (3)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.replace({ name: 'Item', params: { id: '1' } })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/items/1')
-      done()
     })
   })
-  it('has typed router.replace (4)', async done => {
+  it('has typed router.replace (4)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.replace({
         name: 'UserItemDetail',
@@ -204,36 +187,33 @@ describe('router.replace', () => {
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/users/1/1/detail')
-      done()
     })
   })
-  it('has typed router.replace (5)', async done => {
+  it('has typed router.replace (5)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.replace({ name: 'User', params: { userId: '1' } })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/users/1')
-      done()
     })
   })
-  it('has typed router.replace (6)', async done => {
+  it('has typed router.replace (6)', async () => {
     const { routerInstall, useRouter, useRoute } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, async () => {
+    await runInsideComponent(routerInstall, async () => {
       const router = useRouter()
       router.replace({ name: 'UserItem', params: { userId: '1', id: '1' } })
 
       const route = useRoute(null)
       await waitNavigation(router)
       expect(route.path).toBe('/users/1/1')
-      done()
     })
   })
   it('can accept genetic route with router.replace', async () => {
     const { routerInstall, useRouter } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, () => {
+    await runInsideComponent(routerInstall, () => {
       const router = useRouter()
       const rs = [
         { name: 'About' },
@@ -247,9 +227,9 @@ describe('router.replace', () => {
     })
   })
 
-  it('should not accept invalid route (1)', async done => {
+  it('should not accept invalid route (1)', async () => {
     const { routerInstall, useRouter } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, () => {
+    await runInsideComponent(routerInstall, () => {
       const router = useRouter()
       try {
         // @ts-expect-error
@@ -257,13 +237,11 @@ describe('router.replace', () => {
       } catch {
         expect(true).toBe(true)
       }
-
-      done()
     })
   })
-  it('should not accept invalid route (2)', async done => {
+  it('should not accept invalid route (2)', async () => {
     const { routerInstall, useRouter } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, () => {
+    await runInsideComponent(routerInstall, () => {
       const router = useRouter()
       try {
         // @ts-expect-error
@@ -271,13 +249,11 @@ describe('router.replace', () => {
       } catch {
         expect(true).toBe(true)
       }
-
-      done()
     })
   })
-  it('should not accept invalid route (3)', async done => {
+  it('should not accept invalid route (3)', async () => {
     const { routerInstall, useRouter } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, () => {
+    await runInsideComponent(routerInstall, () => {
       const router = useRouter()
       try {
         // @ts-expect-error
@@ -285,21 +261,17 @@ describe('router.replace', () => {
       } catch {
         expect(true).toBe(true)
       }
-
-      done()
     })
   })
-  it('should not accept invalid route (4)', async done => {
+  it('should not accept invalid route (4)', async () => {
     const { routerInstall, useRouter } = await getSkeletonRouter()
-    runInsideComponent(routerInstall, () => {
+    await runInsideComponent(routerInstall, () => {
       const router = useRouter()
 
       console.warn = jest.fn()
       // @ts-expect-error
       router.replace('invalid')
       expect(console.warn).toBeCalled()
-
-      done()
     })
   })
 })
