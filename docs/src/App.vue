@@ -1,17 +1,17 @@
 <template>
   <h1 class="title">Vue Routider</h1>
-  <routes />
+  <route-links />
   <router-view />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Routes from '/@/components/Routes.vue'
+import RouteLinks from '/@/components/RouteLinks.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    Routes
+    RouteLinks
   }
 })
 </script>

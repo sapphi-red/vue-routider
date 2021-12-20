@@ -20,7 +20,7 @@ const formatRouteName = (name: string) =>
   /^[A-Z]/.test(name) ? name.replace(/[A-Z]/g, m => ` ${m}`).trim() : name
 
 export default defineComponent({
-  name: 'Routes',
+  name: 'RouteLinks',
   setup() {
     const router = useRouter()
 
