@@ -142,15 +142,10 @@ export type RoutiderRouteRecord<
   | RoutiderRouteRecordMultipleViews<Params, Queries, Children>
   | RoutiderRouteRecordRedirect<Params, Queries, Children>
 
-export type ExtractChildren<
-  T extends RoutiderRouteRecord
-> = T extends RoutiderRouteRecord<
-  string | undefined,
-  string | undefined,
-  infer C
->
-  ? C
-  : never
+export type ExtractChildren<T extends RoutiderRouteRecord> =
+  T extends RoutiderRouteRecord<string | undefined, string | undefined, infer C>
+    ? C
+    : never
 
 interface PathAndAlias {
   path: string
@@ -174,21 +169,19 @@ export const pathToPathAndAlias = (
   return { path: pathProp, alias: pathStrings }
 }
 
-type ConvertToUndefinedIfStringPath<
-  Route extends RoutiderRouteRecord
-> = Route extends RoutiderRouteRecord<infer P, infer Q, infer C>
-  ? string extends P
-    ? RoutiderRouteRecord<undefined, Q, C>
-    : Route
-  : never
+type ConvertToUndefinedIfStringPath<Route extends RoutiderRouteRecord> =
+  Route extends RoutiderRouteRecord<infer P, infer Q, infer C>
+    ? string extends P
+      ? RoutiderRouteRecord<undefined, Q, C>
+      : Route
+    : never
 
-type ConvertToUndefinedIfStringQuery<
-  Route extends RoutiderRouteRecord
-> = Route extends RoutiderRouteRecord<infer P, infer Q, infer C>
-  ? string extends Q
-    ? RoutiderRouteRecord<P, undefined, C>
-    : Route
-  : never
+type ConvertToUndefinedIfStringQuery<Route extends RoutiderRouteRecord> =
+  Route extends RoutiderRouteRecord<infer P, infer Q, infer C>
+    ? string extends Q
+      ? RoutiderRouteRecord<P, undefined, C>
+      : Route
+    : never
 
 export const createRoute = <
   Params extends string | undefined,

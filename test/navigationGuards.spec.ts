@@ -53,7 +53,9 @@ describe('navigationGuards', () => {
       router.beforeEach((to, from, next) => {
         isTypeEqual<typeof to, UnknownLocation>(true)
         isTypeEqual<typeof from, UnknownLocation>(true)
-        isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(true)
+        isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(
+          true
+        )
 
         expect(to.name).toBe('Item')
         expect(from.name).toBe('Index')
@@ -77,7 +79,9 @@ describe('navigationGuards', () => {
       router.beforeResolve((to, from, next) => {
         isTypeEqual<typeof to, UnknownLocation>(true)
         isTypeEqual<typeof from, UnknownLocation>(true)
-        isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(true)
+        isTypeEqual<typeof next, RoutiderNavigationGuardNext<typeof routes>>(
+          true
+        )
 
         expect(to.name).toBe('Item')
         expect(from.name).toBe('Index')

@@ -18,14 +18,13 @@ export const createQueries = <T extends string>(
     }
   }
 
-  return (queries as unknown) as Array<IfNotString<T>>
+  return queries as unknown as Array<IfNotString<T>>
 }
 
-export type ExtractQueries<
-  Route extends RoutiderRouteRecord
-> = Route extends RoutiderRouteRecord<string | undefined, infer Qs>
-  ? IfNotString<Exclude<Qs, undefined>>
-  : never
+export type ExtractQueries<Route extends RoutiderRouteRecord> =
+  Route extends RoutiderRouteRecord<string | undefined, infer Qs>
+    ? IfNotString<Exclude<Qs, undefined>>
+    : never
 
 type LocationQueryValue = LocationQuery[keyof LocationQuery]
 

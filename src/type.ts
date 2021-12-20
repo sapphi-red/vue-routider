@@ -17,22 +17,18 @@ export type IsNotAnyOrUndefined<T> = IfNotUndefined<IfNotAny<T>> extends never
   ? false
   : true
 
-export type UnionToIntersection<U> = (
+export type UnionToIntersection<U> =
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  U extends any
-    ? (k: U) => void
+  (U extends any ? (k: U) => void : never) extends (k: infer I) => void
+    ? I
     : never
-) extends (k: infer I) => void
-  ? I
-  : never
 
-export type IfNotUnion<
-  MaybeUnion
-> = UnionToIntersection<MaybeUnion> extends never
-  ? void
-  : Equal<MaybeUnion, UnionToIntersection<MaybeUnion>> extends true
-  ? MaybeUnion
-  : void
+export type IfNotUnion<MaybeUnion> =
+  UnionToIntersection<MaybeUnion> extends never
+    ? void
+    : Equal<MaybeUnion, UnionToIntersection<MaybeUnion>> extends true
+    ? MaybeUnion
+    : void
 
 export type EntityOrArrayToUnion<T> = T extends infer S | Array<infer S>
   ? S

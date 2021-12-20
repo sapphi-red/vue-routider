@@ -18,13 +18,12 @@ type ParamsOfRouteName<Route extends RoutiderRouteRecord> = ExtractParams<
   Route['path']
 >
 
-type ParamsObjOfRouteName<
-  Route extends RoutiderRouteRecord
-> = ParamsOfRouteName<Route> extends never // eslint-disable-next-line @typescript-eslint/ban-types
-  ? {}
-  : {
-      params: Record<ParamsOfRouteName<Route>, string>
-    }
+type ParamsObjOfRouteName<Route extends RoutiderRouteRecord> =
+  ParamsOfRouteName<Route> extends never // eslint-disable-next-line @typescript-eslint/ban-types
+    ? {}
+    : {
+        params: Record<ParamsOfRouteName<Route>, string>
+      }
 
 export type RoutiderRouteLocation<
   Routes extends RoutiderRoutes,

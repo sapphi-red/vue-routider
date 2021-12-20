@@ -35,11 +35,10 @@ type AddParentParams<
   >
 }
 
-type ExtractChildrenWithParentParams<
-  T extends RoutiderRouteRecord
-> = ExtractChildren<T> extends RoutiderRoutes
-  ? AddParentParams<T['path'], ExtractChildren<T>>
-  : never
+type ExtractChildrenWithParentParams<T extends RoutiderRouteRecord> =
+  ExtractChildren<T> extends RoutiderRoutes
+    ? AddParentParams<T['path'], ExtractChildren<T>>
+    : never
 
 export type FlatRoutes<T extends RoutiderRoutes> = T &
   UnionToIntersection<

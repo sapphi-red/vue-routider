@@ -22,9 +22,8 @@ export type RoutiderPath<T extends string | undefined = string | undefined> = {
 /**
  * Type for valid path and aliases
  */
-export type RoutiderPaths<
-  T extends string | undefined = string | undefined
-> = typeof params & RoutiderPath<T>[]
+export type RoutiderPaths<T extends string | undefined = string | undefined> =
+  typeof params & RoutiderPath<T>[]
 
 /**
  * Extracts params from RoutiderPath & RoutiderPaths
@@ -89,7 +88,7 @@ export function createPath<T extends string>(
     !lastL.includes(':'),
     `vue-routider: \`:\` should not be included in createPath argument. (${lastL})`
   )
-  return (path as unknown) as RoutiderPath<IfNotString<T>>
+  return path as unknown as RoutiderPath<IfNotString<T>>
 }
 
 type PathArrayToPaths<T> = T extends RoutiderPath<infer S>
@@ -99,7 +98,7 @@ type PathArrayToPaths<T> = T extends RoutiderPath<infer S>
 export function createPaths<
   T extends readonly [RoutiderPath, RoutiderPath, ...RoutiderPath[]]
 >(...args: T): PathArrayToPaths<IfNotUnion<T[number]>> {
-  return (args as unknown) as PathArrayToPaths<IfNotUnion<T[number]>>
+  return args as unknown as PathArrayToPaths<IfNotUnion<T[number]>>
 }
 
 export const pathToString = (path: RoutiderPath | string): string =>
