@@ -40,6 +40,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: npm ci
         run: npm ci
+      - name: npm ci
+        run: npm ci # avoid "eslint-plugin-vue" was not found
+        working-directory: docs
       - name: run lint
         run: npm run lint
   build:
