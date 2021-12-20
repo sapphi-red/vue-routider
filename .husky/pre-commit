@@ -6,3 +6,11 @@ if  [-e npm]; then
 else
   npm.cmd run lint
 fi
+
+cd docs
+
+if  [-e npm]; then
+  npm run lint
+else
+  npm.cmd run lint
+fi
