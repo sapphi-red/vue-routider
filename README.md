@@ -13,6 +13,8 @@ Make Vue Router type safe with a very similar API.
 
 [Documents](https://vue-routider.sapphi.red/)
 
+> ⚠️ Because vue-router now provides a official type safe solution([unplugin-vue-router](https://github.com/posva/unplugin-vue-router)). This repository is no longer maintained.
+
 ## Installation
 ```shell
 $ npm i vue@next vue-router@next vue-routider
